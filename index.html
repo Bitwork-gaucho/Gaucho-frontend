@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Gaucho — Argentinsk oksekød, direkte til dig</title>
+<meta name="description" content="Vi samler bestillinger i fælles batches og sender dybfrossent, græsfodret oksekød fra pampaen. Seks uger. Den halve pris." />
+
+<style>
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Asado palette (default) */
+  --bg:       #15110d;
+  --surface:  #1d1813;
+  --surface2: #241d16;
+  --ink:      #f1e6cf;
+  --ink-soft: #bfae8e;
+  --ink-mute: #7d6f57;
+  --rule:     rgba(241,230,207,0.13);
+  --accent:   #d76134;
+  --accent2:  #e3b25b;
+  --on-accent:#15110d;
+}
+
+html { background: var(--bg); }
+
+body {
+  font-family: 'Geist', ui-sans-serif, -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100svh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Phone shell — mobile: transparent wrapper; desktop: iPhone frame ── */
+.phone-shell {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 24px 60px;
+    background: #0d0a07;
+  }
+  .stage-label { display: block; }
+  .phone-shell {
+    width: 402px;
+    min-height: 874px;
+    border-radius: 48px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.18);
+    flex-shrink: 0;
+  }
+  .phone-shell::before {
+    content: '';
+    position: absolute;
+    top: 11px; left: 50%;
+    transform: translateX(-50%);
+    width: 126px; height: 37px;
+    border-radius: 24px;
+    background: #000;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .page-root { border-radius: 0; }
+}
+
+.stage-label {
+  display: none;
+  position: fixed;
+  top: 20px; left: 24px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245,241,232,0.4);
+  z-index: 5;
+  pointer-events: none;
+}
+.stage-label b { color: rgba(245,241,232,0.85); font-weight: 500; }
+
+/* ── Typography helpers ───────────────────────────────────── */
+.serif      { font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif; }
+.mono       { font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace; }
+.label      { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+.label-sm   { font-size: 9px;   letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ── Pulse animation ──────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.88); }
+}
+.pulse-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 13%, transparent);
+  animation: pulse 1.8s ease-in-out infinite;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ── Page root ────────────────────────────────────────────── */
+.page-root {
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100%;
+}
+
+/* ── Top bar ──────────────────────────────────────────────── */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  padding: max(env(safe-area-inset-top, 0px), 14px) 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 600px) {
+  .top-bar { padding-top: 62px; }
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.logo-wordmark {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.logo-wordmark em { color: var(--accent); font-style: italic; }
+
+/* Batch open indicator */
+.batch-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Hamburger */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  margin-right: -6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.hamburger span {
+  width: 18px; height: 1.5px;
+  background: var(--ink);
+  display: block;
+}
+.hamburger span:last-child { align-self: flex-end; width: 12px; }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero { position: relative; }
+
+.hero-image-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bg) 80%, transparent) 0%,
+    transparent 22%,
+    transparent 60%,
+    var(--bg) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-coords {
+  position: absolute;
+  top: 14px; left: 20px; right: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.75;
+}
+
+.hero-copy {
+  padding: 0 20px 14px;
+  margin-top: -90px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-h1 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.hero-h1 em { font-style: italic; color: var(--accent); }
+
+.hero-lead {
+  margin-top: 18px;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 360px;
+}
+
+/* CTA button */
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 18px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+}
+.cta-btn:active { opacity: 0.9; }
+
+.cta-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.hero-cta { padding: 16px 20px 0; }
+
+/* Metrics strip */
+.metrics {
+  margin-top: 22px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.metric {
+  padding: 14px;
+  border-right: 1px solid var(--rule);
+}
+.metric:last-child { border-right: none; }
+.metric-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+}
+.metric-val {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+}
+.metric-sub {
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--ink-soft);
+}
+
+/* ── Section mark ─────────────────────────────────────────── */
+.section-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 0 20px;
+  margin-bottom: 14px;
+}
+.section-mark .num { color: var(--accent); font-weight: 500; }
+.section-mark .rule { flex: 1; height: 1px; background: var(--rule); }
+
+/* ── Live Batch ───────────────────────────────────────────── */
+.live-batch { padding: 44px 0 8px; }
+
+.batch-card {
+  margin: 0 20px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.batch-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.batch-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+}
+.batch-card-body { padding: 16px 16px 18px; }
+
+.batch-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.batch-title em { font-style: italic; color: var(--ink-soft); }
+
+.batch-origin {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.progress-wrap { margin-top: 18px; }
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+}
+.progress-count {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 18px;
+  color: var(--ink);
+}
+.progress-bar {
+  position: relative;
+  height: 8px;
+  background: var(--surface2);
+  overflow: hidden;
+}
+.progress-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 62%;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+}
+.progress-tick {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--bg);
+}
+.progress-label {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.progress-label strong { color: var(--ink); font-weight: 400; }
+
+.batch-footer {
+  margin-top: 18px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.price-from {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.price-main {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--ink);
+}
+.price-unit { font-size: 16px; color: var(--ink-soft); }
+.price-compare {
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+  text-decoration: line-through;
+}
+
+.join-btn {
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+/* ── How it works ─────────────────────────────────────────── */
+.how-section { padding: 44px 0 8px; }
+
+.how-h2 {
+  padding: 0 20px;
+  margin: 0 0 22px;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.how-h2 em { font-style: italic; color: var(--accent); }
+
+.steps { border-top: 1px solid var(--rule); }
+
+.step {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 14px;
+}
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  padding-top: 4px;
+}
+.step-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 22px;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.step-desc {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ── Final CTA ────────────────────────────────────────────── */
+.final-cta {
+  padding: 60px 20px 30px;
+  text-align: center;
+}
+.final-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 14px;
+}
+.final-h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.final-h2 em { font-style: italic; color: var(--accent); }
+
+.final-lead {
+  margin: 14px auto 0;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.final-btn {
+  margin-top: 24px;
+  width: 100%;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+footer {
+  padding: 24px 20px;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px);
+  border-top: 1px solid var(--rule);
+  background: var(--surface);
+}
+.footer-logo { margin-bottom: 18px; }
+.footer-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+  font-size: 13px;
+}
+.footer-nav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.footer-nav a:hover { color: var(--accent); }
+.footer-bottom {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── Pampas palette override ──────────────────────────────── */
+body.pampas {
+  --bg:       #efe7d4;
+  --surface:  #e7dcc3;
+  --surface2: #e0d4b6;
+  --ink:      #1f1a14;
+  --ink-soft: #544838;
+  --ink-mute: #8a7d68;
+  --rule:     rgba(31,26,20,0.14);
+  --accent:   #7c2418;
+  --accent2:  #c47c2c;
+  --on-accent:#f6efde;
+}
+
+/* ── Arrow SVG inline util ────────────────────────────────── */
+.arrow svg { vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<div class="stage-label">GAUCHO — <b>landing.mobile</b> · v1</div>
+
+<!-- On desktop: phone shell wrapper -->
+<div class="phone-shell">
+<div class="page-root" id="page">
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <a class="logo" href="#">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 4 C9 4 4 9 4 16 C4 23 9 28 16 28 C20 28 23 26 25 24 L25 17 L17 17"
+              stroke="currentColor" stroke-width="2.4" stroke-linecap="square" fill="none"/>
+        <circle cx="16" cy="16" r="1.6" fill="var(--accent)"/>
+      </svg>
+      <span class="logo-wordmark">Gaucho<em>.</em></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="batch-indicator">
+        <span class="pulse-dot"></span>
+        Batch åben
+      </div>
+      <button class="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-image-wrap">
+      <img class="hero-img" src="project/steak-hero.png"
+           alt="Sizzling ribeye over glowing coals with Argentine pampas in the background" />
+      <div class="hero-fade"></div>
+      <div class="hero-coords">
+        <span>34.6°S · 64.3°W</span>
+        <span>N° 001</span>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <h1 class="hero-h1">
+        Argentinsk oksekød,<br>
+        sendt med hele<br>
+        <em>containeren.</em>
+      </h1>
+      <p class="hero-lead">
+        Vi samler bestillinger i fælles batches og sender dybfrossent,
+        græsfodret oksekød fra pampaen til et afhentningssted nær dig.
+        Seks uger. Den halve pris.
+      </p>
+    </div>
+
+    <div class="hero-cta">
+      <button class="cta-btn">
+        <span>Køb nu</span>
+        <span class="cta-meta">
+          Batch 001 · 62 %
+          <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+            <path d="M0 5 H20 M16 1 L20 5 L16 9" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-key">Besparelse</div>
+        <div class="metric-val">−48 %</div>
+        <div class="metric-sub">mod Føtex</div>
+      </div>
+      <div class="metric">
+        <div class="metric-key">Afhentning</div>
+        <div class="metric-val">6 uger</div>
+        <div class="metric-sub">fra køb</div>
+      </div>
+      <div class="metric">
+        <div class="metric-key">Oprindelse</div>
+        <div class="metric-val">1 gård</div>
+        <div class="metric-sub">pr. batch</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE BATCH -->
+  <section class="live-batch">
+    <div class="section-mark">
+      <span class="num">§ 01</span>
+      <span class="rule"></span>
+      <span>Åben nu</span>
+    </div>
+
+    <div class="batch-card">
+      <div class="batch-card-header">
+        <span>Batch 001</span>
+        <span class="batch-status">
+          <span class="pulse-dot"></span>
+          Fyldes
+        </span>
+      </div>
+      <div class="batch-card-body">
+        <div class="batch-title">Ribeye, 250 g <em>bøffer</em></div>
+        <div class="batch-origin">Estancia La Cumbre · Córdoba · græsfodret, mørnet 21 dage</div>
+
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span><span class="progress-count">312</span> / 500 kg</span>
+            <span>62%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+            <div class="progress-tick" style="left:25%"></div>
+            <div class="progress-tick" style="left:50%"></div>
+            <div class="progress-tick" style="left:75%"></div>
+          </div>
+          <div class="progress-label">
+            <strong>23 kunder</strong> er med.
+            Afsendes ved 100 % — næste milepæl <strong>75 %</strong>.
+          </div>
+        </div>
+
+        <div class="batch-footer">
+          <div>
+            <div class="price-from">Fra</div>
+            <div class="price-main">149<span class="price-unit"> kr./kg</span></div>
+            <div class="price-compare">289 kr./kg i Føtex</div>
+          </div>
+          <button class="join-btn">
+            Vær med
+            <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+              <path d="M0 5 H20 M16 1 L20 5 L16 9" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="section-mark">
+      <span class="num">§ 02</span>
+      <span class="rule"></span>
+      <span>Sådan virker det</span>
+    </div>
+
+    <h2 class="how-h2">
+      Et <em>håndtryk</em><br>
+      på seks uger, mellem to kyster.
+    </h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <div class="step-title">Vær med i et batch</div>
+          <div class="step-desc">Køb fra blot 1 kg. Vi samler bestillinger, indtil batchet er fyldt.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <div class="step-title">Vi sejler det op</div>
+          <div class="step-desc">Én container forlader Buenos Aires med kurs mod København. Følg den på kortet.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <div class="step-title">Hent det frosset</div>
+          <div class="step-desc">Seks uger senere: tag en køletaske med til dit afhentningssted.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="final-eyebrow">— Gå om bord —</div>
+    <h2 class="final-h2">
+      Halv pris.<br>
+      <em>Dobbelt tålmodighed.</em>
+    </h2>
+    <p class="final-lead">
+      Batch 001 afsendes, når det er fyldt. Bestil nu — så spiser du
+      argentinsk ribeye sidst i juli.
+    </p>
+    <button class="final-btn">
+      Køb nu
+      <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+        <path d="M0 5 H20 M16 1 L20 5 L16 9" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <a class="logo" href="#">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M16 4 C9 4 4 9 4 16 C4 23 9 28 16 28 C20 28 23 26 25 24 L25 17 L17 17"
+                stroke="currentColor" stroke-width="2.4" stroke-linecap="square" fill="none"/>
+          <circle cx="16" cy="16" r="1.6" fill="var(--accent)"/>
+        </svg>
+        <span class="logo-wordmark" style="font-size:30px">Gaucho<em>.</em></span>
+      </a>
+    </div>
+    <nav class="footer-nav">
+      <a href="#">Om os</a>
+      <a href="#">Kontakt</a>
+      <a href="#">Batches</a>
+      <a href="#">Afhentningssteder</a>
+      <a href="#">Vilkår</a>
+      <a href="#">Privatliv</a>
+    </nav>
+    <div class="footer-bottom">
+      <span>© Gaucho ApS 2026</span>
+      <span>CVR 44 12 87 03</span>
+    </div>
+  </footer>
+
+</div><!-- .page-root -->
+</div><!-- .phone-shell -->
+
+<!-- ── Palette toggle (keyboard shortcut P for previewing) ── -->
+<script>
+  document.addEventListener('keydown', e => {
+    if (e.key === 'p' || e.key === 'P') {
+      document.body.classList.toggle('pampas');
+    }
+  });
+</script>
+
+</body>
+</html>
