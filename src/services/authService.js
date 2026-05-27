@@ -1,6 +1,27 @@
 const delay = (ms) => new Promise(r => setTimeout(r, ms))
 
-let _session = null
+const SESSION_KEY = 'gaucho_session'
+
+function getStoredSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function storeSession(session) {
+  try {
+    if (session) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session))
+    } else {
+      localStorage.removeItem(SESSION_KEY)
+    }
+  } catch {
+    // ignore storage errors
+  }
+}
 
 export const authService = {
   async requestLoginCode(email) {
@@ -12,23 +33,24 @@ export const authService = {
   async verifyLoginCode(email, code) {
     await delay(800)
     if (code === '123456') {
-      _session = {
+      const session = {
         userId: `user-${email.split('@')[0]}`,
         email,
         role: email.includes('admin') ? 'admin' : 'customer',
       }
-      return { success: true, session: _session }
+      storeSession(session)
+      return { success: true, session }
     }
     return { success: false, error: 'Ugyldig kode. Prøv igen.' }
   },
 
   async getSession() {
     await delay(50)
-    return _session
+    return getStoredSession()
   },
 
   async logout() {
-    _session = null
+    storeSession(null)
     return { success: true }
   },
 }

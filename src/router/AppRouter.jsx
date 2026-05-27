@@ -1,0 +1,32 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from '../context/AuthContext'
+import AuthGate from '../containers/AuthGate'
+import LandingPage from '../features/landing/LandingPage'
+import BatchListPage from '../features/batches/BatchListPage'
+import BatchDetailPage from '../features/batches/BatchDetailPage'
+import LoginPage from '../features/auth/LoginPage'
+import AdminBatchList from '../features/admin/AdminBatchList'
+
+export default function AppRouter() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/batches" element={<BatchListPage />} />
+          <Route path="/batches/:id" element={<BatchDetailPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/admin/batches"
+            element={
+              <AuthGate requireAdmin>
+                <AdminBatchList />
+              </AuthGate>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  )
+}
