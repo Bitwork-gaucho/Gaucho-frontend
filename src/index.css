@@ -1,0 +1,53 @@
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Asado palette (default) */
+  --bg:       #15110d;
+  --surface:  #1d1813;
+  --surface2: #241d16;
+  --ink:      #f1e6cf;
+  --ink-soft: #bfae8e;
+  --ink-mute: #7d6f57;
+  --rule:     rgba(241,230,207,0.13);
+  --accent:   #d76134;
+  --accent2:  #e3b25b;
+  --on-accent:#15110d;
+}
+
+html { background: var(--bg); }
+
+body {
+  font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100svh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Pampas palette override ──────────────────────────────── */
+body.pampas {
+  --bg:       #efe7d4;
+  --surface:  #e7dcc3;
+  --surface2: #e0d4b6;
+  --ink:      #1f1a14;
+  --ink-soft: #544838;
+  --ink-mute: #8a7d68;
+  --rule:     rgba(31,26,20,0.14);
+  --accent:   #7c2418;
+  --accent2:  #c47c2c;
+  --on-accent:#f6efde;
+}
+
+/* ── Pulse animation ──────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.88); }
+}
+
+/* ── Skeleton shimmer ─────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
