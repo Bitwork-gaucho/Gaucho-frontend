@@ -1,0 +1,229 @@
+.admin-page {
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.admin-logo {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.015em;
+  margin-right: auto;
+}
+
+.admin-logo em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.admin-badge {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+}
+
+.admin-user {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+}
+
+.admin-logout-btn {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  min-height: 36px;
+}
+
+.admin-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.create-batch-btn {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  min-height: 44px;
+  font-weight: 500;
+}
+
+.create-batch-form {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.create-form-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.create-form-note {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.create-form-cancel {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  min-height: 40px;
+}
+
+.admin-loading {
+  color: var(--ink-soft);
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.admin-section-header {
+  margin-bottom: 16px;
+}
+
+.admin-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.admin-batches {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-batch-card {
+  background: var(--surface);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.admin-batch-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 4px;
+}
+
+.admin-batch-name {
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.admin-batch-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-batch-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  background: var(--surface2);
+  color: var(--ink-mute);
+}
+
+.status-waiting_to_fill {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, var(--surface));
+}
+
+.status-completed {
+  color: var(--accent2);
+  background: color-mix(in srgb, var(--accent2) 15%, var(--surface));
+}
+
+.admin-batch-progress {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+}
+
+.admin-batch-actions {
+  flex-shrink: 0;
+}
+
+.admin-view-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-family: inherit;
+  text-decoration: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-view-btn:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}

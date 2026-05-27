@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { batchService } from '../../services'
 import './LandingPage.css'
 
 function Logo({ size = 22 }) {
   const wordmarkSize = size === 22 ? 26 : 30
   return (
-    <a className="logo" href="#">
+    <Link className="logo" to="/">
       <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <path
           d="M16 4 C9 4 4 9 4 16 C4 23 9 28 16 28 C20 28 23 26 25 24 L25 17 L17 17"
@@ -19,7 +20,7 @@ function Logo({ size = 22 }) {
       <span className="logo-wordmark" style={{ fontSize: wordmarkSize }}>
         Gaucho<em>.</em>
       </span>
-    </a>
+    </Link>
   )
 }
 
@@ -116,6 +117,7 @@ function BatchCard({ batch }) {
 }
 
 export default function LandingPage() {
+  const navigate = useNavigate()
   const [activeBatches, setActiveBatches] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -150,10 +152,10 @@ export default function LandingPage() {
           <header className="top-bar">
             <Logo size={22} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div className="batch-indicator">
+              <Link data-testid="nav-batches" to="/batches" className="batch-indicator">
                 <PulseDot />
                 Batch åben
-              </div>
+              </Link>
               <button className="hamburger" aria-label="Menu">
                 <span />
                 <span />
@@ -191,14 +193,22 @@ export default function LandingPage() {
             </div>
 
             <div className="hero-cta">
-              <button className="cta-btn">
+              <button
+                data-testid="buy-now-btn"
+                className="cta-btn"
+                onClick={() => navigate('/batches/batch-001')}
+              >
                 <span>Køb nu</span>
                 <span className="cta-meta">
                   {batch ? `${batch.name} · ${fillPct} %` : 'Batch 001 · 62 %'}
                   <ArrowIcon />
                 </span>
               </button>
-              <button className="cta-btn-secondary">
+              <button
+                data-testid="show-more-btn"
+                className="cta-btn-secondary"
+                onClick={() => navigate('/batches')}
+              >
                 Vis mig mere
                 <ArrowIcon />
               </button>
@@ -447,11 +457,11 @@ export default function LandingPage() {
               Batch 001 afsendes, når det er fyldt. Bestil nu — så spiser du argentinsk ribeye
               sidst i juli.
             </p>
-            <button className="final-btn">
+            <button className="final-btn" onClick={() => navigate('/batches/batch-001')}>
               Køb nu
               <ArrowIcon />
             </button>
-            <button className="final-btn-secondary">Se alle batches</button>
+            <button className="final-btn-secondary" onClick={() => navigate('/batches')}>Se alle batches</button>
           </section>
 
           {/* ── FOOTER ── */}
@@ -462,7 +472,7 @@ export default function LandingPage() {
             <nav className="footer-nav">
               <a href="#">Om os</a>
               <a href="#">Kontakt</a>
-              <a href="#">Batches</a>
+              <Link data-testid="nav-batches" to="/batches">Batches</Link>
               <a href="#">Afhentningssteder</a>
               <a href="#">Vilkår</a>
               <a href="#">Privatliv</a>

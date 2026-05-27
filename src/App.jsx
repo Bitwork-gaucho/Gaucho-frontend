@@ -1,5 +1,5 @@
-import LandingPage from './features/landing/LandingPage.jsx'
+import AppRouter from './router/AppRouter'
 
 export default function App() {
-  return <LandingPage />
+  return <AppRouter />
 }
