@@ -168,7 +168,7 @@ export default function LandingPage() {
             <div className="hero-image-wrap">
               <img
                 className="hero-img"
-                src="project/steak-hero.png"
+                src="/steak-hero.svg"
                 alt="Sizzling ribeye over glowing coals with Argentine pampas in the background"
               />
               <div className="hero-fade" />
