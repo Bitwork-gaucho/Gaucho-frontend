@@ -168,29 +168,29 @@ export default function LandingPage() {
             <div className="hero-image-wrap">
               <img
                 className="hero-img"
-                src="/steak-hero.svg"
-                alt="Sizzling ribeye over glowing coals with Argentine pampas in the background"
+                src="/steak-hero.jpg"
+                alt="Ribeye on cast iron over open pampas with Argentine cattle in the background"
               />
               <div className="hero-fade" />
               <div className="hero-coords">
                 <span>{batch ? batch.origin.coords : '34.6°S · 64.3°W'}</span>
                 <span>N° 001</span>
               </div>
+              <div className="hero-copy">
+                <h1 className="hero-h1">
+                  Argentinsk oksekød,
+                  <br />
+                  sendt med hele
+                  <br />
+                  <em>containeren.</em>
+                </h1>
+              </div>
             </div>
 
-            <div className="hero-copy">
-              <h1 className="hero-h1">
-                Argentinsk oksekød,
-                <br />
-                sendt med hele
-                <br />
-                <em>containeren.</em>
-              </h1>
-              <p className="hero-lead">
-                Vi samler bestillinger i fælles batches og sender dybfrossent, græsfodret oksekød
-                fra pampaen til et afhentningssted nær dig. Seks uger. Den halve pris.
-              </p>
-            </div>
+            <p className="hero-lead">
+              Vi samler bestillinger i fælles batches og sender dybfrossent, græsfodret oksekød
+              fra pampaen til et afhentningssted nær dig. Seks uger. Den halve pris.
+            </p>
 
             <div className="hero-cta">
               <button

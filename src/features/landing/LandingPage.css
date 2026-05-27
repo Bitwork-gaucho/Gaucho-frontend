@@ -163,10 +163,10 @@
 .hero-img {
   display: block;
   width: 100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 3/4;
   object-fit: cover;
-  object-position: center 40%;
-  background: linear-gradient(180deg, #2d1a0e 0%, #1a0d06 50%, #0d0804 100%);
+  object-position: center 38%;
+  background: #1a0d06;
 }
 
 .hero-fade {
@@ -174,10 +174,12 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--bg) 80%, transparent) 0%,
-    transparent 22%,
-    transparent 60%,
-    var(--bg) 100%
+    rgba(12,10,8,0.38) 0%,
+    transparent 16%,
+    transparent 38%,
+    rgba(12,10,8,0.52) 62%,
+    rgba(12,10,8,0.85) 82%,
+    rgba(12,10,8,0.97) 100%
   );
   pointer-events: none;
 }
@@ -193,19 +195,22 @@
   text-transform: uppercase;
   color: var(--ink);
   opacity: 0.75;
+  z-index: 2;
 }
 
 .hero-copy {
-  padding: 0 20px 14px;
-  margin-top: -90px;
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20px 28px;
   z-index: 2;
 }
 
 .hero-h1 {
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
-  font-size: 52px;
+  font-size: 50px;
   line-height: 0.95;
   letter-spacing: -0.025em;
   color: var(--ink);
@@ -213,7 +218,7 @@
 .hero-h1 em { font-style: italic; color: var(--accent); }
 
 .hero-lead {
-  margin-top: 18px;
+  padding: 18px 20px 0;
   font-size: 15.5px;
   line-height: 1.5;
   color: var(--ink-soft);
@@ -222,7 +227,7 @@
 
 /* CTA buttons */
 .hero-cta {
-  padding: 16px 20px 0;
+  padding: 20px 20px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
