@@ -494,6 +494,269 @@
   justify-content: space-between;
 }
 
+/* Proceed to checkout button */
+.proceed-to-checkout-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 16px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  text-align: center;
+  min-height: 52px;
+  transition: opacity 0.15s;
+}
+
+.proceed-to-checkout-btn:hover {
+  opacity: 0.9;
+}
+
+/* Checkout summary */
+.checkout-summary {
+  padding: 32px 20px;
+}
+
+.checkout-header {
+  margin-bottom: 24px;
+}
+
+.checkout-back-btn {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  margin-bottom: 12px;
+}
+
+.checkout-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0;
+}
+
+.checkout-rows {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 24px;
+}
+
+.checkout-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 15px;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+}
+
+.checkout-row:last-child {
+  border-bottom: none;
+}
+
+.checkout-row--total {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.pay-btn {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 18px 20px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 500;
+  font-family: 'Instrument Serif', Georgia, serif;
+  text-align: center;
+  min-height: 56px;
+  transition: opacity 0.15s;
+}
+
+.pay-btn:hover {
+  opacity: 0.9;
+}
+
+/* Order confirmation */
+.order-confirmation {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.order-confirmation-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.order-confirmation-heading {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.order-confirmation-sub {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.order-confirmation-summary {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 16px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.order-conf-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+}
+
+.order-conf-row:last-child {
+  border-bottom: none;
+}
+
+/* Order barcode */
+.order-barcode {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.barcode-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 8px;
+}
+
+.barcode-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  word-break: break-all;
+}
+
+.barcode-visual {
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+  gap: 1px;
+}
+
+.barcode-bar {
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+/* Share / back links */
+.order-share-link {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 15px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.order-share-link:hover {
+  opacity: 0.8;
+}
+
+.order-back-link {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  text-decoration: none;
+}
+
+/* Shipment tracking */
+.shipment-tracking {
+  border-bottom: 1px solid var(--rule);
+  padding: 20px;
+}
+
+.shipment-tracking-header {
+  margin-bottom: 16px;
+}
+
+.shipment-tracking-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.shipment-route-indicator {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.shipment-map-svg {
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.shipment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shipment-status-text {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.shipment-eta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.shipment-loading {
+  color: var(--ink-mute);
+  font-size: 13px;
+}
+
 /* Shared */
 .pulse-dot {
   width: 6px;

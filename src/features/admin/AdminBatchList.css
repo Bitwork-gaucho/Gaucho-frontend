@@ -227,3 +227,37 @@
 .admin-view-btn:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
+
+.admin-manage-btn {
+  background: var(--surface2);
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-family: inherit;
+  text-decoration: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.admin-manage-btn:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.admin-nav-link {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 13.5px;
+  padding: 0 4px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-nav-link:hover {
+  color: var(--ink);
+}

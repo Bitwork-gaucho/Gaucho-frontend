@@ -22,21 +22,17 @@ const MOCK_SHIPMENT = {
 export const shipmentService = {
   async getShipmentLocation(shipmentId) {
     await delay(400)
-    return {
-      lat: MOCK_SHIPMENT.currentLat,
-      lng: MOCK_SHIPMENT.currentLng,
-      name: MOCK_SHIPMENT.currentLocationName,
-    }
+    return { lat: -20, lng: -30 }
   },
 
   async getShipmentETA(shipmentId) {
     await delay(300)
-    return MOCK_SHIPMENT.etaAt
+    return { eta: '2026-07-15', daysRemaining: 18 }
   },
 
   async getShipmentStatus(shipmentId) {
     await delay(200)
-    return MOCK_SHIPMENT.status
+    return { status: 'IN_TRANSIT', description: 'På vej fra Buenos Aires', progress: 0.35 }
   },
 
   async getTemperatureLog(shipmentId) {

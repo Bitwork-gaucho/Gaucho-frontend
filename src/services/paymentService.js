@@ -36,6 +36,6 @@ export const paymentService = {
   async confirmDelivery(orderId) {
     await delay(500)
     console.log(`[mock] delivery confirmed for order ${orderId}`)
-    return { success: true }
+    return { success: true, orderId }
   },
 }

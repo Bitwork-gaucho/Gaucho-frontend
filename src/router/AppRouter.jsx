@@ -6,6 +6,8 @@ import BatchListPage from '../features/batches/BatchListPage'
 import BatchDetailPage from '../features/batches/BatchDetailPage'
 import LoginPage from '../features/auth/LoginPage'
 import AdminBatchList from '../features/admin/AdminBatchList'
+import AdminBatchDetail from '../features/admin/AdminBatchDetail'
+import AdminScanner from '../features/admin/AdminScanner'
 
 export default function AppRouter() {
   return (
@@ -21,6 +23,22 @@ export default function AppRouter() {
             element={
               <AuthGate requireAdmin>
                 <AdminBatchList />
+              </AuthGate>
+            }
+          />
+          <Route
+            path="/admin/batches/:id"
+            element={
+              <AuthGate requireAdmin>
+                <AdminBatchDetail />
+              </AuthGate>
+            }
+          />
+          <Route
+            path="/admin/scanner"
+            element={
+              <AuthGate requireAdmin>
+                <AdminScanner />
               </AuthGate>
             }
           />

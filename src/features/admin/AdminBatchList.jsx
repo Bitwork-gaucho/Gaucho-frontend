@@ -32,6 +32,7 @@ export default function AdminBatchList() {
       <nav className="admin-nav">
         <Link to="/" className="admin-logo">Gaucho<em>.</em></Link>
         <span className="admin-badge">Admin</span>
+        <Link data-testid="scanner-nav-link" to="/admin/scanner" className="admin-nav-link">Scanner</Link>
         <span className="admin-user">{session?.email}</span>
         <button className="admin-logout-btn" onClick={logout}>Log ud</button>
       </nav>
@@ -86,6 +87,9 @@ export default function AdminBatchList() {
                 <div className="admin-batch-actions">
                   <Link to={`/batches/${batch.id}`} className="admin-view-btn">
                     Vis
+                  </Link>
+                  <Link to={`/admin/batches/${batch.id}`} className="admin-manage-btn">
+                    Administrer
                   </Link>
                 </div>
               </div>

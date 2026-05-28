@@ -1,0 +1,133 @@
+.scanner-subtitle {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  margin-bottom: 28px;
+}
+
+.scanner-card {
+  max-width: 480px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 32px;
+}
+
+.scanner-icon {
+  font-size: 40px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.scanner-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scanner-input {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+}
+
+.scan-btn {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 16px 24px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Instrument Serif', Georgia, serif;
+  min-height: 52px;
+  transition: opacity 0.15s;
+}
+
+.scan-btn:hover {
+  opacity: 0.9;
+}
+
+.scan-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scanner-error {
+  padding: 12px 14px;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.3);
+  color: #ff8080;
+  font-size: 13.5px;
+}
+
+.scan-success {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.scan-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #2a5c3f;
+  color: #7dffb2;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.scan-success-text {
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.scan-again-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  min-height: 44px;
+  transition: background 0.15s;
+}
+
+.scan-again-btn:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.form-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-input {
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+  min-height: 44px;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: var(--accent);
+}

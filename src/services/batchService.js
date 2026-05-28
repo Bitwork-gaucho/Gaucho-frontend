@@ -1,5 +1,30 @@
 const delay = (ms) => new Promise(r => setTimeout(r, ms))
 
+const MOCK_IN_TRANSIT = [
+  {
+    id: 'batch-transit',
+    name: 'Batch Transit',
+    meatType: 'Ribeye, 250 g bøffer',
+    description: 'Estancia La Cumbre · Córdoba · græsfodret, mørnet 21 dage — på vej til Danmark',
+    status: 'IN_TRANSIT',
+    soldKilos: 500,
+    targetKilos: 500,
+    pricePerKg: 149,
+    comparePricePerKg: 289,
+    compareRetailer: 'Føtex',
+    customerCount: 38,
+    savingsPercent: 48,
+    deliveryWeeks: 2,
+    shipmentId: 'ship-transit-001',
+    origin: {
+      farm: 'Estancia La Cumbre',
+      region: 'Córdoba',
+      country: 'Argentina',
+      coords: '34.6°S · 64.3°W',
+    },
+  },
+]
+
 const MOCK_ACTIVE = [
   {
     id: 'batch-001',
@@ -81,7 +106,7 @@ const MOCK_COMPLETED = [
 export const batchService = {
   async getActiveBatches() {
     await delay(400)
-    return MOCK_ACTIVE
+    return [...MOCK_ACTIVE, ...MOCK_IN_TRANSIT]
   },
 
   async getUpcomingBatches() {
@@ -96,7 +121,7 @@ export const batchService = {
 
   async getBatchById(batchId) {
     await delay(350)
-    return [...MOCK_ACTIVE, ...MOCK_UPCOMING, ...MOCK_COMPLETED]
+    return [...MOCK_IN_TRANSIT, ...MOCK_ACTIVE, ...MOCK_UPCOMING, ...MOCK_COMPLETED]
       .find(b => b.id === batchId) || null
   },
 
