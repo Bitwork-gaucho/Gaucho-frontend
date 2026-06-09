@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [sendingCode, setSendingCode] = useState(false)
   const [verifying, setVerifying] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   async function handleSendCode(e) {
     e.preventDefault()
@@ -53,7 +54,22 @@ export default function LoginPage() {
     <div className="login-page">
       <nav className="login-nav">
         <Link to="/" className="login-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
-        <Link data-testid="nav-batches" to="/batches" className="login-nav-link">Batches</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
+          <button
+            className="hamburger"
+            aria-label="Menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+          </button>
+          {menuOpen && (
+            <div className="dropdown-menu">
+              <Link to="/" onClick={() => setMenuOpen(false)}>Hjem</Link>
+              <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
+            </div>
+          )}
+        </div>
       </nav>
 
       <div className="login-container">

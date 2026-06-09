@@ -108,6 +108,7 @@ export default function LandingPage() {
   const navigate = useNavigate()
   const [activeBatches, setActiveBatches] = useState([])
   const [loading, setLoading] = useState(true)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     batchService.getActiveBatches().then(batches => {
@@ -133,15 +134,25 @@ export default function LandingPage() {
           {/* ── TOP BAR ── */}
           <header className="top-bar">
             <Logo size={22} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}>
               <Link data-testid="nav-batches" to="/batches" className="batch-indicator">
                 <PulseDot />
                 Batch åben
               </Link>
-              <button className="hamburger" aria-label="Menu">
+              <button
+                className="hamburger"
+                aria-label="Menu"
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
                 <span />
                 <span />
               </button>
+              {menuOpen && (
+                <div className="dropdown-menu">
+                  <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
+                  <Link to="/login" onClick={() => setMenuOpen(false)}>Log ind</Link>
+                </div>
+              )}
             </div>
           </header>
 

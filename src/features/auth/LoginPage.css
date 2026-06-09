@@ -77,6 +77,62 @@ body.pampas .login-logo img {
   color: var(--accent);
 }
 
+/* Hamburger menu */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  margin-right: -6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  width: 18px;
+  height: 1.5px;
+  background: var(--ink);
+  display: block;
+}
+
+.hamburger span:last-child {
+  align-self: flex-end;
+  width: 12px;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  min-width: 160px;
+  z-index: 100;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 12px 16px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.15s;
+}
+
+.dropdown-menu a:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+  background: var(--surface2);
+}
+
 .login-container {
   flex: 1;
   display: flex;

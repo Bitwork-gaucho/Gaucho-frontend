@@ -28,6 +28,7 @@ export default function BatchDetailPage() {
   const [selectedKilos, setSelectedKilos] = useState(null)
   const [orderCancelled, setOrderCancelled] = useState(false)
   const [cancelling, setCancelling] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     batchService.getBatchById(id).then(b => {
@@ -92,8 +93,26 @@ export default function BatchDetailPage() {
     <div className="batch-detail-page" data-testid="batch-detail">
       <nav className="batch-detail-nav">
         <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
-        <Link data-testid="nav-batches" to="/batches" className="nav-back">← Batches</Link>
-        <Link to="/login" className="nav-login">{session ? session.email.split('@')[0] : 'Log ind'}</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
+          <span className="nav-login">{session ? session.email.split('@')[0] : ''}</span>
+          <button
+            className="hamburger"
+            aria-label="Menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+          </button>
+          {menuOpen && (
+            <div className="dropdown-menu">
+              <Link to="/" onClick={() => setMenuOpen(false)}>Hjem</Link>
+              <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
+                {session ? 'Log ud' : 'Log ind'}
+              </Link>
+            </div>
+          )}
+        </div>
       </nav>
 
       <div className="batch-detail-container">

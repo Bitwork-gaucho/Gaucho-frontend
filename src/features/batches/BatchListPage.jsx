@@ -146,6 +146,7 @@ export default function BatchListPage() {
   const [activeBatches, setActiveBatches] = useState([])
   const [upcomingBatches, setUpcomingBatches] = useState([])
   const [loading, setLoading] = useState(true)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -162,8 +163,23 @@ export default function BatchListPage() {
     <div className="batch-list-page">
       <nav className="batch-list-nav">
         <Link to="/" className="batch-list-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
-        <Link data-testid="nav-batches" to="/batches" className="nav-link nav-link--active">Batches</Link>
-        <Link to="/login" className="nav-link">Log ind</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
+          <button
+            className="hamburger"
+            aria-label="Menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+          </button>
+          {menuOpen && (
+            <div className="dropdown-menu">
+              <Link to="/" onClick={() => setMenuOpen(false)}>Hjem</Link>
+              <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
+              <Link to="/login" onClick={() => setMenuOpen(false)}>Log ind</Link>
+            </div>
+          )}
+        </div>
       </nav>
 
       <div data-testid="batch-list" className="batch-list-container">
