@@ -58,7 +58,7 @@ export default function BatchDetailPage() {
     return (
       <div className="batch-detail-page">
         <nav className="batch-detail-nav">
-          <Link to="/" className="batch-detail-logo">Gaucho<em>.</em></Link>
+          <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
           <Link data-testid="nav-batches" to="/batches" className="nav-back">← Batches</Link>
         </nav>
         <div className="batch-detail-skeleton">
@@ -74,7 +74,7 @@ export default function BatchDetailPage() {
     return (
       <div className="batch-detail-page">
         <nav className="batch-detail-nav">
-          <Link to="/" className="batch-detail-logo">Gaucho<em>.</em></Link>
+          <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
           <Link data-testid="nav-batches" to="/batches" className="nav-back">← Batches</Link>
         </nav>
         <div className="batch-not-found">
@@ -91,7 +91,7 @@ export default function BatchDetailPage() {
   return (
     <div className="batch-detail-page" data-testid="batch-detail">
       <nav className="batch-detail-nav">
-        <Link to="/" className="batch-detail-logo">Gaucho<em>.</em></Link>
+        <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <Link data-testid="nav-batches" to="/batches" className="nav-back">← Batches</Link>
         <Link to="/login" className="nav-login">{session ? session.email.split('@')[0] : 'Log ind'}</Link>
       </nav>

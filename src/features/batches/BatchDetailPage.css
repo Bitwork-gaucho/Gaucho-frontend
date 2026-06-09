@@ -4,16 +4,31 @@
   color: var(--ink);
 }
 
+/* ── Nav ──────────────────────────────────────────────────── */
 .batch-detail-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 4px;
+  padding: 16px 16px;
   border-bottom: 1px solid var(--rule);
   background: var(--bg);
   position: sticky;
   top: 0;
   z-index: 10;
+  overflow-x: auto;
+}
+
+@media (min-width: 480px) {
+  .batch-detail-nav {
+    gap: 8px;
+    padding: 16px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batch-detail-nav {
+    padding: 16px 40px;
+  }
 }
 
 .batch-detail-logo {
@@ -24,6 +39,17 @@
   text-decoration: none;
   letter-spacing: -0.015em;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.batch-detail-logo img {
+  height: auto;
+  filter: invert(1) brightness(1.15) saturate(0.1);
+}
+
+body.pampas .batch-detail-logo img {
+  filter: hue-rotate(355deg) saturate(1.8) brightness(0.65);
 }
 
 .batch-detail-logo em {
@@ -59,16 +85,68 @@
   color: var(--accent);
 }
 
+/* ── Container — two-col on desktop ─────────────────────────── */
 .batch-detail-container {
-  max-width: 600px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 0 60px;
 }
 
-/* Header */
+@media (min-width: 900px) {
+  .batch-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 0;
+    align-items: start;
+    padding: 0;
+  }
+
+  /* Left column: header + progress + origin + pricing */
+  .batch-detail-header,
+  .batch-detail-progress,
+  .batch-detail-origin,
+  .batch-detail-pricing {
+    /* stay in first column naturally */
+  }
+
+  /* Right column: quantity selector, share btn, login/order section */
+  .quantity-selector,
+  .share-btn,
+  .login-section,
+  .order-details-section {
+    grid-column: 2;
+  }
+
+  /* Force right-column items into second grid column */
+  .quantity-selector { grid-row: 1; }
+  .share-btn { grid-row: 2; }
+  .login-section,
+  .order-details-section { grid-row: 3; }
+}
+
+/* ── Header ──────────────────────────────────────────────── */
 .batch-detail-header {
-  padding: 32px 20px 24px;
+  padding: 20px 16px 18px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 480px) {
+  .batch-detail-header {
+    padding: 24px 20px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batch-detail-header {
+    padding: 32px 20px 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .batch-detail-header {
+    padding: 40px 40px 32px;
+    border-right: 1px solid var(--rule);
+  }
 }
 
 .batch-detail-meta {
@@ -100,11 +178,29 @@
 .batch-detail-title {
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
-  font-size: 38px;
+  font-size: 28px;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--ink);
   margin-bottom: 10px;
+}
+
+@media (min-width: 480px) {
+  .batch-detail-title {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batch-detail-title {
+    font-size: 38px;
+  }
+}
+
+@media (min-width: 900px) {
+  .batch-detail-title {
+    font-size: 48px;
+  }
 }
 
 .batch-detail-description {
@@ -113,10 +209,17 @@
   line-height: 1.5;
 }
 
-/* Progress */
+/* ── Progress ─────────────────────────────────────────────── */
 .batch-detail-progress {
   padding: 24px 20px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .batch-detail-progress {
+    padding: 24px 40px;
+    border-right: 1px solid var(--rule);
+  }
 }
 
 .progress-meta {
@@ -162,10 +265,17 @@
   color: var(--ink-soft);
 }
 
-/* Origin */
+/* ── Origin ───────────────────────────────────────────────── */
 .batch-detail-origin {
   padding: 20px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .batch-detail-origin {
+    padding: 24px 40px;
+    border-right: 1px solid var(--rule);
+  }
 }
 
 .origin-label {
@@ -190,10 +300,18 @@
   color: var(--ink-mute);
 }
 
-/* Pricing */
+/* ── Pricing ──────────────────────────────────────────────── */
 .batch-detail-pricing {
   padding: 20px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .batch-detail-pricing {
+    padding: 24px 40px;
+    border-right: 1px solid var(--rule);
+    border-bottom: none;
+  }
 }
 
 .price-from {
@@ -224,10 +342,31 @@
   text-decoration: line-through;
 }
 
-/* Quantity selector */
+/* ── Quantity selector ─────────────────────────────────────── */
 .quantity-selector {
-  padding: 20px;
+  padding: 16px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 480px) {
+  .quantity-selector {
+    padding: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .quantity-selector {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 900px) {
+  .quantity-selector {
+    padding: 32px 24px 24px;
+    border-left: none;
+    position: sticky;
+    top: 73px;
+  }
 }
 
 .quantity-label {
@@ -249,13 +388,21 @@
   background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--rule);
-  padding: 12px 16px;
+  padding: 10px 14px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-family: inherit;
-  min-width: 56px;
+  min-width: 44px;
   min-height: 44px;
   transition: all 0.15s;
+}
+
+@media (min-width: 480px) {
+  .quantity-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: 56px;
+  }
 }
 
 .quantity-btn:hover {
@@ -300,7 +447,7 @@
   color: var(--ink-mute);
 }
 
-/* Share button */
+/* ── Share button ─────────────────────────────────────────── */
 .share-btn {
   display: block;
   width: calc(100% - 40px);
@@ -320,12 +467,25 @@
   background: var(--surface);
 }
 
-/* Login section */
+@media (min-width: 900px) {
+  .share-btn {
+    width: calc(100% - 48px);
+    margin: 16px 24px;
+  }
+}
+
+/* ── Login section ─────────────────────────────────────────── */
 .login-section {
   margin: 0 20px;
   padding: 24px;
   background: var(--surface);
   border-left: 3px solid var(--accent);
+}
+
+@media (min-width: 900px) {
+  .login-section {
+    margin: 0 24px 24px;
+  }
 }
 
 .login-section-header {
@@ -365,12 +525,18 @@
   justify-content: center;
 }
 
-/* Order details (logged in) */
+/* ── Order details (logged in) ─────────────────────────────── */
 .order-details-section {
   margin: 0 20px;
   padding: 20px;
   background: var(--surface);
   border-left: 3px solid var(--accent2);
+}
+
+@media (min-width: 900px) {
+  .order-details-section {
+    margin: 0 24px 24px;
+  }
 }
 
 .order-details-header {
@@ -449,7 +615,7 @@
   text-align: center;
 }
 
-/* Skeleton */
+/* ── Skeleton ─────────────────────────────────────────────── */
 .batch-detail-skeleton {
   padding: 32px 20px;
 }
@@ -482,6 +648,7 @@
   color: var(--accent);
 }
 
+/* ── Footer ──────────────────────────────────────────────── */
 .batch-detail-footer {
   padding: 24px 20px;
   border-top: 1px solid var(--rule);
@@ -492,9 +659,13 @@
   color: var(--ink-mute);
   display: flex;
   justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Shared */
+/* ── Shared ───────────────────────────────────────────────── */
 .pulse-dot {
   width: 6px;
   height: 6px;

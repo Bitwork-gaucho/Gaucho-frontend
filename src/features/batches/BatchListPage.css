@@ -4,16 +4,35 @@
   color: var(--ink);
 }
 
+/* ── Nav ──────────────────────────────────────────────────── */
 .batch-list-nav {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
+  gap: 4px;
+  padding: 16px 16px;
   border-bottom: 1px solid var(--rule);
   background: var(--bg);
   position: sticky;
   top: 0;
   z-index: 10;
+  overflow-x: auto;
+}
+
+@media (min-width: 480px) {
+  .batch-list-nav {
+    gap: 8px;
+    padding: 16px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batch-list-nav {
+    gap: 20px;
+    padding: 16px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
 }
 
 .batch-list-logo {
@@ -24,6 +43,17 @@
   text-decoration: none;
   letter-spacing: -0.015em;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.batch-list-logo img {
+  height: auto;
+  filter: invert(1) brightness(1.15) saturate(0.1);
+}
+
+body.pampas .batch-list-logo img {
+  filter: hue-rotate(355deg) saturate(1.8) brightness(0.65);
 }
 
 .batch-list-logo em {
@@ -46,25 +76,51 @@
   color: var(--ink);
 }
 
+/* ── Container ─────────────────────────────────────────────── */
 .batch-list-container {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 60px;
 }
 
+/* ── Hero ──────────────────────────────────────────────────── */
 .batch-list-hero {
-  padding: 40px 20px 24px;
+  padding: 24px 16px 20px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 480px) {
+  .batch-list-hero {
+    padding: 32px 20px 22px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batch-list-hero {
+    padding: 60px 40px 32px;
+  }
 }
 
 .batch-list-title {
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
-  font-size: 44px;
+  font-size: 32px;
   line-height: 1;
   letter-spacing: -0.025em;
   color: var(--ink);
   margin-bottom: 10px;
+}
+
+@media (min-width: 480px) {
+  .batch-list-title {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batch-list-title {
+    font-size: 60px;
+  }
 }
 
 .batch-list-title em {
@@ -78,9 +134,22 @@
   line-height: 1.5;
 }
 
+/* ── Batches section ───────────────────────────────────────── */
 .batches-section {
-  padding: 32px 20px;
+  padding: 20px 16px;
   border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 480px) {
+  .batches-section {
+    padding: 24px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .batches-section {
+    padding: 40px;
+  }
 }
 
 .section-header {
@@ -99,15 +168,30 @@
   font-weight: 400;
 }
 
-.batch-card {
-  background: var(--surface);
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: background 0.15s;
+/* ── Card grid ─────────────────────────────────────────────── */
+.batches-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
-.batch-card:last-child {
-  margin-bottom: 0;
+@media (min-width: 640px) {
+  .batches-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .batches-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+.batch-card {
+  background: var(--surface);
+  cursor: pointer;
+  transition: background 0.15s;
 }
 
 .active-card:hover {
@@ -122,16 +206,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (min-width: 480px) {
+  .batch-card-header {
+    padding: 12px 16px;
+  }
 }
 
 .batch-name {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
+  font-size: 8px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-mute);
+}
+
+@media (min-width: 480px) {
+  .batch-name {
+    font-size: 9.5px;
+  }
 }
 
 .batch-status-badge {
@@ -154,22 +252,41 @@
 }
 
 .batch-card-body {
-  padding: 16px;
+  padding: 12px;
+}
+
+@media (min-width: 480px) {
+  .batch-card-body {
+    padding: 16px;
+  }
 }
 
 .batch-meat-type {
   font-family: 'Instrument Serif', Georgia, serif;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.05;
   letter-spacing: -0.015em;
   color: var(--ink);
   margin-bottom: 4px;
 }
 
+@media (min-width: 480px) {
+  .batch-meat-type {
+    font-size: 24px;
+  }
+}
+
 .batch-description {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--ink-soft);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 480px) {
+  .batch-description {
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
 }
 
 .progress-wrap {
@@ -234,20 +351,28 @@
   text-decoration: line-through;
 }
 
-/* Interest form */
+/* ── Interest form ─────────────────────────────────────────── */
 .interest-btn {
   width: 100%;
   background: transparent;
   color: var(--ink);
   border: 1px solid var(--rule);
-  padding: 12px 16px;
+  padding: 12px 14px;
   cursor: pointer;
-  font-size: 13.5px;
+  font-size: 13px;
   font-family: inherit;
   text-align: left;
   min-height: 44px;
-  margin-top: 12px;
+  margin-top: 10px;
   transition: background 0.15s;
+}
+
+@media (min-width: 480px) {
+  .interest-btn {
+    padding: 12px 16px;
+    font-size: 13.5px;
+    margin-top: 12px;
+  }
 }
 
 .interest-btn:hover {
@@ -255,21 +380,33 @@
 }
 
 .interest-form {
-  margin-top: 12px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+@media (min-width: 480px) {
+  .interest-form {
+    margin-top: 12px;
+  }
 }
 
 .interest-email-input {
   background: var(--bg);
   border: 1px solid var(--rule);
   color: var(--ink);
-  padding: 12px 14px;
+  padding: 12px 12px;
   font-size: 14px;
   font-family: inherit;
   outline: none;
   min-height: 44px;
+}
+
+@media (min-width: 480px) {
+  .interest-email-input {
+    padding: 12px 14px;
+  }
 }
 
 .interest-email-input:focus {
@@ -279,6 +416,7 @@
 .interest-form-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .interest-submit-btn {
@@ -324,7 +462,7 @@
   font-size: 14px;
 }
 
-/* Skeleton */
+/* ── Skeleton ──────────────────────────────────────────────── */
 .batch-card.skeleton {
   padding: 16px;
   cursor: default;
@@ -342,6 +480,7 @@
   border-radius: 2px;
 }
 
+/* ── Footer ────────────────────────────────────────────────── */
 .batch-list-footer {
   padding: 24px 20px;
   border-top: 1px solid var(--rule);
@@ -352,4 +491,8 @@
   color: var(--ink-mute);
   display: flex;
   justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }

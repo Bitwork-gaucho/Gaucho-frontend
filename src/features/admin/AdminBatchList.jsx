@@ -30,7 +30,7 @@ export default function AdminBatchList() {
   return (
     <div className="admin-page">
       <nav className="admin-nav">
-        <Link to="/" className="admin-logo">Gaucho<em>.</em></Link>
+        <Link to="/" className="admin-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <span className="admin-badge">Admin</span>
         <span className="admin-user">{session?.email}</span>
         <button className="admin-logout-btn" onClick={logout}>Log ud</button>

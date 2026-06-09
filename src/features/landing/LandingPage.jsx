@@ -4,22 +4,10 @@ import { batchService } from '../../services'
 import './LandingPage.css'
 
 function Logo({ size = 22 }) {
-  const wordmarkSize = size === 22 ? 26 : 30
+  const imageSize = size === 22 ? 60 : 72
   return (
     <Link className="logo" to="/">
-      <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <path
-          d="M16 4 C9 4 4 9 4 16 C4 23 9 28 16 28 C20 28 23 26 25 24 L25 17 L17 17"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="square"
-          fill="none"
-        />
-        <circle cx="16" cy="16" r="1.6" fill="var(--accent)" />
-      </svg>
-      <span className="logo-wordmark" style={{ fontSize: wordmarkSize }}>
-        Gaucho<em>.</em>
-      </span>
+      <img src="/logo.png" alt="Gaucho" style={{ height: imageSize, width: 'auto' }} />
     </Link>
   )
 }
@@ -140,18 +128,12 @@ export default function LandingPage() {
   const fillPct = batch ? Math.round((batch.soldKilos / batch.targetKilos) * 100) : 62
 
   return (
-    <>
-      <div className="stage-label">
-        GAUCHO — <b>landing.mobile</b> · v1
-      </div>
-
-      <div className="phone-shell">
-        <div className="page-root">
+    <div className="page-root">
 
           {/* ── TOP BAR ── */}
           <header className="top-bar">
             <Logo size={22} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               <Link data-testid="nav-batches" to="/batches" className="batch-indicator">
                 <PulseDot />
                 Batch åben
@@ -168,13 +150,11 @@ export default function LandingPage() {
             <div className="hero-image-wrap">
               <img
                 className="hero-img"
-                src="project/steak-hero.png"
+                src="/steak-hero.png"
                 alt="Sizzling ribeye over glowing coals with Argentine pampas in the background"
               />
               <div className="hero-fade" />
               <div className="hero-coords">
-                <span>{batch ? batch.origin.coords : '34.6°S · 64.3°W'}</span>
-                <span>N° 001</span>
               </div>
             </div>
 
@@ -182,9 +162,9 @@ export default function LandingPage() {
               <h1 className="hero-h1">
                 Argentinsk oksekød,
                 <br />
-                sendt med hele
+                sendt direkte til dit
                 <br />
-                <em>containeren.</em>
+                <em>pickup-point.</em>
               </h1>
               <p className="hero-lead">
                 Vi samler bestillinger i fælles batches og sender dybfrossent, græsfodret oksekød
@@ -200,65 +180,51 @@ export default function LandingPage() {
               >
                 <span>Køb nu</span>
                 <span className="cta-meta">
-                  {batch ? `${batch.name} · ${fillPct} %` : 'Batch 001 · 62 %'}
                   <ArrowIcon />
                 </span>
-              </button>
-              <button
-                data-testid="show-more-btn"
-                className="cta-btn-secondary"
-                onClick={() => navigate('/batches')}
-              >
-                Vis mig mere
-                <ArrowIcon />
               </button>
             </div>
 
             <div className="metrics">
               <div className="metric">
-                <div className="metric-key">Besparelse</div>
-                <div className="metric-val">−{batch ? batch.savingsPercent : 48} %</div>
-                <div className="metric-sub">mod {batch ? batch.compareRetailer : 'Føtex'}</div>
+                <div className="metric-key">BILLIGST</div>
+                <div className="metric-val"></div>
+                <div className="metric-sub">Danmarks billigeste</div>
               </div>
               <div className="metric">
-                <div className="metric-key">Afhentning</div>
-                <div className="metric-val">{batch ? batch.deliveryWeeks : 6} uger</div>
+                <div className="metric-key">AFHENTNING</div>
+                <div className="metric-val">ca. {batch ? batch.deliveryWeeks : 6} uger</div>
                 <div className="metric-sub">fra køb</div>
               </div>
               <div className="metric">
-                <div className="metric-key">Oprindelse</div>
-                <div className="metric-val">1 gård</div>
-                <div className="metric-sub">pr. batch</div>
+                <div className="metric-key">KVALITET</div>
+                <div className="metric-val">ægte argentinsk</div>
+                <div className="metric-sub">fritgående kødkvæg</div>
               </div>
             </div>
           </section>
 
-          {/* ── LIVE BATCH ── */}
-          <section className="live-batch">
-            <SectionMark num="01" label="Åben nu" />
-            {loading ? <BatchSkeleton /> : batch ? <BatchCard batch={batch} /> : null}
-          </section>
-
           {/* ── GAUCHO CULTURE ── */}
           <section className="gaucho-section">
-            <SectionMark num="02" label="Gauchoens arv" />
             <h2 className="section-h2">
               Fra <em>pampaen</em> til
               <br />
               dit middagsbord.
             </h2>
-            <div className="gaucho-image-placeholder" />
-            <div className="gaucho-text">
-              <p>
-                Gauchos er Argentinas svar på cowboys — nomadiske ryttere, der i generationer har
-                drevet kvæg over de endeløse pampas. Deres liv er afstemt med naturen: tidlig
-                morgen i sadlen, aftenen samlet om asadoen.
-              </p>
-              <p>
-                Det er denne tradition og respekt for dyret, der afspejler sig i hvert stykke kød
-                fra Gaucho. Kvæget vokser langsomt, græsser frit og lever et naturligt liv.
-                Resultatet er smag, der taler for sig selv.
-              </p>
+            <div className="gaucho-grid">
+              <img src="/steak-hero.png" alt="Argentinsk oksekød" className="gaucho-image" />
+              <div className="gaucho-text">
+                <p>
+                  Gauchos er Argentinas svar på cowboys — nomadiske ryttere, der i generationer har
+                  drevet kvæg over de endeløse pampas. Deres liv er afstemt med naturen: tidlig
+                  morgen i sadlen, aftenen samlet om asadoen.
+                </p>
+                <p>
+                  Det er denne tradition og respekt for dyret, der afspejler sig i hvert stykke kød
+                  fra Gaucho. Kvæget vokser langsomt, græsser frit og lever et naturligt liv.
+                  Resultatet er smag, der taler for sig selv. Argentinsk pampas er 20 gange større end Danmark.
+                </p>
+              </div>
             </div>
             <div className="gaucho-facts">
               <div className="gaucho-fact">
@@ -270,15 +236,14 @@ export default function LandingPage() {
                 <span className="fact-label">græsfodret</span>
               </div>
               <div className="gaucho-fact">
-                <span className="fact-num">1</span>
-                <span className="fact-label">gård pr. batch</span>
+                <span className="fact-num">−18°</span>
+                <span className="fact-label">lynfrossen for bedste smag</span>
               </div>
             </div>
           </section>
 
           {/* ── ENVIRONMENTAL BENEFITS ── */}
           <section className="env-section">
-            <SectionMark num="03" label="Bæredygtighed" />
             <h2 className="section-h2">
               Argentinsk <em>græs.</em>
               <br />
@@ -286,7 +251,7 @@ export default function LandingPage() {
             </h2>
             <div className="env-grid">
               <div className="env-card">
-                <div className="env-icon">🌾</div>
+                <div className="env-icon">✻</div>
                 <div className="env-title">Naturlig græsning</div>
                 <div className="env-desc">
                   Kvæget lever hele sit liv på åbne pampas og spiser udelukkende naturligt græs.
@@ -302,7 +267,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="env-card">
-                <div className="env-icon">🚢</div>
+                <div className="env-icon">⛵</div>
                 <div className="env-title">Én container</div>
                 <div className="env-desc">
                   Vi sender frosset kød samlet i én container. Fuld lastudnyttelse minimerer CO₂
@@ -310,7 +275,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="env-card">
-                <div className="env-icon">🔬</div>
+                <div className="env-icon">⚗</div>
                 <div className="env-title">Ingen antibiotika</div>
                 <div className="env-desc">
                   Argentinsk oksekød eksporteret til EU er certificeret fri for hormoner og
@@ -322,7 +287,6 @@ export default function LandingPage() {
 
           {/* ── HOW IT WORKS ── */}
           <section className="how-section">
-            <SectionMark num="04" label="Sådan virker det" />
             <h2 className="how-h2">
               Et <em>håndtryk</em>
               <br />
@@ -341,7 +305,7 @@ export default function LandingPage() {
               <div className="step">
                 <div className="step-num">02</div>
                 <div>
-                  <div className="step-title">Vi sejler det op</div>
+                  <div className="step-title">Vi bestiller og betaler batchen</div>
                   <div className="step-desc">
                     Én container forlader Buenos Aires med kurs mod København. Følg den på kortet.
                   </div>
@@ -361,7 +325,6 @@ export default function LandingPage() {
 
           {/* ── MEAT HANDLING ── */}
           <section className="handling-section">
-            <SectionMark num="05" label="Forberedelse" />
             <h2 className="section-h2">
               Optøning, opbevaring
               <br />& <em>tilberedning.</em>
@@ -412,7 +375,6 @@ export default function LandingPage() {
 
           {/* ── FOOD AUTHORITY APPROVAL ── */}
           <section className="approval-section">
-            <SectionMark num="06" label="Godkendt" />
             <div className="approval-card">
               <div className="approval-badge">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -454,14 +416,16 @@ export default function LandingPage() {
               <em>Dobbelt tålmodighed.</em>
             </h2>
             <p className="final-lead">
-              Batch 001 afsendes, når det er fyldt. Bestil nu — så spiser du argentinsk ribeye
-              sidst i juli.
+              Batchen afsendes, når den er fyldt. Bestil nu - så spiser du argentinsk ribeye
+              inden længe.
             </p>
-            <button className="final-btn" onClick={() => navigate('/batches/batch-001')}>
-              Køb nu
-              <ArrowIcon />
-            </button>
-            <button className="final-btn-secondary" onClick={() => navigate('/batches')}>Se alle batches</button>
+            <div className="final-cta-buttons">
+              <button className="final-btn" onClick={() => navigate('/batches/batch-001')}>
+                Køb nu
+                <ArrowIcon />
+              </button>
+              <button className="final-btn-secondary" onClick={() => navigate('/batches')}>Se alle batches</button>
+            </div>
           </section>
 
           {/* ── FOOTER ── */}
@@ -484,7 +448,5 @@ export default function LandingPage() {
           </footer>
 
         </div>
-      </div>
-    </>
   )
 }

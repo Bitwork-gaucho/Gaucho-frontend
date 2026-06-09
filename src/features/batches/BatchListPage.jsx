@@ -161,7 +161,7 @@ export default function BatchListPage() {
   return (
     <div className="batch-list-page">
       <nav className="batch-list-nav">
-        <Link to="/" className="batch-list-logo">Gaucho<em>.</em></Link>
+        <Link to="/" className="batch-list-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <Link data-testid="nav-batches" to="/batches" className="nav-link nav-link--active">Batches</Link>
         <Link to="/login" className="nav-link">Log ind</Link>
       </nav>
@@ -183,36 +183,40 @@ export default function BatchListPage() {
               Åbne nu
             </h2>
           </div>
-          {loading ? (
-            <>
-              <SkeletonCard />
-              <SkeletonCard />
-            </>
-          ) : activeBatches.length === 0 ? (
-            <p className="no-batches">Ingen aktive batches i øjeblikket.</p>
-          ) : (
-            activeBatches.map(batch => (
-              <ActiveBatchCard key={batch.id} batch={batch} />
-            ))
-          )}
+          <div className="batches-grid">
+            {loading ? (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            ) : activeBatches.length === 0 ? (
+              <p className="no-batches">Ingen aktive batches i øjeblikket.</p>
+            ) : (
+              activeBatches.map(batch => (
+                <ActiveBatchCard key={batch.id} batch={batch} />
+              ))
+            )}
+          </div>
         </section>
 
         <section data-testid="upcoming-batches-section" className="batches-section">
           <div className="section-header">
             <h2 className="section-title">Kommer snart</h2>
           </div>
-          {loading ? (
-            <>
-              <SkeletonCard />
-              <SkeletonCard />
-            </>
-          ) : upcomingBatches.length === 0 ? (
-            <p className="no-batches">Ingen kommende batches planlagt endnu.</p>
-          ) : (
-            upcomingBatches.map(batch => (
-              <UpcomingBatchCard key={batch.id} batch={batch} />
-            ))
-          )}
+          <div className="batches-grid">
+            {loading ? (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            ) : upcomingBatches.length === 0 ? (
+              <p className="no-batches">Ingen kommende batches planlagt endnu.</p>
+            ) : (
+              upcomingBatches.map(batch => (
+                <UpcomingBatchCard key={batch.id} batch={batch} />
+              ))
+            )}
+          </div>
         </section>
       </div>
 

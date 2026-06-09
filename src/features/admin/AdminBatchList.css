@@ -7,20 +7,53 @@
 .admin-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 4px;
+  padding: 16px 16px;
   border-bottom: 1px solid var(--rule);
   background: var(--surface);
+  flex-wrap: wrap;
+}
+
+@media (min-width: 480px) {
+  .admin-nav {
+    gap: 8px;
+    padding: 16px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .admin-nav {
+    gap: 8px;
+    padding: 16px 40px;
+  }
 }
 
 .admin-logo {
   font-family: 'Instrument Serif', Georgia, serif;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
   color: var(--ink);
   text-decoration: none;
   letter-spacing: -0.015em;
   margin-right: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.admin-logo img {
+  height: auto;
+  filter: invert(1) brightness(1.15) saturate(0.1);
+}
+
+body.pampas .admin-logo img {
+  filter: hue-rotate(355deg) saturate(1.8) brightness(0.65);
+}
+
+@media (min-width: 480px) {
+  .admin-logo {
+    font-size: 26px;
+  }
 }
 
 .admin-logo em {
@@ -32,64 +65,127 @@
   background: var(--accent);
   color: var(--on-accent);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 4px 8px;
+  white-space: nowrap;
+}
+
+@media (min-width: 480px) {
+  .admin-badge {
+    font-size: 9px;
+  }
 }
 
 .admin-user {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.1em;
   color: var(--ink-mute);
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .admin-user {
+    font-size: 10px;
+    display: inline;
+  }
 }
 
 .admin-logout-btn {
   background: transparent;
   color: var(--ink-soft);
   border: 1px solid var(--rule);
-  padding: 8px 12px;
+  padding: 8px 10px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   font-family: inherit;
   min-height: 36px;
+  white-space: nowrap;
+}
+
+@media (min-width: 480px) {
+  .admin-logout-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }
 
 .admin-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 32px 20px;
+  padding: 20px 16px;
+}
+
+@media (min-width: 480px) {
+  .admin-container {
+    padding: 24px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .admin-container {
+    padding: 32px 20px;
+  }
 }
 
 .admin-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  gap: 16px;
+  margin-bottom: 20px;
+  gap: 12px;
   flex-wrap: wrap;
+}
+
+@media (min-width: 480px) {
+  .admin-header {
+    margin-bottom: 24px;
+    gap: 16px;
+  }
 }
 
 .admin-title {
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
-  font-size: 32px;
+  font-size: 24px;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--ink);
+}
+
+@media (min-width: 480px) {
+  .admin-title {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 768px) {
+  .admin-title {
+    font-size: 32px;
+  }
 }
 
 .create-batch-btn {
   background: var(--accent);
   color: var(--on-accent);
   border: none;
-  padding: 12px 18px;
+  padding: 10px 14px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-family: inherit;
-  min-height: 44px;
+  min-height: 40px;
   font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (min-width: 480px) {
+  .create-batch-btn {
+    padding: 12px 18px;
+    font-size: 14px;
+    min-height: 44px;
+  }
 }
 
 .create-batch-form {
@@ -151,12 +247,22 @@
 
 .admin-batch-card {
   background: var(--surface);
-  padding: 16px;
+  padding: 12px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+
+@media (min-width: 480px) {
+  .admin-batch-card {
+    padding: 16px;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
 }
 
 .admin-batch-id {

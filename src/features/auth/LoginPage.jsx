@@ -52,7 +52,7 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <nav className="login-nav">
-        <Link to="/" className="login-logo">Gaucho<em>.</em></Link>
+        <Link to="/" className="login-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <Link data-testid="nav-batches" to="/batches" className="login-nav-link">Batches</Link>
       </nav>
 
