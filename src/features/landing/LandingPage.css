@@ -1408,3 +1408,112 @@ footer {
   display: flex;
   justify-content: space-between;
 }
+
+/* ── Accordion info sections ──────────────────────────────── */
+.info-accordion {
+  max-width: 800px;
+  margin: 0 auto;
+  border-top: 1px solid var(--rule);
+}
+
+.accordion {
+  border-bottom: 1px solid var(--rule);
+}
+
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--ink);
+  text-align: left;
+  min-height: 56px;
+  transition: background 0.15s;
+}
+
+@media (min-width: 480px) {
+  .accordion-trigger {
+    padding: 22px 20px;
+    font-size: 24px;
+  }
+}
+
+.accordion-trigger:hover {
+  background: var(--surface);
+}
+
+.accordion-title {
+  flex: 1;
+  padding-right: 12px;
+}
+
+.accordion-chevron {
+  flex-shrink: 0;
+  color: var(--ink-mute);
+  transition: transform 0.25s ease;
+}
+
+.accordion.is-open .accordion-chevron {
+  color: var(--accent);
+}
+
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.accordion.is-open .accordion-panel {
+  grid-template-rows: 1fr;
+}
+
+.accordion-inner {
+  overflow: hidden;
+}
+
+.accordion.is-open .accordion-inner {
+  padding: 0 16px 24px;
+}
+
+@media (min-width: 480px) {
+  .accordion.is-open .accordion-inner {
+    padding: 0 20px 28px;
+  }
+}
+
+.accordion-inner p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+@media (min-width: 480px) {
+  .accordion-inner p {
+    font-size: 14.5px;
+  }
+}
+
+.accordion-inner p:last-child {
+  margin-bottom: 0;
+}
+
+/* Remove section-wrapper padding/margins for content inside accordions */
+.accordion-inner .gaucho-facts,
+.accordion-inner .env-grid,
+.accordion-inner .steps,
+.accordion-inner .handling-grid,
+.accordion-inner .approval-card {
+  margin: 16px 0 0;
+}
+
+.accordion-inner .approval-card {
+  margin: 0;
+}
