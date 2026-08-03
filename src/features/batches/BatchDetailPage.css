@@ -733,3 +733,103 @@ body.pampas .batch-detail-logo img {
   vertical-align: middle;
   flex-shrink: 0;
 }
+
+/* ── Payment receipt ──────────────────────────────────────── */
+.payment-receipt {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent2);
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.receipt-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.receipt-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+}
+
+.receipt-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.receipt-row span:last-child {
+  color: var(--ink);
+}
+
+.receipt-barcode {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.receipt-note {
+  font-size: 12px;
+  color: var(--ink-mute);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ── Pay button ───────────────────────────────────────────── */
+.pay-btn {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: inherit;
+  min-height: 48px;
+  font-weight: 500;
+  border-radius: 2px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.pay-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pay-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* ── Order cancelled message ──────────────────────────────── */
+.order-cancelled-msg {
+  font-size: 14px;
+  color: var(--ink-soft);
+  padding: 16px 0;
+}
+
+.order-empty-msg {
+  font-size: 13px;
+  color: var(--ink-mute);
+  padding: 12px 0;
+  line-height: 1.5;
+}

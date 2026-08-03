@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { batchService } from '../../services'
+import { useAuth } from '../../context/AuthContext'
 import './LandingPage.css'
 
 function Logo({ size = 22 }) {
@@ -61,6 +62,7 @@ function Accordion({ id, title, children, openId, setOpenId }) {
 
 export default function LandingPage() {
   const navigate = useNavigate()
+  const { session } = useAuth()
   const [activeBatches, setActiveBatches] = useState([])
   const [loading, setLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -101,6 +103,13 @@ export default function LandingPage() {
               <a href="#kødet" onClick={() => setMenuOpen(false)}>Om kødet</a>
               <a href="#godkendelse" onClick={() => setMenuOpen(false)}>Godkendelse</a>
               <Link to="/login" onClick={() => setMenuOpen(false)}>Log ind</Link>
+              {session?.role === 'admin' && (
+                <>
+                  <Link to="/admin/batches" onClick={() => setMenuOpen(false)}>Admin: Batches</Link>
+                  <Link to="/admin/payments" onClick={() => setMenuOpen(false)}>Admin: Konto</Link>
+                  <Link to="/admin/scanner" onClick={() => setMenuOpen(false)}>Admin: Scanner</Link>
+                </>
+              )}
             </div>
           )}
         </div>

@@ -1,41 +1,50 @@
-const delay = (ms) => new Promise(r => setTimeout(r, ms))
+import { mockStore } from './mockStore.js'
 
 export const paymentService = {
-  async processPayment(orderId, paymentDetails) {
-    await delay(1200)
-    console.log(`[mock] processing payment for order ${orderId}`)
+  async processPayment(orderId) {
+    const order = await mockStore.payOrder(orderId)
+    if (!order) return { success: false, error: 'Ordre ikke fundet' }
     return {
       success: true,
-      receiptId: `rcpt-${Date.now()}`,
-      barcodeData: `GAUCHO-${orderId}-${Date.now()}`,
+      receiptId: order.receiptId,
+      barcodeData: order.barcodeData,
+      orderId: order.id,
     }
   },
 
   async issueRefund(orderId) {
-    await delay(800)
-    console.log(`[mock] refund issued for order ${orderId}`)
-    return { success: true }
+    const order = await mockStore.refundOrder(orderId)
+    if (!order) return { success: false, error: 'Ordre ikke fundet' }
+    return { success: true, orderId: order.id, status: order.status }
   },
 
   async bulkRefund(orderIds) {
-    await delay(1000)
-    console.log(`[mock] bulk refund for ${orderIds.length} orders`)
-    return { success: true, refunded: orderIds.length }
+    let refunded = 0
+    for (const id of orderIds) {
+      const order = await mockStore.refundOrder(id)
+      if (order) refunded++
+    }
+    return { success: true, refunded }
   },
 
   async getReceipt(orderId) {
-    await delay(400)
+    const orders = await mockStore.getAllOrders()
+    const order = orders.find(o => o.id === orderId)
+    if (!order) return null
     return {
-      orderId,
-      receiptId: `rcpt-${orderId}`,
-      barcodeData: `GAUCHO-${orderId}`,
-      issuedAt: new Date().toISOString(),
+      orderId: order.id,
+      receiptId: order.receiptId,
+      barcodeData: order.barcodeData,
+      issuedAt: order.paidAt,
+      amount: order.amount,
+      kilos: order.kilos,
+      status: order.status,
     }
   },
 
   async confirmDelivery(orderId) {
-    await delay(500)
-    console.log(`[mock] delivery confirmed for order ${orderId}`)
-    return { success: true }
+    const order = await mockStore.confirmDelivery(orderId)
+    if (!order) return { success: false, error: 'Ordre ikke fundet' }
+    return { success: true, orderId: order.id, delivered: order.delivered }
   },
 }

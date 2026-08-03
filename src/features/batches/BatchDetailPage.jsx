@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import { batchService } from '../../services'
+import { useParams, Link } from 'react-router-dom'
+import { batchService, paymentService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
+import { Barcode } from '../../components/Barcode'
 import './BatchDetailPage.css'
 
 function PulseDot() {
@@ -13,6 +14,7 @@ const STATUS_LABELS = {
   ORDERED: 'Bestilt',
   IN_TRANSIT: 'På vej',
   ARRIVED: 'Ankommet',
+  READY_FOR_PICKUP: 'Klar til afhentning',
   COMPLETED: 'Afsluttet',
   UPCOMING: 'Kommende',
 }
@@ -21,7 +23,6 @@ const QUANTITY_PRESETS = [1, 2, 3, 5, 10]
 
 export default function BatchDetailPage() {
   const { id } = useParams()
-  const navigate = useNavigate()
   const { session } = useAuth()
   const [batch, setBatch] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -29,13 +30,27 @@ export default function BatchDetailPage() {
   const [orderCancelled, setOrderCancelled] = useState(false)
   const [cancelling, setCancelling] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [existingOrder, setExistingOrder] = useState(null)
+  const [paying, setPaying] = useState(false)
+  const [receipt, setReceipt] = useState(null)
+
+  async function loadData() {
+    const b = await batchService.getBatchById(id)
+    setBatch(b)
+    setLoading(false)
+    if (session) {
+      const order = await batchService.getOrderByBatchAndUser(id, session.email)
+      setExistingOrder(order)
+      if (order && order.status === 'PAID' && order.receiptId) {
+        const r = await paymentService.getReceipt(order.id)
+        setReceipt(r)
+      }
+    }
+  }
 
   useEffect(() => {
-    batchService.getBatchById(id).then(b => {
-      setBatch(b)
-      setLoading(false)
-    })
-  }, [id])
+    loadData()
+  }, [id, session])
 
   async function handleShareClick() {
     try {
@@ -48,10 +63,31 @@ export default function BatchDetailPage() {
   async function handleCancelOrder() {
     setCancelling(true)
     try {
-      await batchService.cancelOrder(`ord-mock-${id}`)
+      const orderToCancel = existingOrder || { id: `ord-mock-${id}` }
+      await batchService.cancelOrder(orderToCancel.id)
       setOrderCancelled(true)
+      setExistingOrder(null)
+      setReceipt(null)
     } finally {
       setCancelling(false)
+    }
+  }
+
+  async function handlePayment() {
+    if (!session || !selectedKilos) return
+    setPaying(true)
+    try {
+      const order = await batchService.createOrder(id, session.email, selectedKilos)
+      const result = await paymentService.processPayment(order.id)
+      if (result.success) {
+        const r = await paymentService.getReceipt(order.id)
+        setReceipt(r)
+        const updated = await batchService.getOrderByBatchAndUser(id, session.email)
+        setExistingOrder(updated)
+        await loadData()
+      }
+    } finally {
+      setPaying(false)
     }
   }
 
@@ -88,6 +124,7 @@ export default function BatchDetailPage() {
 
   const fillPct = Math.round((batch.soldKilos / batch.targetKilos) * 100)
   const orderTotal = selectedKilos ? selectedKilos * batch.pricePerKg : null
+  const canBuy = batch.status !== 'COMPLETED' && batch.status !== 'UPCOMING'
 
   return (
     <div className="batch-detail-page" data-testid="batch-detail">
@@ -171,7 +208,7 @@ export default function BatchDetailPage() {
         </div>
 
         {/* Quantity selector */}
-        {batch.status !== 'COMPLETED' && batch.status !== 'UPCOMING' && (
+        {canBuy && (
           <div data-testid="quantity-selector" className="quantity-selector">
             <div className="quantity-label">Vælg mængde</div>
             <div className="quantity-presets">
@@ -205,6 +242,36 @@ export default function BatchDetailPage() {
           Del denne batch
         </button>
 
+        {/* Payment receipt */}
+        {receipt && (
+          <div data-testid="payment-receipt" className="payment-receipt">
+            <div className="receipt-header">
+              <h3 className="receipt-title">Bekræftelse</h3>
+              <span className="receipt-id">{receipt.receiptId}</span>
+            </div>
+            <div className="receipt-body">
+              <div className="receipt-row">
+                <span>Mængde</span>
+                <span>{receipt.kilos} kg</span>
+              </div>
+              <div className="receipt-row">
+                <span>Beløb</span>
+                <span>{receipt.amount} kr.</span>
+              </div>
+              <div className="receipt-row">
+                <span>Status</span>
+                <span>Betalt</span>
+              </div>
+              <div className="receipt-barcode">
+                <Barcode value={receipt.barcodeData} height={60} testId="receipt-barcode" />
+              </div>
+              <p className="receipt-note">
+                Vis denne stregkode ved afhentning. Medbring køletaske.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Login / Order section */}
         {session ? (
           <div data-testid="order-details" className="order-details-section">
@@ -216,16 +283,16 @@ export default function BatchDetailPage() {
               <div className="order-cancelled-msg">
                 Din bestilling er annulleret.
               </div>
-            ) : (
+            ) : receipt ? (
               <>
                 <div className="order-details-body">
                   <div className="order-detail-row">
                     <span>Mængde</span>
-                    <span>{selectedKilos || 2} kg</span>
+                    <span>{existingOrder?.kilos || selectedKilos || 2} kg</span>
                   </div>
                   <div className="order-detail-row">
                     <span>Beløb</span>
-                    <span>{(selectedKilos || 2) * batch.pricePerKg} kr.</span>
+                    <span>{existingOrder?.amount || (selectedKilos || 2) * batch.pricePerKg} kr.</span>
                   </div>
                   <div className="order-detail-row">
                     <span>Status</span>
@@ -241,14 +308,68 @@ export default function BatchDetailPage() {
                   {cancelling ? 'Annullerer...' : 'Annuller bestilling'}
                 </button>
               </>
+            ) : canBuy && selectedKilos ? (
+              <>
+                <div className="order-details-body">
+                  <div className="order-detail-row">
+                    <span>Mængde</span>
+                    <span>{selectedKilos} kg</span>
+                  </div>
+                  <div className="order-detail-row">
+                    <span>Beløb</span>
+                    <span>{orderTotal} kr.</span>
+                  </div>
+                </div>
+                <button
+                  data-testid="pay-btn"
+                  className="pay-btn"
+                  onClick={handlePayment}
+                  disabled={paying}
+                >
+                  {paying ? 'Behandler betaling...' : `Betal ${orderTotal} kr.`}
+                </button>
+              </>
+            ) : canBuy ? (
+              <div className="order-empty-msg">
+                Vælg en mængde ovenfor for at købe ind i denne batch.
+              </div>
+            ) : existingOrder ? (
+              <>
+                <div className="order-details-body">
+                  <div className="order-detail-row">
+                    <span>Mængde</span>
+                    <span>{existingOrder.kilos} kg</span>
+                  </div>
+                  <div className="order-detail-row">
+                    <span>Beløb</span>
+                    <span>{existingOrder.amount} kr.</span>
+                  </div>
+                  <div className="order-detail-row">
+                    <span>Status</span>
+                    <span>{STATUS_LABELS[batch.status] || batch.status}</span>
+                  </div>
+                </div>
+                <button
+                  data-testid="cancel-order-btn"
+                  className="cancel-order-btn"
+                  onClick={handleCancelOrder}
+                  disabled={cancelling}
+                >
+                  {cancelling ? 'Annullerer...' : 'Annuller bestilling'}
+                </button>
+              </>
+            ) : (
+              <div className="order-empty-msg">
+                Du har ingen bestilling i denne batch.
+              </div>
             )}
           </div>
         ) : (
           <div data-testid="login-section" className="login-section">
             <div className="login-section-header">
-              <h3 className="login-section-title">Log ind for at se din bestilling</h3>
+              <h3 className="login-section-title">Log ind for at købe</h3>
               <p className="login-section-subtitle">
-                Allerede med i denne batch? Log ind for at se dine detaljer.
+                Log ind med din email for at vælge mængde og betale.
               </p>
             </div>
             <Link to="/login" className="login-section-btn">
