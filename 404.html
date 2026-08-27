@@ -5,9 +5,19 @@
     <title>Redirecting...</title>
     <script type="text/javascript">
       // GitHub Pages 404 handler for single-page apps
-      // Store the redirect path and navigate to index.html
-      // The app's main.jsx will restore the path from sessionStorage
-      sessionStorage.redirect = location.href;
+      // Extract and store the path portion (without domain), then load index with path query param
+      var pathname = location.pathname;
+      var search = location.search;
+      var hash = location.hash;
+
+      // Store the original path for restoration after app loads
+      var redirect = pathname + search + hash;
+
+      if (redirect && redirect !== '/Gaucho-frontend/' && redirect !== '/Gaucho-frontend') {
+        sessionStorage.redirect = redirect;
+      }
+
+      // Redirect to index.html
       location.href = '/Gaucho-frontend/';
     </script>
   </head>
