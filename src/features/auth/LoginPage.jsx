@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { authService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
 import './LoginPage.css'
+import logo from '../../../public/logo.png'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -53,7 +54,7 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <nav className="login-nav">
-        <Link to="/" className="login-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
+        <Link to="/" className="login-logo"><img src={logo} alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
           <button
             className="hamburger"
