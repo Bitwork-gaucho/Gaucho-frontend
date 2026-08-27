@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { batchService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
 import './AdminBatchList.css'
+import logo from '../../../public/logo.png'
 
 const EMPTY_FORM = {
   name: '',
@@ -73,7 +74,7 @@ export default function AdminBatchList() {
   return (
     <div className="admin-page">
       <nav className="admin-nav">
-        <Link to="/" className="admin-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
+        <Link to="/" className="admin-logo"><img src={logo} alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <span className="admin-badge">Admin</span>
         <span className="admin-user">{session?.email}</span>
         <Link to="/admin/payments" className="admin-nav-link">Konto</Link>

@@ -3,12 +3,14 @@ import { useNavigate, Link } from 'react-router-dom'
 import { batchService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
 import './LandingPage.css'
+import logo from '../../../public/logo.png'
+import steakHero from '../../../public/steak-hero.png'
 
 function Logo({ size = 22 }) {
   const imageSize = size === 22 ? 60 : 72
   return (
     <Link className="logo" to="/">
-      <img src="/logo.png" alt="Gaucho" style={{ height: imageSize, width: 'auto' }} />
+      <img src={logo} alt="Gaucho" style={{ height: imageSize, width: 'auto' }} />
     </Link>
   )
 }
@@ -119,7 +121,7 @@ export default function LandingPage() {
         <div className="hero-image-wrap">
           <img
             className="hero-img"
-            src="/steak-hero.png"
+            src={steakHero}
             alt="Sizzling ribeye over glowing coals with Argentine pampas in the background"
           />
           <div className="hero-fade" />

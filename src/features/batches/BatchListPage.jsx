@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { batchService } from '../../services'
 import './BatchListPage.css'
+import logo from '../../../public/logo.png'
 
 function PulseDot() {
   return <span className="pulse-dot" />
@@ -162,7 +163,7 @@ export default function BatchListPage() {
   return (
     <div className="batch-list-page">
       <nav className="batch-list-nav">
-        <Link to="/" className="batch-list-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
+        <Link to="/" className="batch-list-logo"><img src={logo} alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
           <button
             className="hamburger"

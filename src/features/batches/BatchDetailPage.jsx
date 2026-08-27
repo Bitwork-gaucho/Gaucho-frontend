@@ -4,6 +4,7 @@ import { batchService, paymentService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
 import { Barcode } from '../../components/Barcode'
 import './BatchDetailPage.css'
+import logo from '../../../public/logo.png'
 
 function PulseDot() {
   return <span className="pulse-dot" />
@@ -95,7 +96,7 @@ export default function BatchDetailPage() {
     return (
       <div className="batch-detail-page">
         <nav className="batch-detail-nav">
-          <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
+          <Link to="/" className="batch-detail-logo"><img src={logo} alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
           <Link data-testid="nav-batches" to="/batches" className="nav-back">← Batches</Link>
         </nav>
         <div className="batch-detail-skeleton">
@@ -111,7 +112,7 @@ export default function BatchDetailPage() {
     return (
       <div className="batch-detail-page">
         <nav className="batch-detail-nav">
-          <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
+          <Link to="/" className="batch-detail-logo"><img src={logo} alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
           <Link data-testid="nav-batches" to="/batches" className="nav-back">← Batches</Link>
         </nav>
         <div className="batch-not-found">
@@ -129,7 +130,7 @@ export default function BatchDetailPage() {
   return (
     <div className="batch-detail-page" data-testid="batch-detail">
       <nav className="batch-detail-nav">
-        <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
+        <Link to="/" className="batch-detail-logo"><img src={logo} alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
           <span className="nav-login">{session ? session.email.split('@')[0] : ''}</span>
           <button
