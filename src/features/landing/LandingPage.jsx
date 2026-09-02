@@ -62,11 +62,16 @@ function Accordion({ id, title, children, openId, setOpenId }) {
 
 export default function LandingPage() {
   const navigate = useNavigate()
-  const { session } = useAuth()
+  const { session, logout } = useAuth()
   const [activeBatches, setActiveBatches] = useState([])
   const [loading, setLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const [openId, setOpenId] = useState(null)
+
+  async function handleLogout() {
+    await logout()
+    setMenuOpen(false)
+  }
 
   useEffect(() => {
     batchService.getActiveBatches().then(batches => {
@@ -86,14 +91,21 @@ export default function LandingPage() {
             <PulseDot />
             Batch åben
           </Link>
-          <button
-            className="hamburger"
-            aria-label="Menu"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <span />
-            <span />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {session && (
+              <span className="nav-user-email" title={session.email}>
+                {session.email.split('@')[0]}
+              </span>
+            )}
+            <button
+              className="hamburger"
+              aria-label="Menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <span />
+              <span />
+            </button>
+          </div>
           {menuOpen && (
             <div className="dropdown-menu">
               <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
@@ -102,13 +114,25 @@ export default function LandingPage() {
               <a href="#saadan-virker-det" onClick={() => setMenuOpen(false)}>Sådan virker det</a>
               <a href="#kødet" onClick={() => setMenuOpen(false)}>Om kødet</a>
               <a href="#godkendelse" onClick={() => setMenuOpen(false)}>Godkendelse</a>
-              <Link to="/login" onClick={() => setMenuOpen(false)}>Log ind</Link>
-              {session?.role === 'admin' && (
+              {session ? (
                 <>
-                  <Link to="/admin/batches" onClick={() => setMenuOpen(false)}>Admin: Batches</Link>
-                  <Link to="/admin/payments" onClick={() => setMenuOpen(false)}>Admin: Konto</Link>
-                  <Link to="/admin/scanner" onClick={() => setMenuOpen(false)}>Admin: Scanner</Link>
+                  {session.role === 'admin' && (
+                    <>
+                      <Link to="/admin/batches" onClick={() => setMenuOpen(false)}>Admin: Batches</Link>
+                      <Link to="/admin/payments" onClick={() => setMenuOpen(false)}>Admin: Konto</Link>
+                      <Link to="/admin/scanner" onClick={() => setMenuOpen(false)}>Admin: Scanner</Link>
+                    </>
+                  )}
+                  <button
+                    className="logout-btn"
+                    onClick={handleLogout}
+                    style={{ width: '100%', textAlign: 'left' }}
+                  >
+                    Log ud
+                  </button>
                 </>
+              ) : (
+                <Link to="/login" onClick={() => setMenuOpen(false)}>Log ind</Link>
               )}
             </div>
           )}

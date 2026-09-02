@@ -472,6 +472,55 @@ body.pampas .batch-detail-logo img {
   border-color: var(--accent);
 }
 
+.quantity-adjusters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.quantity-adjuster {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  min-width: 44px;
+  min-height: 44px;
+  transition: all 0.15s;
+  flex: 1;
+}
+
+@media (min-width: 480px) {
+  .quantity-adjuster {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: 60px;
+  }
+}
+
+.quantity-adjuster:hover:not(:disabled) {
+  background: var(--surface2);
+  border-color: var(--ink-mute);
+}
+
+.quantity-adjuster:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.quantity-display {
+  flex: 1;
+  text-align: center;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 18px;
+  color: var(--ink);
+  padding: 0 8px;
+}
+
 .order-total {
   margin-top: 16px;
   padding: 14px 16px;

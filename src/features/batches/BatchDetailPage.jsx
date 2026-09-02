@@ -223,6 +223,26 @@ export default function BatchDetailPage() {
                 </button>
               ))}
             </div>
+            <div className="quantity-adjusters">
+              <button
+                className="quantity-adjuster quantity-adjuster--minus"
+                onClick={() => setSelectedKilos(selectedKilos && selectedKilos > 1 ? selectedKilos - 1 : null)}
+                disabled={!selectedKilos || selectedKilos <= 1}
+                aria-label="Minus 1 kg"
+              >
+                −1 kg
+              </button>
+              {selectedKilos && (
+                <span className="quantity-display">{selectedKilos} kg</span>
+              )}
+              <button
+                className="quantity-adjuster quantity-adjuster--plus"
+                onClick={() => setSelectedKilos(selectedKilos ? selectedKilos + 1 : 1)}
+                aria-label="Plus 1 kg"
+              >
+                +1 kg
+              </button>
+            </div>
             {orderTotal !== null && (
               <div data-testid="order-total" className="order-total">
                 <span className="order-total-label">Total</span>
