@@ -1,0 +1,109 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.login-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  padding: 40px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+}
+
+.login-box h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.login-subtitle {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  color: var(--ink);
+}
+
+.email-display {
+  padding: 12px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 13px;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: var(--radius);
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 14px;
+  transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--rule);
+}
+
+.btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-large {
+  padding: 16px;
+  font-size: 16px;
+}
