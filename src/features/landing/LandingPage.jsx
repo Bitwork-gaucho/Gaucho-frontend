@@ -101,7 +101,7 @@ export default function LandingPage() {
     <div className="page-root">
       <header className="top-bar">
         <Logo size={22} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', overflow: 'visible' }}>
           <Link data-testid="nav-batches" to="/batches" className="batch-indicator">
             <PulseDot />
             Batch åben

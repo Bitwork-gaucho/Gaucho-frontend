@@ -15,7 +15,6 @@
   position: sticky;
   top: 0;
   z-index: 9999;
-  overflow-x: auto;
 }
 
 @media (min-width: 480px) {

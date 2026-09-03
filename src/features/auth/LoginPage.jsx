@@ -68,7 +68,7 @@ export default function LoginPage() {
     <div className="login-page">
       <nav className="login-nav">
         <Link to="/" className="login-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto', overflow: 'visible' }}>
           <button
             className="hamburger"
             aria-label="Menu"

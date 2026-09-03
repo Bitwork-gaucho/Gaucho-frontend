@@ -144,7 +144,7 @@ export default function BatchDetailPage() {
     <div className="batch-detail-page" data-testid="batch-detail">
       <nav className="batch-detail-nav">
         <Link to="/" className="batch-detail-logo"><img src="/logo.png" alt="Gaucho" style={{ height: 60, width: 'auto' }} /></Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', marginLeft: 'auto', overflow: 'visible' }}>
           <span className="nav-login">{session ? session.email.split('@')[0] : ''}</span>
           <button
             className="hamburger"
