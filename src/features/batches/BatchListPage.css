@@ -108,7 +108,7 @@ body.pampas .batch-list-logo img {
   border: 1px solid var(--rule);
   border-radius: 4px;
   min-width: 160px;
-  z-index: 100;
+  z-index: 10000;
   overflow: hidden;
   margin-top: 8px;
 }
