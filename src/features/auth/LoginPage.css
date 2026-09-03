@@ -96,10 +96,6 @@ body.pampas .login-logo img {
   display: block;
 }
 
-.hamburger span:last-child {
-  align-self: flex-end;
-  width: 12px;
-}
 
 /* Dropdown menu */
 .dropdown-menu {
