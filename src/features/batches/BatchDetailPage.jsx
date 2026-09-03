@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { batchService, paymentService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
@@ -24,6 +24,7 @@ const QUANTITY_PRESETS = [1, 2, 3, 5, 10]
 export default function BatchDetailPage() {
   const { id } = useParams()
   const { session } = useAuth()
+  const menuRef = useRef(null)
   const [batch, setBatch] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedKilos, setSelectedKilos] = useState(null)
@@ -33,6 +34,19 @@ export default function BatchDetailPage() {
   const [existingOrder, setExistingOrder] = useState(null)
   const [paying, setPaying] = useState(false)
   const [receipt, setReceipt] = useState(null)
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target) &&
+          !e.target.closest('.hamburger')) {
+        setMenuOpen(false)
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [menuOpen])
 
   async function loadData() {
     const b = await batchService.getBatchById(id)
@@ -141,7 +155,7 @@ export default function BatchDetailPage() {
             <span />
           </button>
           {menuOpen && (
-            <div className="dropdown-menu">
+            <div ref={menuRef} className="dropdown-menu">
               <Link to="/" onClick={() => setMenuOpen(false)}>Hjem</Link>
               <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
               <Link to="/login" onClick={() => setMenuOpen(false)}>

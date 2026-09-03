@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { authService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
@@ -7,6 +7,7 @@ import './LoginPage.css'
 export default function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
+  const menuRef = useRef(null)
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [step, setStep] = useState('email') // 'email' | 'code'
@@ -14,6 +15,19 @@ export default function LoginPage() {
   const [sendingCode, setSendingCode] = useState(false)
   const [verifying, setVerifying] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target) &&
+          !e.target.closest('.hamburger')) {
+        setMenuOpen(false)
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [menuOpen])
 
   async function handleSendCode(e) {
     e.preventDefault()
@@ -64,7 +78,7 @@ export default function LoginPage() {
             <span />
           </button>
           {menuOpen && (
-            <div className="dropdown-menu">
+            <div ref={menuRef} className="dropdown-menu">
               <Link to="/" onClick={() => setMenuOpen(false)}>Hjem</Link>
               <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
             </div>

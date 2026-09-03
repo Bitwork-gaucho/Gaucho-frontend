@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { batchService } from '../../services'
 import { useAuth } from '../../context/AuthContext'
@@ -68,6 +68,8 @@ export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openId, setOpenId] = useState(null)
 
+  const menuRef = useRef(null)
+
   async function handleLogout() {
     await logout()
     setMenuOpen(false)
@@ -80,6 +82,19 @@ export default function LandingPage() {
     })
   }, [])
 
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target) &&
+          !e.target.closest('.hamburger')) {
+        setMenuOpen(false)
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [menuOpen])
+
   const batch = activeBatches[0] || null
 
   return (
@@ -91,7 +106,7 @@ export default function LandingPage() {
             <PulseDot />
             Batch åben
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 48 }}>
             {session && (
               <span className="nav-user-email" title={session.email}>
                 {session.email.split('@')[0]}
@@ -107,7 +122,7 @@ export default function LandingPage() {
             </button>
           </div>
           {menuOpen && (
-            <div className="dropdown-menu">
+            <div ref={menuRef} className="dropdown-menu">
               <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
               <a href="#om-gaucho" onClick={() => setMenuOpen(false)}>Om Gaucho</a>
               <a href="#miljo" onClick={() => setMenuOpen(false)}>Miljø &amp; oprindelse</a>
