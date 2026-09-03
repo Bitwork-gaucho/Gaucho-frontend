@@ -39,7 +39,9 @@ export default function HomePage() {
             <p>Dybfrossent græsfodret oksekød fra pampaen. Samles i fælles batches og sendes til Danmark, ca. 6 uger. Den halve pris.</p>
           </div>
           <div className="hero-right">
-            <img src="https://via.placeholder.com/400x250" alt="Grass-fed beef" />
+            <div style={{ backgroundColor: 'var(--surface)', aspectRatio: '16/10', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink-soft)' }}>
+              🐄 Argentinsk Oksekød
+            </div>
           </div>
         </section>
 
