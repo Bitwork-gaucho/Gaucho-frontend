@@ -47,10 +47,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 40px;
   background: var(--surface);
   padding: 40px;
   border-radius: var(--radius);
   border: 1px solid var(--rule);
+}
+
+.batch-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .batch-info h2 {
@@ -84,9 +90,9 @@
 
 .info-card {
   background: #2a2420 !important;
-  padding: 20px;
+  padding: 20px !important;
   border-radius: var(--radius);
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15) !important;
   color: var(--ink-soft);
   transition: transform 0.2s, border-color 0.2s;
 }
@@ -118,10 +124,10 @@
 
 .batch-card {
   display: block;
-  background: var(--surface);
+  background: #2a2420 !important;
   padding: 20px;
   border-radius: var(--radius);
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15);
   transition: transform 0.2s, border-color 0.2s;
 }
 
