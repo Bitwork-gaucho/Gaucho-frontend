@@ -37,7 +37,7 @@ export default function Header({ onLogout }: HeaderProps) {
     <header className="header">
       <div className="header-content">
         <Link to="/" className="logo">
-          <span>Gaucho</span>
+          <img src="/logo.png" alt="Gaucho" style={{ height: '40px', width: 'auto' }} />
         </Link>
 
         <div className="header-right">
