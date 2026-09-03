@@ -82,6 +82,13 @@
   margin-bottom: 80px;
 }
 
+.info-card {
+  background: var(--surface);
+  padding: 30px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+}
+
 .info-card h3 {
   font-size: 20px;
   margin-bottom: 12px;
@@ -92,6 +99,7 @@
   color: var(--ink-soft);
   line-height: 1.6;
   font-size: 14px;
+  margin: 0;
 }
 
 .batches-section h2 {
