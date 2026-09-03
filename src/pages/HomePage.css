@@ -83,10 +83,11 @@
 }
 
 .info-card {
-  background: var(--surface);
+  background: #2a2420 !important;
   padding: 30px;
   border-radius: var(--radius);
   border: 1px solid var(--rule);
+  color: var(--ink-soft);
 }
 
 .info-card h3 {
