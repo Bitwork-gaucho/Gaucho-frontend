@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 3px 4px;
 }
 
 .logo {
@@ -22,6 +22,21 @@
   color: var(--ink);
   text-decoration: none;
   letter-spacing: -0.015em;
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+.logo img {
+  border: none;
+  background: none;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .header-right {

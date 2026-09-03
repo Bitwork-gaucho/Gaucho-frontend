@@ -37,7 +37,7 @@ export default function Header({ onLogout }: HeaderProps) {
     <header className="header">
       <div className="header-content">
         <Link to="/" className="logo">
-          <img src="/logo.png" alt="Gaucho" style={{ height: '40px', width: 'auto', filter: 'invert(1) brightness(0.85) saturate(0.3)' }} />
+          <img src="/logo.png" alt="Gaucho" style={{ height: '80px', width: 'auto', filter: 'invert(1) hue-rotate(180deg) brightness(0.8) saturate(0)' }} />
         </Link>
 
         <div className="header-right">
@@ -51,6 +51,9 @@ export default function Header({ onLogout }: HeaderProps) {
           {menuOpen && (
             <div ref={menuRef} className="dropdown-menu">
               <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
+              {session && (
+                <Link to="/orders" onClick={() => setMenuOpen(false)}>Orders</Link>
+              )}
               {session?.role === 'admin' && (
                 <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
               )}

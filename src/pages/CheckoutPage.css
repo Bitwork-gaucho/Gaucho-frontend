@@ -1,0 +1,145 @@
+.checkout-page {
+  min-height: 100vh;
+  background: var(--bg-color, #f5f5f5);
+}
+
+.checkout-content {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.checkout-container {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-container h1 {
+  margin-top: 0;
+  margin-bottom: 32px;
+  font-size: 28px;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.order-summary-section h2,
+.payment-section h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--text-color, #333);
+}
+
+.order-card {
+  background: var(--bg-secondary, #fafafa);
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 14px;
+}
+
+.order-item .label {
+  color: var(--text-secondary, #666);
+  font-weight: 500;
+}
+
+.order-item .value {
+  font-weight: 600;
+  color: var(--text-color, #333);
+}
+
+.order-item.total {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-color, #ff6600);
+  padding-top: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-color, #ddd);
+  margin: 16px 0;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-color, #333);
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.form-group input:disabled {
+  background: var(--bg-secondary, #f9f9f9);
+  color: var(--text-secondary, #666);
+  cursor: not-allowed;
+}
+
+.form-group small {
+  font-size: 12px;
+  color: var(--text-secondary, #666);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.btn.btn-primary.btn-large {
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.security-notice {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary, #666);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 20px;
+  }
+
+  .checkout-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

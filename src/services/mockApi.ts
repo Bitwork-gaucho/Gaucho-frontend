@@ -1,10 +1,10 @@
-import { Batch, Order, Receipt, Session } from '../types'
+import { Batch, Order, Receipt, Session, Shipment, Notification, WaitingListEntry } from '../types'
 
 // Mock data
 const mockBatches: Batch[] = [
   {
     id: 'batch-001',
-    name: 'BATCH ÅØ001',
+    name: '0901',
     meatType: 'Ribeye, 250 g bøffer',
     description: 'Estancia La Cumbre · Córdoba · græsfodret, mørnet 21 dage',
     status: 'WAITING_TO_FILL',
@@ -24,7 +24,7 @@ const mockBatches: Batch[] = [
   },
   {
     id: 'batch-002',
-    name: 'BATCH ÅØ002',
+    name: '0902',
     meatType: 'Bife de Chorizo, 350g',
     description: 'Premium cut from grass-fed cattle',
     status: 'ORDERED',
@@ -41,7 +41,7 @@ const mockBatches: Batch[] = [
   },
   {
     id: 'batch-003',
-    name: 'BATCH ÅØ003',
+    name: '0903',
     meatType: 'Brisket',
     description: 'Slow-cooked perfection',
     status: 'WAITING_TO_FILL',
@@ -60,6 +60,9 @@ const mockBatches: Batch[] = [
 
 const mockOrders: Map<string, Order[]> = new Map()
 const mockReceipts: Map<string, Receipt> = new Map()
+const mockShipments: Map<string, Shipment> = new Map()
+const mockNotifications: Map<string, Notification[]> = new Map()
+const mockWaitingLists: Map<string, WaitingListEntry[]> = new Map()
 
 // Simulate storage
 let sessions: Map<string, Session> = new Map()
@@ -236,5 +239,274 @@ export const mockApi = {
       allOrders.push(...orders)
     }
     return allOrders
+  },
+
+  // Shipment Tracking
+  async getShipmentStatus(shipmentId: string): Promise<Shipment | null> {
+    await new Promise(resolve => setTimeout(resolve, 400))
+    return mockShipments.get(shipmentId) || null
+  },
+
+  async getShipmentETA(shipmentId: string): Promise<string | null> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+    const shipment = mockShipments.get(shipmentId)
+    return shipment?.eta || null
+  },
+
+  async updateBatchStatus(batchId: string, status: string, shipmentDetails?: Partial<Shipment>): Promise<Batch | null> {
+    await new Promise(resolve => setTimeout(resolve, 800))
+
+    const batch = mockBatches.find(b => b.id === batchId)
+    if (!batch) return null
+
+    batch.status = status as any
+
+    // Create or update shipment if provided
+    if (shipmentDetails && (status === 'IN_TRANSIT' || status === 'AT_CUSTOMS')) {
+      const shipmentId = `ship-${batchId}-${Date.now()}`
+      const shipment: Shipment = {
+        id: shipmentId,
+        batchId,
+        status: status === 'AT_CUSTOMS' ? 'AT_CUSTOMS' : 'IN_TRANSIT',
+        eta: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        ...shipmentDetails
+      }
+      mockShipments.set(shipmentId, shipment)
+      batch.shipmentId = shipmentId
+
+      // Trigger notifications
+      const userEmails = new Set<string>()
+      const orders = mockOrders.get(batch.id) || []
+      for (const order of orders) {
+        userEmails.add(order.userEmail)
+      }
+
+      for (const email of userEmails) {
+        this.triggerNotification(email, batchId,
+          status === 'ORDERED' ? 'ORDERED' :
+          status === 'IN_TRANSIT' ? 'IN_TRANSIT' :
+          'AT_CUSTOMS'
+        )
+      }
+    }
+
+    return batch
+  },
+
+  // Notifications
+  async getNotifications(email: string): Promise<Notification[]> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+    return mockNotifications.get(email) || []
+  },
+
+  async markNotificationRead(notificationId: string): Promise<{ success: boolean }> {
+    await new Promise(resolve => setTimeout(resolve, 200))
+
+    for (const notifications of mockNotifications.values()) {
+      const notif = notifications.find(n => n.id === notificationId)
+      if (notif) {
+        notif.status = 'READ'
+        return { success: true }
+      }
+    }
+    return { success: false }
+  },
+
+  async triggerNotification(email: string, batchId: string, type: string, message?: string): Promise<Notification> {
+    const notification: Notification = {
+      id: `notif-${Date.now()}`,
+      email,
+      batchId,
+      type: type as any,
+      status: 'UNREAD',
+      message: message || `Batch ${batchId} update: ${type}`,
+      createdAt: new Date().toISOString()
+    }
+
+    if (!mockNotifications.has(email)) {
+      mockNotifications.set(email, [])
+    }
+    mockNotifications.get(email)!.push(notification)
+
+    return notification
+  },
+
+  // Waiting List
+  async addToWaitingList(batchId: string, email: string): Promise<WaitingListEntry> {
+    await new Promise(resolve => setTimeout(resolve, 600))
+
+    if (!mockWaitingLists.has(batchId)) {
+      mockWaitingLists.set(batchId, [])
+    }
+
+    const waitingList = mockWaitingLists.get(batchId)!
+    const position = waitingList.length + 1
+
+    const entry: WaitingListEntry = {
+      id: `wait-${batchId}-${email}-${Date.now()}`,
+      batchId,
+      email,
+      position,
+      addedAt: new Date().toISOString()
+    }
+
+    waitingList.push(entry)
+    return entry
+  },
+
+  async getWaitingList(batchId: string): Promise<WaitingListEntry[]> {
+    await new Promise(resolve => setTimeout(resolve, 400))
+    return mockWaitingLists.get(batchId) || []
+  },
+
+  async isInWaitingList(batchId: string, email: string): Promise<boolean> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+    const waitingList = mockWaitingLists.get(batchId) || []
+    return waitingList.some(e => e.email === email)
+  },
+
+  async assignFromWaitingList(batchId: string): Promise<WaitingListEntry | null> {
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    const waitingList = mockWaitingLists.get(batchId)
+    if (!waitingList || waitingList.length === 0) return null
+
+    const entry = waitingList.shift()!
+
+    // Notify the person
+    if (entry) {
+      await this.triggerNotification(entry.email, batchId, 'WAITING_LIST_AVAILABLE',
+        'A slot has opened up in this batch!')
+    }
+
+    return entry
+  },
+
+  // Payment & Refunds
+  async issueRefund(orderId: string): Promise<{ success: boolean; amount?: number }> {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    for (const orders of mockOrders.values()) {
+      const order = orders.find(o => o.id === orderId)
+      if (order) {
+        const amount = order.amount
+        order.status = 'CANCELLED'
+        return { success: true, amount }
+      }
+    }
+
+    return { success: false }
+  },
+
+  async bulkRefund(orderIds: string[]): Promise<{ success: boolean; refundedCount: number; totalAmount: number }> {
+    await new Promise(resolve => setTimeout(resolve, 1500))
+
+    let refundedCount = 0
+    let totalAmount = 0
+
+    for (const orderId of orderIds) {
+      for (const orders of mockOrders.values()) {
+        const order = orders.find(o => o.id === orderId)
+        if (order && order.status !== 'CANCELLED') {
+          totalAmount += order.amount
+          order.status = 'CANCELLED'
+          refundedCount++
+          break
+        }
+      }
+    }
+
+    return { success: true, refundedCount, totalAmount }
+  },
+
+  async getRefundStatus(orderId: string): Promise<{ status: string; amount?: number } | null> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+
+    for (const orders of mockOrders.values()) {
+      const order = orders.find(o => o.id === orderId)
+      if (order) {
+        return { status: order.status, amount: order.amount }
+      }
+    }
+
+    return null
+  },
+
+  // Barcode & Delivery Confirmation
+  async generateBarcode(orderId: string): Promise<{ barcodeData: string; receiptId: string } | null> {
+    await new Promise(resolve => setTimeout(resolve, 400))
+
+    for (const orders of mockOrders.values()) {
+      const order = orders.find(o => o.id === orderId)
+      if (order && order.receiptId) {
+        return {
+          barcodeData: `${order.id}|${order.receiptId}|${Date.now()}`,
+          receiptId: order.receiptId
+        }
+      }
+    }
+
+    return null
+  },
+
+  async confirmDelivery(orderId: string): Promise<{ success: boolean }> {
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    for (const orders of mockOrders.values()) {
+      const order = orders.find(o => o.id === orderId)
+      if (order) {
+        order.deliveryConfirmedAt = new Date().toISOString()
+        return { success: true }
+      }
+    }
+
+    return { success: false }
+  },
+
+  async validateBarcode(barcodeData: string): Promise<{ valid: boolean; orderId?: string }> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+
+    // Simple validation: barcode should contain | separator
+    if (!barcodeData.includes('|')) {
+      return { valid: false }
+    }
+
+    const parts = barcodeData.split('|')
+    if (parts.length < 2) {
+      return { valid: false }
+    }
+
+    return { valid: true, orderId: parts[0] }
+  },
+
+  // Batch History & Analytics
+  async getCompletedBatches(): Promise<Batch[]> {
+    await new Promise(resolve => setTimeout(resolve, 600))
+    return mockBatches.filter(b => b.status === 'COMPLETED')
+  },
+
+  async getBatchAnalytics(batchId: string): Promise<any> {
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    const batch = mockBatches.find(b => b.id === batchId)
+    if (!batch) return null
+
+    const orders = mockOrders.get(batchId) || []
+    const paidOrders = orders.filter(o => o.status === 'PAID')
+    const totalRevenue = paidOrders.reduce((sum, o) => sum + o.amount, 0)
+
+    return {
+      batchId,
+      meatType: batch.meatType,
+      status: batch.status,
+      totalCustomers: batch.customerCount,
+      paidCustomers: paidOrders.length,
+      soldKilos: batch.soldKilos,
+      targetKilos: batch.targetKilos,
+      totalRevenue,
+      averageOrderSize: paidOrders.length > 0 ? batch.soldKilos / paidOrders.length : 0
+    }
   }
 }

@@ -1,0 +1,247 @@
+.admin-pickup-scanner {
+  min-height: 100vh;
+  background: var(--bg-color, #f5f5f5);
+}
+
+.scanner-content {
+  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.scanner-container {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scanner-container h1 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 28px;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-secondary, #666);
+  margin: 0 0 32px 0;
+  font-size: 16px;
+}
+
+.scanner-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.scanner-card {
+  background: var(--bg-secondary, #fafafa);
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.scanner-card h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 18px;
+  color: var(--text-color, #333);
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.scanner-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: monospace;
+}
+
+.scanner-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #ff6600);
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+}
+
+.scanner-input:disabled {
+  background: var(--bg-color, #f5f5f5);
+  color: var(--text-secondary, #666);
+  cursor: not-allowed;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn.btn-primary {
+  background: var(--primary-color, #ff6600);
+  color: white;
+}
+
+.btn.btn-primary:hover:not(:disabled) {
+  background: var(--primary-dark, #e55a00);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.scanner-help {
+  font-size: 12px;
+  color: var(--text-secondary, #666);
+  margin: 0;
+}
+
+.result-card {
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.result-card.success {
+  background: var(--success-bg, #c8e6c9);
+  border-left: 4px solid var(--success-color, #4caf50);
+}
+
+.result-card.error {
+  background: var(--error-bg, #ffcdd2);
+  border-left: 4px solid var(--error-color, #d32f2f);
+}
+
+.result-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.result-card.success .result-icon {
+  background: var(--success-color, #4caf50);
+  color: white;
+}
+
+.result-card.error .result-icon {
+  background: var(--error-color, #d32f2f);
+  color: white;
+}
+
+.result-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+}
+
+.result-content p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.result-card.success .result-content {
+  color: #2e7d32;
+}
+
+.result-card.error .result-content {
+  color: #c62828;
+}
+
+.scanner-stats {
+  background: white;
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.scanner-stats h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 18px;
+  color: var(--text-color, #333);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--bg-secondary, #fafafa);
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary-color, #ff6600);
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.scanner-instructions {
+  background: var(--info-bg, #e3f2fd);
+  border-left: 4px solid var(--primary-color, #ff6600);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.scanner-instructions h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: var(--primary-color, #ff6600);
+}
+
+.scanner-instructions ol {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-secondary, #666);
+}
+
+.scanner-instructions li {
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .scanner-container {
+    padding: 20px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

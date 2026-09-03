@@ -1,0 +1,244 @@
+.admin-dashboard {
+  min-height: 100vh;
+  background: var(--bg-color, #f5f5f5);
+}
+
+.admin-main {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-container h1 {
+  margin-top: 0;
+  margin-bottom: 32px;
+  font-size: 28px;
+}
+
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: white;
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.summary-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color, #ff6600);
+  margin-bottom: 8px;
+}
+
+.summary-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary, #666);
+}
+
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 12px 16px;
+  background: var(--primary-color, #ff6600);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--primary-dark, #e55a00);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.admin-section {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-color, #333);
+}
+
+.batches-table,
+.orders-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: var(--bg-secondary, #f5f5f5);
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 2px solid var(--border-color, #ddd);
+  color: var(--text-secondary, #666);
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color, #eee);
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: var(--bg-secondary, #fafafa);
+}
+
+td.amount {
+  font-weight: 600;
+  color: var(--primary-color, #ff6600);
+}
+
+code {
+  background: var(--bg-secondary, #f5f5f5);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-waiting_to_fill {
+  background: var(--warning-bg, #fff3cd);
+  color: var(--warning-color, #ff9800);
+}
+
+.badge-ordered {
+  background: var(--info-bg, #e3f2fd);
+  color: var(--primary-color, #ff6600);
+}
+
+.badge-in_transit {
+  background: #e8f5e9;
+  color: #4caf50;
+}
+
+.badge-at_customs {
+  background: #f3e5f5;
+  color: #9c27b0;
+}
+
+.badge-ready_for_pickup {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.badge-completed {
+  background: var(--bg-secondary, #f5f5f5);
+  color: var(--text-secondary, #666);
+}
+
+.badge-paid {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.badge-pending {
+  background: var(--warning-bg, #fff3cd);
+  color: var(--warning-color, #ff9800);
+}
+
+.badge-cancelled {
+  background: var(--error-bg, #ffebee);
+  color: var(--error-color, #d32f2f);
+}
+
+.action-links {
+  display: flex;
+  gap: 8px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color, #ff6600);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-main {
+    padding: 20px;
+  }
+
+  .dashboard-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px 12px;
+  }
+
+  .action-links {
+    flex-direction: column;
+  }
+}
