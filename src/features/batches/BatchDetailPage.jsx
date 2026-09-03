@@ -153,6 +153,7 @@ export default function BatchDetailPage() {
           >
             <span />
             <span />
+            <span />
           </button>
           {menuOpen && (
             <div ref={menuRef} className="dropdown-menu">

@@ -76,6 +76,7 @@ export default function LoginPage() {
           >
             <span />
             <span />
+            <span />
           </button>
           {menuOpen && (
             <div ref={menuRef} className="dropdown-menu">

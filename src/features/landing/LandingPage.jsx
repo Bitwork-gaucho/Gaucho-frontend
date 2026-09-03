@@ -119,6 +119,7 @@ export default function LandingPage() {
             >
               <span />
               <span />
+              <span />
             </button>
           </div>
           {menuOpen && (
