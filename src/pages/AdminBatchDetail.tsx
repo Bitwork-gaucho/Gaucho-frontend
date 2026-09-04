@@ -4,6 +4,7 @@ import { Batch } from '../types'
 import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
+import { FileTextIcon, TrashIcon, DollarSignIcon, BarChart3Icon } from '../components/Icons'
 import './AdminBatchDetail.css'
 
 export default function AdminBatchDetail() {
@@ -198,19 +199,19 @@ export default function AdminBatchDetail() {
                   onClick={() => navigate(`/admin/payments/${batch.id}`)}
                   className="action-btn"
                 >
-                  💰 View Payments ({batch.customerCount})
+                  <DollarSignIcon /> View Payments ({batch.customerCount})
                 </button>
                 <button
                   onClick={() => alert('In production: Download batch report')}
                   className="action-btn"
                 >
-                  📊 Download Report
+                  <BarChart3Icon /> Download Report
                 </button>
                 <button
                   onClick={handleDeleteBatch}
                   className="action-btn danger"
                 >
-                  🗑️ Delete Batch
+                  <TrashIcon /> Delete Batch
                 </button>
               </div>
             </div>
