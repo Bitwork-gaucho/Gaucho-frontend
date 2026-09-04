@@ -187,7 +187,15 @@ export const mockApi = {
     return { success: false }
   },
 
-  async getReceipt(orderId: string): Promise<Receipt | null> {
+  // Keyed by receiptId, which is what both callers hold: checkout navigates
+  // with the id processPayment returned, and order history with order.receiptId.
+  async getReceipt(receiptId: string): Promise<Receipt | null> {
+    await new Promise(resolve => setTimeout(resolve, 400))
+
+    return mockReceipts.get(receiptId) ?? null
+  },
+
+  async getReceiptByOrder(orderId: string): Promise<Receipt | null> {
     await new Promise(resolve => setTimeout(resolve, 400))
 
     for (const receipt of mockReceipts.values()) {

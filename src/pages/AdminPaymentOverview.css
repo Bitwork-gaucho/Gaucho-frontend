@@ -203,13 +203,19 @@ code {
   transition: all 0.2s;
 }
 
+/* This was an accent FILL. Because `.btn.btn-secondary` outranks every
+   other sheet's `.btn-secondary`, it was styling secondary buttons app-wide
+   — Order History showed two filled buttons competing for the same click.
+   Secondary is a quiet surface everywhere. */
 .btn.btn-secondary {
-  background: var(--accent2);
-  color: var(--on-accent);
+  background: var(--surface2);
+  color: var(--ink);
+  border: 1px solid var(--rule);
 }
 
 .btn.btn-secondary:hover {
-  opacity: 0.9;
+  border-color: var(--accent2);
+  color: var(--accent-admin);
 }
 
 .btn.btn-outline {

@@ -114,7 +114,7 @@ export default function PaymentConfirmationPage() {
                 <BarcodeGenerator data={receipt.barcodeData} />
               </div>
 
-              <div class="divider" />
+              <div className="divider" />
 
               <div className="next-steps">
                 <h3>What's Next?</h3>

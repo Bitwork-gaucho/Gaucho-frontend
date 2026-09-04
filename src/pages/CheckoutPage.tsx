@@ -156,7 +156,7 @@ export default function CheckoutPage() {
                 </button>
 
                 <p className="security-notice">
-                  🔒 Your payment information is secure and encrypted.
+                  Your payment information is secure and encrypted.
                 </p>
               </div>
             </div>
