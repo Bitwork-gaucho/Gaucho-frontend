@@ -1,6 +1,6 @@
 .admin-dashboard {
   min-height: 100vh;
-  background: var(--bg);
+  background: #3a3430;
   color: var(--ink);
 }
 
@@ -25,8 +25,8 @@
 }
 
 .summary-card {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: #4a4440;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
   padding: 20px;
   text-align: center;
@@ -71,11 +71,11 @@
 }
 
 .admin-section {
-  background: var(--surface);
+  background: #4a4440;
   border-radius: 8px;
   padding: 24px;
   margin-bottom: 24px;
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15);
 }
 
 .section-header {
@@ -103,12 +103,12 @@ table {
 }
 
 th {
-  background: var(--surface2);
+  background: #3a3430;
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
   font-size: 13px;
-  border-bottom: 2px solid var(--rule);
+  border-bottom: 2px solid rgba(241, 230, 207, 0.15);
   color: var(--ink-soft);
 }
 

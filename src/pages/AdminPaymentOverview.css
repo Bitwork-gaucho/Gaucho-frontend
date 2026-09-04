@@ -1,6 +1,6 @@
 .admin-payment-overview {
   min-height: 100vh;
-  background: var(--bg);
+  background: #3a3430;
   color: var(--ink);
 }
 
@@ -11,10 +11,10 @@
 }
 
 .admin-container {
-  background: var(--surface);
+  background: #4a4440;
   border-radius: 12px;
   padding: 40px;
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15);
 }
 
 .header-row {
@@ -38,8 +38,8 @@
 }
 
 .summary-card {
-  background: var(--surface2);
-  border: 1px solid var(--rule);
+  background: #3a3430;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
   padding: 20px;
 }
@@ -105,8 +105,8 @@
 
 .orders-table {
   overflow-x: auto;
-  background: var(--surface2);
-  border: 1px solid var(--rule);
+  background: #3a3430;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
 }
 
@@ -117,12 +117,12 @@ table {
 }
 
 th {
-  background: var(--surface2);
+  background: #2a2420;
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
   font-size: 13px;
-  border-bottom: 2px solid var(--rule);
+  border-bottom: 2px solid rgba(241, 230, 207, 0.15);
   color: var(--ink-soft);
 }
 

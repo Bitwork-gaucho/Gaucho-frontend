@@ -1,6 +1,6 @@
 .admin-batch-detail {
   min-height: 100vh;
-  background: var(--bg);
+  background: #3a3430;
   color: var(--ink);
 }
 
@@ -11,10 +11,10 @@
 }
 
 .admin-container {
-  background: var(--surface);
+  background: #4a4440;
   border-radius: 12px;
   padding: 40px;
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15);
 }
 
 .header-row {
@@ -48,8 +48,8 @@
 .info-card,
 .control-card,
 .actions-card {
-  background: var(--surface2);
-  border: 1px solid var(--rule);
+  background: #3a3430;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
   padding: 20px;
 }
@@ -108,11 +108,11 @@
 .form-group input,
 .form-group select {
   padding: 10px;
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 6px;
   font-size: 14px;
   font-family: inherit;
-  background: var(--surface);
+  background: #2a2420;
   color: var(--ink);
 }
 

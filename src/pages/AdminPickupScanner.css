@@ -1,6 +1,6 @@
 .admin-pickup-scanner {
   min-height: 100vh;
-  background: var(--bg);
+  background: #3a3430;
   color: var(--ink);
 }
 
@@ -11,10 +11,10 @@
 }
 
 .scanner-container {
-  background: var(--surface);
+  background: #4a4440;
   border-radius: 12px;
   padding: 40px;
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(241, 230, 207, 0.15);
 }
 
 .scanner-container h1 {
@@ -39,8 +39,8 @@
 }
 
 .scanner-card {
-  background: var(--surface2);
-  border: 1px solid var(--rule);
+  background: #3a3430;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
   padding: 24px;
 }
@@ -61,11 +61,11 @@
 .scanner-input {
   flex: 1;
   padding: 12px 16px;
-  border: 2px solid var(--rule);
+  border: 2px solid rgba(241, 230, 207, 0.15);
   border-radius: 6px;
   font-size: 16px;
   font-family: monospace;
-  background: var(--surface);
+  background: #2a2420;
   color: var(--ink);
 }
 
@@ -170,8 +170,8 @@
 }
 
 .scanner-stats {
-  background: var(--surface2);
-  border: 1px solid var(--rule);
+  background: #3a3430;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
   padding: 24px;
 }
@@ -190,8 +190,8 @@
 }
 
 .stat-card {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: #2a2420;
+  border: 1px solid rgba(241, 230, 207, 0.15);
   border-radius: 8px;
   padding: 16px;
   text-align: center;
