@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import QuantitySelector from '../components/QuantitySelector'
 import ShareButton from '../components/ShareButton'
 import ProgressBar from '../components/ProgressBar'
+import { CheckIcon } from '../components/Icons'
 import './BatchDetailPage.css'
 
 export default function BatchDetailPage() {
@@ -157,7 +158,7 @@ export default function BatchDetailPage() {
                   📋 Join Waiting List
                 </button>
               ) : (
-                <p className="waiting-list-status">✓ You're on the waiting list</p>
+                <p className="waiting-list-status"><CheckIcon /> You're on the waiting list</p>
               )}
             </div>
           ) : (

@@ -4,6 +4,7 @@ import { Batch, Order } from '../types'
 import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
+import { PlusIcon, SmartphoneIcon, PackageIcon } from '../components/Icons'
 import './AdminDashboard.css'
 
 export default function AdminDashboard() {
@@ -76,13 +77,13 @@ export default function AdminDashboard() {
 
           <div className="admin-actions">
             <button onClick={() => alert('Create batch: In production, this would show a form')} className="action-btn">
-              ➕ Create New Batch
+              <PlusIcon /> Create New Batch
             </button>
             <button onClick={() => navigate('/admin/pickup-scanner')} className="action-btn">
-              📱 Pickup Scanner
+              <SmartphoneIcon /> Pickup Scanner
             </button>
             <button onClick={() => navigate('/batches')} className="action-btn">
-              📦 View Customer Batches
+              <PackageIcon /> View Customer Batches
             </button>
           </div>
 

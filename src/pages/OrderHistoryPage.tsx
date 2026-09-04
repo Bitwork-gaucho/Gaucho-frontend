@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { mockApi } from '../services/mockApi'
 import { Order } from '../types'
 import Header from '../components/Header'
+import { CreditCardIcon, TruckIcon, CloseIcon, FileTextIcon } from '../components/Icons'
 import './OrderHistoryPage.css'
 
 export default function OrderHistoryPage() {
@@ -111,14 +112,14 @@ export default function OrderHistoryPage() {
                         className="btn btn-primary"
                         onClick={() => navigate(`/checkout/${order.batchId}`)}
                       >
-                        💳 Proceed to Checkout
+                        <CreditCardIcon /> Proceed to Checkout
                       </button>
                       <button
                         className="btn btn-secondary"
                         onClick={() => handleCancel(order.id)}
                         disabled={cancelingId === order.id}
                       >
-                        {cancelingId === order.id ? 'Cancelling...' : '✕ Cancel Order'}
+                        {cancelingId === order.id ? 'Cancelling...' : <><CloseIcon /> Cancel Order</>}
                       </button>
                     </>
                   )}
@@ -128,14 +129,14 @@ export default function OrderHistoryPage() {
                         className="btn btn-primary"
                         onClick={() => navigate(`/tracking/${order.batchId}`)}
                       >
-                        📦 Track Shipment
+                        <TruckIcon /> Track Shipment
                       </button>
                       {order.receiptId && (
                         <button
                           className="btn btn-secondary"
                           onClick={() => navigate(`/payment-confirmation/${order.receiptId}`)}
                         >
-                          📄 View Receipt
+                          <FileTextIcon /> View Receipt
                         </button>
                       )}
                     </>

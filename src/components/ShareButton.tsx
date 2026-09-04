@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Share2Icon, MailIcon, CheckIcon } from './Icons'
 import './ShareButton.css'
 
 interface ShareButtonProps {
@@ -45,13 +46,13 @@ export default function ShareButton({ batchId, batchName, meatType }: ShareButto
   return (
     <div className="share-button-group">
       <button className="share-btn copy-btn" onClick={handleCopyLink} title="Copy link to clipboard">
-        {copied ? '✓ Copied!' : '📋 Copy Link'}
+        {copied ? <><CheckIcon /> Copied!</> : <>Copy Link</>}
       </button>
       <button className="share-btn email-btn" onClick={handleShareEmail} title="Share via email">
-        ✉️ Share Email
+        <MailIcon /> Share Email
       </button>
       <button className="share-btn social-btn" onClick={handleShareSocial} title="Share with friends">
-        🔗 Share
+        <Share2Icon /> Share
       </button>
     </div>
   )

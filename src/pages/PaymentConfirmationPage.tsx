@@ -5,6 +5,7 @@ import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import BarcodeGenerator from '../components/BarcodeGenerator'
+import { CheckIcon } from '../components/Icons'
 import './PaymentConfirmationPage.css'
 
 export default function PaymentConfirmationPage() {
@@ -66,7 +67,7 @@ export default function PaymentConfirmationPage() {
       <main className="confirmation-content">
         <div className="confirmation-container">
           <div className="success-header">
-            <div className="success-icon">✓</div>
+            <div className="success-icon"><CheckIcon size={32} /></div>
             <h1>Payment Successful!</h1>
             <p className="confirmation-message">
               Thank you for your order. Your payment has been received.

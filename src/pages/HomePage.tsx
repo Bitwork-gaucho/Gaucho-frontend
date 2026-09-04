@@ -4,6 +4,7 @@ import { Batch } from '../types'
 import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
+import { ChevronRightIcon } from '../components/Icons'
 import './HomePage.css'
 
 export default function HomePage() {
@@ -56,7 +57,7 @@ export default function HomePage() {
                 </div>
               </div>
               <Link to={`/batch/${activeBatch.id}`} className="btn btn-primary">
-                Køb nu →
+                Køb nu <ChevronRightIcon />
               </Link>
             </div>
           )}
