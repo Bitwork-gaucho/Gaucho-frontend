@@ -1,6 +1,7 @@
 .admin-payment-overview {
   min-height: 100vh;
-  background: var(--bg-color, #f5f5f5);
+  background: var(--bg);
+  color: var(--ink);
 }
 
 .admin-content {
@@ -10,10 +11,10 @@
 }
 
 .admin-container {
-  background: white;
+  background: var(--surface);
   border-radius: 12px;
   padding: 40px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--rule);
 }
 
 .header-row {
@@ -26,6 +27,7 @@
 .header-row h1 {
   margin: 0;
   font-size: 24px;
+  color: var(--ink);
 }
 
 .summary-section {
@@ -36,8 +38,8 @@
 }
 
 .summary-card {
-  background: var(--bg-secondary, #fafafa);
-  border: 1px solid var(--border-color, #eee);
+  background: var(--surface2);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   padding: 20px;
 }
@@ -46,15 +48,16 @@
   margin-top: 0;
   margin-bottom: 16px;
   font-size: 16px;
-  color: var(--text-color, #333);
+  color: var(--ink);
 }
 
 .summary-item {
   display: flex;
   justify-content: space-between;
   padding: 12px 0;
-  border-bottom: 1px solid var(--border-color, #eee);
+  border-bottom: 1px solid var(--rule);
   font-size: 14px;
+  color: var(--ink);
 }
 
 .summary-item:last-child {
@@ -65,20 +68,22 @@
   font-weight: 600;
   font-size: 16px;
   padding-top: 16px;
+  color: var(--ink);
 }
 
 .summary-item .amount {
   font-weight: 600;
-  color: var(--primary-color, #ff6600);
+  color: var(--accent);
 }
 
 .summary-item .amount.pending {
-  color: var(--warning-color, #ff9800);
+  color: #ffb380;
 }
 
 .summary-item .count {
   font-weight: 600;
   font-size: 16px;
+  color: var(--ink);
 }
 
 .orders-section {
@@ -95,58 +100,61 @@
 .orders-section h2 {
   font-size: 18px;
   margin: 0;
-  color: var(--text-color, #333);
+  color: var(--ink);
 }
 
 .orders-table {
   overflow-x: auto;
-  background: white;
-  border: 1px solid var(--border-color, #eee);
+  background: var(--surface2);
+  border: 1px solid var(--rule);
   border-radius: 8px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--ink);
 }
 
 th {
-  background: var(--bg-secondary, #f5f5f5);
+  background: var(--surface2);
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
   font-size: 13px;
-  border-bottom: 2px solid var(--border-color, #ddd);
-  color: var(--text-secondary, #666);
+  border-bottom: 2px solid var(--rule);
+  color: var(--ink-soft);
 }
 
 td {
   padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color, #eee);
+  border-bottom: 1px solid var(--rule);
   font-size: 14px;
+  color: var(--ink);
 }
 
 tbody tr:hover {
-  background: var(--bg-secondary, #fafafa);
+  background: var(--surface);
 }
 
 td.amount {
   font-weight: 600;
-  color: var(--primary-color, #ff6600);
+  color: var(--accent);
 }
 
 code {
-  background: var(--bg-secondary, #f5f5f5);
+  background: var(--surface);
   padding: 2px 6px;
   border-radius: 3px;
   font-family: monospace;
   font-size: 12px;
+  color: var(--accent);
 }
 
 .action-link {
   background: none;
   border: none;
-  color: var(--primary-color, #ff6600);
+  color: var(--accent);
   cursor: pointer;
   font-weight: 600;
   text-decoration: none;
@@ -166,22 +174,22 @@ code {
 }
 
 .badge.pending {
-  background: var(--warning-bg, #fff3cd);
-  color: var(--warning-color, #ff9800);
+  background: rgba(255, 179, 128, 0.2);
+  color: #ffb380;
 }
 
 .badge.cancelled {
-  background: var(--error-bg, #ffebee);
-  color: var(--error-color, #d32f2f);
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
 }
 
 .empty-state {
-  background: var(--bg-secondary, #fafafa);
-  border: 1px solid var(--border-color, #eee);
+  background: var(--surface2);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   padding: 40px;
   text-align: center;
-  color: var(--text-secondary, #666);
+  color: var(--ink-soft);
   font-size: 14px;
 }
 
@@ -196,24 +204,24 @@ code {
 }
 
 .btn.btn-secondary {
-  background: var(--warning-color, #ff9800);
-  color: white;
+  background: #ffb380;
+  color: #000;
 }
 
 .btn.btn-secondary:hover {
-  background: var(--warning-dark, #f57c00);
+  opacity: 0.9;
 }
 
 .btn.btn-outline {
   background: transparent;
-  color: var(--primary-color, #ff6600);
-  border: 2px solid var(--primary-color, #ff6600);
+  color: var(--accent);
+  border: 2px solid var(--accent);
   padding: 8px 14px;
 }
 
 .btn.btn-outline:hover {
-  background: var(--primary-color, #ff6600);
-  color: white;
+  background: var(--accent);
+  color: #000;
 }
 
 @media (max-width: 1024px) {

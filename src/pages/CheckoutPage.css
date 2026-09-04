@@ -1,6 +1,7 @@
 .checkout-page {
   min-height: 100vh;
-  background: var(--bg-color, #f5f5f5);
+  background: var(--bg);
+  color: var(--ink);
 }
 
 .checkout-content {
@@ -10,16 +11,17 @@
 }
 
 .checkout-container {
-  background: white;
+  background: var(--surface);
   border-radius: 12px;
   padding: 40px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--rule);
 }
 
 .checkout-container h1 {
   margin-top: 0;
   margin-bottom: 32px;
   font-size: 28px;
+  color: var(--ink);
 }
 
 .checkout-layout {
@@ -32,12 +34,12 @@
 .payment-section h2 {
   font-size: 18px;
   margin-bottom: 20px;
-  color: var(--text-color, #333);
+  color: var(--ink);
 }
 
 .order-card {
-  background: var(--bg-secondary, #fafafa);
-  border: 1px solid var(--border-color, #eee);
+  background: var(--surface2);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   padding: 20px;
 }
@@ -47,28 +49,29 @@
   justify-content: space-between;
   padding: 12px 0;
   font-size: 14px;
+  color: var(--ink);
 }
 
 .order-item .label {
-  color: var(--text-secondary, #666);
+  color: var(--ink-soft);
   font-weight: 500;
 }
 
 .order-item .value {
   font-weight: 600;
-  color: var(--text-color, #333);
+  color: var(--ink);
 }
 
 .order-item.total {
   font-size: 16px;
   font-weight: 700;
-  color: var(--primary-color, #ff6600);
+  color: var(--accent);
   padding-top: 16px;
 }
 
 .divider {
   height: 1px;
-  background: var(--border-color, #ddd);
+  background: var(--rule);
   margin: 16px 0;
 }
 
@@ -87,26 +90,28 @@
 .form-group label {
   font-weight: 600;
   font-size: 14px;
-  color: var(--text-color, #333);
+  color: var(--ink);
 }
 
 .form-group input {
   padding: 12px;
-  border: 1px solid var(--border-color, #ddd);
+  border: 1px solid var(--rule);
   border-radius: 6px;
   font-size: 14px;
   font-family: monospace;
+  background: var(--surface);
+  color: var(--ink);
 }
 
 .form-group input:disabled {
-  background: var(--bg-secondary, #f9f9f9);
-  color: var(--text-secondary, #666);
+  background: var(--surface2);
+  color: var(--ink-soft);
   cursor: not-allowed;
 }
 
 .form-group small {
   font-size: 12px;
-  color: var(--text-secondary, #666);
+  color: var(--ink-soft);
 }
 
 .form-row {
@@ -125,7 +130,7 @@
 .security-notice {
   text-align: center;
   font-size: 12px;
-  color: var(--text-secondary, #666);
+  color: var(--ink-soft);
   margin: 0;
 }
 
