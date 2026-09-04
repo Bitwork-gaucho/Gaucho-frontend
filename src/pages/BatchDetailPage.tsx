@@ -181,26 +181,24 @@ export default function BatchDetailPage() {
 
               <ShareButton batchId={batch.id} batchName={batch.name} meatType={batch.meatType} />
 
-              <div className="order-summary">
-                {quantity > 0 && (
-                  <>
-                    <div className="summary-row">
-                      <span>{quantity} kg × {batch.pricePerKg} kr./kg</span>
-                      <span className="amount">{orderTotal} kr.</span>
+              {quantity > 0 && (
+                <div className="order-summary">
+                  <div className="summary-row">
+                    <span>{quantity} kg × {batch.pricePerKg} kr./kg</span>
+                    <span className="amount">{orderTotal} kr.</span>
+                  </div>
+                  {batch.savingsPercent && (
+                    <div className="summary-row savings">
+                      <span>Est. Savings</span>
+                      <span className="amount">~{Math.round((quantity * batch.pricePerKg * batch.savingsPercent) / 100)} kr.</span>
                     </div>
-                    {batch.savingsPercent && (
-                      <div className="summary-row savings">
-                        <span>Est. Savings</span>
-                        <span className="amount">~{Math.round((quantity * batch.pricePerKg * batch.savingsPercent) / 100)} kr.</span>
-                      </div>
-                    )}
-                    <div className="summary-row total">
-                      <span>Total</span>
-                      <span className="amount">{orderTotal} kr.</span>
-                    </div>
-                  </>
-                )}
-              </div>
+                  )}
+                  <div className="summary-row total">
+                    <span>Total</span>
+                    <span className="amount">{orderTotal} kr.</span>
+                  </div>
+                </div>
+              )}
 
               <button
                 className="btn btn-primary btn-large"

@@ -25,7 +25,7 @@ export default function QuantitySelector({ value, onChange, max = 500, presets =
         {presets.map(preset => (
           <button
             key={preset}
-            className={`preset-btn ${value >= preset ? 'active' : ''}`}
+            className="preset-btn"
             onClick={() => handlePresetClick(preset)}
             disabled={value + preset > max}
           >

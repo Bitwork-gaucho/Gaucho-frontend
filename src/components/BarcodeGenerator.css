@@ -1,21 +1,22 @@
+/* The barcode surface stays white on purpose: scanners need dark-on-light
+   contrast. It reads as a printed label sitting on the dark page. */
 .barcode-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 16px;
-  background: white;
-  border: 2px solid var(--color-border, #ddd);
-  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+  border: none;
+  border-radius: var(--radius);
   margin: 16px 0;
 }
 
 .barcode-canvas {
   max-width: 100%;
   height: auto;
-  border: 1px solid var(--color-border, #ddd);
   padding: 8px;
-  background: white;
+  background: #fff;
 }
 
 .barcode-text {
@@ -24,7 +25,7 @@
   font-weight: 600;
   margin: 0;
   word-break: break-all;
-  color: var(--color-text, #333);
+  color: var(--bg);
 }
 
 @media print {
