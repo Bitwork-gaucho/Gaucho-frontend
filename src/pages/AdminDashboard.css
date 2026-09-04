@@ -1,6 +1,6 @@
 .admin-dashboard {
   min-height: 100vh;
-  background: #3a3430;
+  background: var(--admin-bg);
   color: var(--ink);
 }
 
@@ -25,8 +25,8 @@
 }
 
 .summary-card {
-  background: #4a4440;
-  border: 1px solid rgba(241, 230, 207, 0.15);
+  background: var(--admin-surface);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   padding: 20px;
   text-align: center;
@@ -35,7 +35,7 @@
 .summary-value {
   font-size: 32px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-admin);
   margin-bottom: 8px;
 }
 
@@ -56,7 +56,7 @@
 .action-btn {
   padding: 12px 16px;
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -71,11 +71,11 @@
 }
 
 .admin-section {
-  background: #4a4440;
+  background: var(--admin-surface);
   border-radius: 8px;
   padding: 24px;
   margin-bottom: 24px;
-  border: 1px solid rgba(241, 230, 207, 0.15);
+  border: 1px solid var(--rule);
 }
 
 .section-header {
@@ -103,12 +103,12 @@ table {
 }
 
 th {
-  background: #3a3430;
+  background: var(--admin-bg);
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
   font-size: 13px;
-  border-bottom: 2px solid rgba(241, 230, 207, 0.15);
+  border-bottom: 2px solid var(--rule);
   color: var(--ink-soft);
 }
 
@@ -125,7 +125,7 @@ tbody tr:hover {
 
 td.amount {
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-admin);
 }
 
 code {
@@ -134,61 +134,33 @@ code {
   border-radius: 3px;
   font-family: monospace;
   font-size: 12px;
-  color: var(--accent);
+  color: var(--accent-admin);
 }
 
+/* Badges carry state through the tinted fill and a hairline in the
+   semantic hue. The label itself stays --ink: a semantic colour set as
+   text on its own tint over --admin-surface measures about 2.5:1, well
+   under AA, so the hue goes in the fill and the border instead. */
 .badge {
   display: inline-block;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 12px;
   font-weight: 600;
+  color: var(--ink);
+  background: var(--badge-tint, var(--surface2));
+  border: 1px solid var(--badge-hue, var(--rule));
 }
 
-.badge-waiting_to_fill {
-  background: var(--warning-bg, #fff3cd);
-  color: var(--warning-color, #ff9800);
-}
-
-.badge-ordered {
-  background: var(--info-bg, #e3f2fd);
-  color: var(--primary-color, #ff6600);
-}
-
-.badge-in_transit {
-  background: #e8f5e9;
-  color: #4caf50;
-}
-
-.badge-at_customs {
-  background: #f3e5f5;
-  color: #9c27b0;
-}
-
-.badge-ready_for_pickup {
-  background: #c8e6c9;
-  color: #2e7d32;
-}
-
-.badge-completed {
-  background: var(--bg-secondary, #f5f5f5);
-  color: var(--text-secondary, #666);
-}
-
-.badge-paid {
-  background: #c8e6c9;
-  color: #2e7d32;
-}
-
-.badge-pending {
-  background: var(--warning-bg, #fff3cd);
-  color: var(--warning-color, #ff9800);
-}
-
-.badge-cancelled {
-  background: var(--error-bg, #ffebee);
-  color: var(--error-color, #d32f2f);
-}
+.badge-waiting_to_fill { --badge-tint: var(--warning-tint); --badge-hue: var(--warning); }
+.badge-pending         { --badge-tint: var(--warning-tint); --badge-hue: var(--warning); }
+.badge-ordered         { --badge-tint: var(--info-tint);    --badge-hue: var(--info); }
+.badge-at_customs      { --badge-tint: var(--info-tint);    --badge-hue: var(--info); }
+.badge-in_transit      { --badge-tint: var(--success-tint); --badge-hue: var(--success); }
+.badge-ready_for_pickup{ --badge-tint: var(--success-tint); --badge-hue: var(--success); }
+.badge-paid            { --badge-tint: var(--success-tint); --badge-hue: var(--success); }
+.badge-cancelled       { --badge-tint: var(--error-tint);   --badge-hue: var(--error); }
+.badge-completed       { --badge-tint: var(--surface2);     --badge-hue: var(--rule); }
 
 .action-links {
   display: flex;
@@ -198,7 +170,7 @@ code {
 .link-btn {
   background: none;
   border: none;
-  color: var(--primary-color, #ff6600);
+  color: var(--accent-admin);
   cursor: pointer;
   font-weight: 600;
   text-decoration: none;

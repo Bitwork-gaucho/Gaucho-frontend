@@ -74,7 +74,7 @@
 
 .price {
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent2);
 }
 
 .progress {
@@ -89,10 +89,10 @@
 }
 
 .info-card {
-  background: #2a2420 !important;
+  background: var(--surface) !important;
   padding: 20px !important;
   border-radius: var(--radius);
-  border: 1px solid rgba(241, 230, 207, 0.15) !important;
+  border: 1px solid var(--rule) !important;
   color: var(--ink-soft);
   transition: transform 0.2s, border-color 0.2s;
 }
@@ -124,16 +124,16 @@
 
 .batch-card {
   display: block;
-  background: #2a2420 !important;
+  background: var(--surface) !important;
   padding: 20px;
   border-radius: var(--radius);
-  border: 1px solid rgba(241, 230, 207, 0.15);
+  border: 1px solid var(--rule);
   transition: transform 0.2s, border-color 0.2s;
 }
 
 .batch-card:hover {
   transform: translateY(-4px);
-  border-color: var(--accent);
+  border-color: var(--accent2);
 }
 
 .batch-header {
@@ -147,8 +147,10 @@
   color: var(--ink-soft);
 }
 
+/* NB: plain CSS imports are global, so this class is shared with
+   BatchDetailPage. Status is state, not a control — it takes ink. */
 .batch-status {
-  color: var(--accent);
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -186,7 +188,7 @@
 
 .btn-primary {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   font-weight: 600;
 }
 
@@ -201,20 +203,20 @@
 }
 
 .btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent2);
+  color: var(--accent2);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--accent);
+  color: var(--accent2);
   border: 2px solid var(--accent);
   padding: 10px 22px;
 }
 
 .btn-outline:hover {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
 }
 
 @media (max-width: 768px) {

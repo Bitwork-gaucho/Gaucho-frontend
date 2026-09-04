@@ -84,12 +84,12 @@
 }
 
 .order-status.status-pending {
-  background: #fbbf24;
-  color: #78350f;
+  background: var(--warning-tint);
+  color: var(--warning);
 }
 
 .order-status.status-paid {
-  background: #10b981;
+  background: var(--success);
   color: white;
 }
 

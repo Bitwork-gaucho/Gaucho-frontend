@@ -119,7 +119,7 @@ export default function BatchDetailPage() {
                   <span className="value">{batch.pricePerKg} kr./kg</span>
                 </div>
                 {batch.compareRetailer && (
-                  <div className="price-item">
+                  <div className="price-item compare">
                     <span className="label">{batch.compareRetailer} Price</span>
                     <span className="value">{batch.comparePricePerKg} kr./kg</span>
                   </div>

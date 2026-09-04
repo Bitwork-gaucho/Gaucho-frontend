@@ -19,12 +19,16 @@
   gap: 20px;
 }
 
+/* Accent coverage on this page is deliberately limited to the primary
+   button plus hover/focus states. Static text — the batch id, metadata
+   keys, prices, progress, status — takes ink so the one accented thing
+   on screen is the thing you can act on. */
 .batch-number {
   display: inline-block;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--ink-soft);
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -60,7 +64,7 @@
 }
 
 .origin-item strong {
-  color: var(--accent);
+  color: var(--ink-soft);
   margin-right: 4px;
 }
 
@@ -94,12 +98,21 @@
 .price-item .value {
   font-size: 20px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--ink);
+}
+
+/* The competitor's price is context, not an offer: muted and struck
+   through so the Gaucho figure reads as the only live number. */
+.price-item.compare .value {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  font-weight: 500;
+  opacity: 0.75;
 }
 
 .savings {
   font-size: 14px;
-  color: #10b981;
+  color: var(--success);
   padding-top: 8px;
   border-top: 1px solid var(--rule);
 }
@@ -120,7 +133,7 @@
 
 .progress-fill {
   height: 100%;
-  background: var(--accent);
+  background: var(--ink-soft);
   transition: width 0.3s ease;
 }
 
@@ -170,7 +183,7 @@
 
 .existing-order-info {
   background: var(--bg);
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--ink-soft);
   padding: 12px;
   margin-bottom: 20px;
   border-radius: 4px;
@@ -235,7 +248,7 @@
 }
 
 .summary-row.savings {
-  color: #10b981;
+  color: var(--success);
   border-top: 1px solid var(--rule);
   padding-top: 8px;
 }
@@ -249,8 +262,8 @@
 }
 
 .success-message {
-  background: #10b981;
-  color: white;
+  background: var(--success);
+  color: var(--on-accent);
   padding: 12px;
   border-radius: var(--radius);
   margin-bottom: 16px;
@@ -271,7 +284,7 @@
 
 .btn-primary {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   font-weight: 600;
 }
 
@@ -286,20 +299,20 @@
 }
 
 .btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent2);
+  color: var(--accent2);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--accent);
+  color: var(--accent2);
   border: 2px solid var(--accent);
   padding: 10px 22px;
 }
 
 .btn-outline:hover {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
 }
 
 .btn-large {
@@ -340,7 +353,7 @@
 }
 
 .waiting-list-status {
-  color: #10b981;
+  color: var(--success);
   font-weight: 600;
   font-size: 14px;
   margin: 0;

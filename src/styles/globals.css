@@ -1,14 +1,50 @@
 :root {
+  /* Ground and ink. Unchanged. */
   --bg: #1a1410;
   --surface: #2a2420;
   --surface2: #3a3430;
   --ink: #f1e6cf;
   --ink-soft: #d4c4a8;
-  --accent: #ff8c42;
-  --accent2: #ffb380;
   --rule: rgba(241, 230, 207, 0.15);
-  --error: #ff6b6b;
-  --success: #51cf66;
+
+  /* Accent — "Saddle". Reserved for interactive elements: primary buttons,
+     hover and focus states. It is deliberately NOT used to decorate labels,
+     metadata, prices or status text; those take --ink / --ink-soft, so the
+     one accented thing on a screen is the thing you can click.
+
+     Two values, and the split is a contrast requirement, not a preference:
+       --accent    FILLS only. As text on --surface it measures 2.96:1
+                   and fails WCAG AA.
+       --accent2   accent-coloured TEXT and BORDERS. 5.11:1 on --surface,
+                   5.68:1 on --bg.
+       --on-accent label colour on an --accent fill. 4.72:1. */
+  --accent: #96613c;
+  --accent2: #bd8659;
+  --on-accent: #fdf3ec;
+  --accent-tint: rgba(150, 97, 60, 0.12);
+  --accent-ring: rgba(150, 97, 60, 0.28);
+
+  /* Semantic colours, desaturated to sit with the accent rather than shout
+     over it. Each has a low-alpha tint for badge backgrounds. --success is
+     held at the lightest sage that still clears 4.5:1 on --surface (4.81:1);
+     the muter #6a8a68 measured 3.97:1 and failed. */
+  --success: #779975;
+  --success-tint: rgba(119, 153, 117, 0.16);
+  --warning: #b8894a;
+  --warning-tint: rgba(184, 137, 74, 0.16);
+  --error: #c2685c;
+  --error-tint: rgba(194, 104, 92, 0.16);
+  --info: #7d8fa1;
+  --info-tint: rgba(125, 143, 161, 0.16);
+
+  /* Admin runs one step lighter than the customer app so the two are
+     never mistaken for each other. */
+  --admin-bg: #3a3430;
+  /* Admin surfaces sit lighter than the customer app, so --accent2 as text
+     only reaches 3.06:1 there. This is the same hue lifted to 4.91:1. */
+  --accent-admin: #e0b183;
+  --admin-surface: #4a4440;
+  --admin-sunken: #2a2420;
 
   --radius: 8px;
   --gap: 16px;
@@ -43,7 +79,7 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent2);
   text-decoration: none;
   transition: opacity 0.2s;
 }
@@ -78,7 +114,7 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--accent2);
 }
 
 /* Scrollbar */

@@ -1,6 +1,6 @@
 .admin-batch-detail {
   min-height: 100vh;
-  background: #3a3430;
+  background: var(--admin-bg);
   color: var(--ink);
 }
 
@@ -11,10 +11,10 @@
 }
 
 .admin-container {
-  background: #4a4440;
+  background: var(--admin-surface);
   border-radius: 12px;
   padding: 40px;
-  border: 1px solid rgba(241, 230, 207, 0.15);
+  border: 1px solid var(--rule);
 }
 
 .header-row {
@@ -48,8 +48,8 @@
 .info-card,
 .control-card,
 .actions-card {
-  background: #3a3430;
-  border: 1px solid rgba(241, 230, 207, 0.15);
+  background: var(--admin-bg);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   padding: 20px;
 }
@@ -83,7 +83,7 @@
   padding: 12px;
   background: var(--surface);
   border-radius: 6px;
-  color: var(--accent);
+  color: var(--accent-admin);
   font-weight: 600;
 }
 
@@ -108,19 +108,19 @@
 .form-group input,
 .form-group select {
   padding: 10px;
-  border: 1px solid rgba(241, 230, 207, 0.15);
+  border: 1px solid var(--rule);
   border-radius: 6px;
   font-size: 14px;
   font-family: inherit;
-  background: #2a2420;
+  background: var(--admin-sunken);
   color: var(--ink);
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.2);
+  border-color: var(--accent2);
+  box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
 .button-group {
@@ -142,7 +142,7 @@
 
 .btn.btn-primary {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   width: 100%;
 }
 
@@ -158,8 +158,8 @@
 }
 
 .btn.btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent2);
+  color: var(--accent-admin);
 }
 
 .btn.btn-success {
@@ -174,14 +174,14 @@
 
 .btn.btn-outline {
   background: transparent;
-  color: var(--accent);
+  color: var(--accent-admin);
   border: 2px solid var(--accent);
   padding: 8px 14px;
 }
 
 .btn.btn-outline:hover {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
 }
 
 .action-btn {
@@ -204,8 +204,8 @@
 
 .action-btn:hover:not(.danger) {
   background: var(--surface);
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent2);
+  color: var(--accent-admin);
 }
 
 .action-btn.danger {
