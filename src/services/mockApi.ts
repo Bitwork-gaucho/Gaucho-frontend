@@ -4,7 +4,7 @@ import { Batch, Order, Receipt, Session, Shipment, Notification, WaitingListEntr
 const mockBatches: Batch[] = [
   {
     id: 'batch-001',
-    name: '0901',
+    name: '2026-001',
     meatType: 'Ribeye, 250 g bøffer',
     description: 'Estancia La Cumbre · Córdoba · græsfodret, mørnet 21 dage',
     status: 'WAITING_TO_FILL',
@@ -24,7 +24,7 @@ const mockBatches: Batch[] = [
   },
   {
     id: 'batch-002',
-    name: '0902',
+    name: '2026-002',
     meatType: 'Bife de Chorizo, 350g',
     description: 'Premium cut from grass-fed cattle',
     status: 'ORDERED',
@@ -41,7 +41,7 @@ const mockBatches: Batch[] = [
   },
   {
     id: 'batch-003',
-    name: '0903',
+    name: '2026-003',
     meatType: 'Brisket',
     description: 'Slow-cooked perfection',
     status: 'WAITING_TO_FILL',
