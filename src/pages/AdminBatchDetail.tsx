@@ -133,7 +133,7 @@ export default function AdminBatchDetail() {
                   <>
                     <p className="current-status">Current: <strong>{batch.status}</strong></p>
                     <button onClick={() => setEditing(true)} className="btn btn-primary">
-                      ✎ Update Status
+                      Update Status
                     </button>
                   </>
                 ) : (

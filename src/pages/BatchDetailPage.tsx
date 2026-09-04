@@ -155,7 +155,7 @@ export default function BatchDetailPage() {
               <p>Join the waiting list to get notified when a slot opens up.</p>
               {!inWaitingList ? (
                 <button onClick={handleJoinWaitingList} className="btn btn-primary">
-                  📋 Join Waiting List
+                  Join Waiting List
                 </button>
               ) : (
                 <p className="waiting-list-status"><CheckIcon /> You're on the waiting list</p>

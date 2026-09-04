@@ -150,6 +150,18 @@
   opacity: 0.9;
 }
 
+.btn.btn-secondary {
+  background: var(--surface2);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  width: auto;
+}
+
+.btn.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .btn.btn-success {
   background: var(--success);
   color: white;

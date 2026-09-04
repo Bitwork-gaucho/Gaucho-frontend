@@ -128,13 +128,13 @@ export default function PaymentConfirmationPage() {
 
             <div className="action-buttons">
               <button className="btn btn-primary" onClick={handleDownloadReceipt}>
-                📥 Download Receipt
+                Download Receipt
               </button>
               <button className="btn btn-secondary" onClick={handlePrint}>
-                🖨️ Print Receipt
+                Print Receipt
               </button>
               <button className="btn btn-outline" onClick={() => navigate('/orders')}>
-                📦 View All Orders
+                View All Orders
               </button>
             </div>
           </div>
