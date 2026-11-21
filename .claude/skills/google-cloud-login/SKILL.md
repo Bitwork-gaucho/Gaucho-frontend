@@ -51,18 +51,21 @@ env -u CLOUDSDK_AUTH_ACCESS_TOKEN gcloud projects list
 `gsutil` and `bq` need the same `env -u CLOUDSDK_AUTH_ACCESS_TOKEN` prefix.
 
 **Firebase CLI** — not preinstalled; run it with npx. It uses the Application
-Default Credentials from the login:
+Default Credentials from the login, but the Firebase API refuses user ADC
+without a **quota project** (403 "requires a quota project"), and the CLI
+ignores `gcloud auth application-default set-quota-project`. Pass one in the
+environment instead — any of the user's projects that has Firebase enabled and
+billing linked (`gcloud services list --enabled --project <id>` shows
+`firebase.googleapis.com`); ask which if unclear:
 
 ```
-npx -y firebase-tools@latest projects:list
+export GOOGLE_CLOUD_QUOTA_PROJECT=<PROJECT_ID>
+npx -y firebase-tools@latest projects:list --json
 ```
 
-If a Firebase or Google API call fails with a message about a missing **quota
-project**, set one of the user's projects (ask which if unclear):
-
-```
-env -u CLOUDSDK_AUTH_ACCESS_TOKEN gcloud auth application-default set-quota-project <PROJECT_ID>
-```
+Use the Firebase CLI for App Hosting (`apphosting:backends:list`); the
+installed gcloud has no `apphosting` command. The CLI's warning about
+`firebase-public.firebaseio.com` being refused is harmless.
 
 If the Firebase CLI still reports it is not logged in, fall back to its own
 login: `npx -y firebase-tools@latest login --no-localhost`, which likewise
