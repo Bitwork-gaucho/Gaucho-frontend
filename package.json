@@ -10,7 +10,7 @@
     "test": "PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers playwright test",
     "push": "git add -A && git commit -m \"$(date '+%Y-%m-%d %H:%M:%S') - App update\" && git push origin main",
     "build:host": "BASE_PATH=/host/gaucho/ vite build",
-    "deploy:host": "npm run build:host && firebase deploy --only hosting"
+    "deploy:host": "npm run build:host && GOOGLE_CLOUD_QUOTA_PROJECT=bitworkhost npx -y firebase-tools@latest deploy --only hosting --project bitworkhost"
   },
   "dependencies": {
     "react": "^18.3.1",
