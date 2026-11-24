@@ -136,7 +136,7 @@ GOOGLE_CLOUD_QUOTA_PROJECT=bitworkhost npx -y firebase-tools@latest hosting:site
 
 Normally never touch Cloudflare. If `bitwork.dk/host/<app>/` returns a
 Cloudflare error while `bitworkhost-<app>.web.app` works, check with the
-Cloudflare MCP tools (account "Carverdk@yahoo.dk's Account", zone
+Cloudflare MCP tools (the account that holds zone
 `bitwork.dk`): Worker script `bitwork-host` and route `bitwork.dk/host*`.
 Redeploy from `references/worker.js` only if it is missing or differs, and
 tell the user. Never modify other Workers (e.g. `modstudio`) or other routes.

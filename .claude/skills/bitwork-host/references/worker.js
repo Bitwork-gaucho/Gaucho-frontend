@@ -2,8 +2,8 @@
 // site bitworkhost-<app> in Google Cloud project "bitworkhost".
 // New app = new Firebase site named bitworkhost-<app>; this Worker never changes.
 //
-// Deployed as Cloudflare Worker "bitwork-host" (account "Carverdk@yahoo.dk's
-// Account") on route "bitwork.dk/host*" in zone bitwork.dk. This file is a
+// Deployed as Cloudflare Worker "bitwork-host" (the Cloudflare account
+// that holds bitwork.dk) on route "bitwork.dk/host*" in zone bitwork.dk. This file is a
 // backup copy: redeploy it only if the Worker is missing or broken.
 const PREFIX = '/host/';
 const SITE_PREFIX = 'bitworkhost-';
