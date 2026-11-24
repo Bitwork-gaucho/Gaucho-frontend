@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import BarcodeGenerator from '../components/BarcodeGenerator'
 import { CheckIcon } from '../components/Icons'
+import { formatDate, formatKg, formatKr } from '../utils/batchStatus'
 import './PaymentConfirmationPage.css'
 
 export default function PaymentConfirmationPage() {
@@ -30,7 +31,7 @@ export default function PaymentConfirmationPage() {
   }
 
   const handleDownloadReceipt = () => {
-    alert('Receipt download: In production, this would generate and download a PDF file.')
+    alert('Download af kvittering: I den færdige løsning hentes kvitteringen som PDF.')
   }
 
   const handlePrint = () => {
@@ -42,7 +43,7 @@ export default function PaymentConfirmationPage() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <p>Loading receipt...</p>
+          <p>Indlæser kvittering…</p>
         </div>
       </div>
     )
@@ -53,8 +54,8 @@ export default function PaymentConfirmationPage() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <p>Receipt not found</p>
-          <Link to="/orders" className="btn btn-primary">Back to Orders</Link>
+          <p>Kvitteringen blev ikke fundet</p>
+          <Link to="/orders" className="btn btn-primary">Tilbage til mine ordrer</Link>
         </div>
       </div>
     )
@@ -68,23 +69,23 @@ export default function PaymentConfirmationPage() {
         <div className="confirmation-container">
           <div className="success-header">
             <div className="success-icon"><CheckIcon size={32} /></div>
-            <h1>Payment Successful!</h1>
+            <h1>Betalingen er gennemført!</h1>
             <p className="confirmation-message">
-              Thank you for your order. Your payment has been received.
+              Tak for din bestilling. Vi har modtaget din betaling.
             </p>
           </div>
 
           <div className="receipt-section">
-            <h2>Order Receipt</h2>
+            <h2>Kvittering</h2>
 
             <div className="receipt-card">
               <div className="receipt-header">
                 <div className="receipt-item">
-                  <span className="label">Receipt ID</span>
+                  <span className="label">Kvitteringsnr.</span>
                   <span className="value">{receipt.receiptId}</span>
                 </div>
                 <div className="receipt-item">
-                  <span className="label">Order ID</span>
+                  <span className="label">Ordrenr.</span>
                   <span className="value">{receipt.orderId}</span>
                 </div>
               </div>
@@ -93,48 +94,48 @@ export default function PaymentConfirmationPage() {
 
               <div className="receipt-details">
                 <div className="receipt-item">
-                  <span className="label">Quantity</span>
-                  <span className="value">{receipt.kilos} kg</span>
+                  <span className="label">Mængde</span>
+                  <span className="value">{formatKg(receipt.kilos)}</span>
                 </div>
                 <div className="receipt-item">
-                  <span className="label">Amount Paid</span>
-                  <span className="value">{receipt.amount} kr.</span>
+                  <span className="label">Betalt</span>
+                  <span className="value">{formatKr(receipt.amount)}</span>
                 </div>
                 <div className="receipt-item">
-                  <span className="label">Date</span>
-                  <span className="value">{new Date().toLocaleDateString()}</span>
+                  <span className="label">Dato</span>
+                  <span className="value">{formatDate(new Date())}</span>
                 </div>
               </div>
 
               <div className="divider" />
 
               <div className="barcode-section">
-                <h3>Pickup Barcode</h3>
-                <p className="barcode-info">Save this barcode - you'll need it when picking up your order</p>
+                <h3>Stregkode til afhentning</h3>
+                <p className="barcode-info">Gem stregkoden – du skal vise den, når du henter din bestilling</p>
                 <BarcodeGenerator data={receipt.barcodeData} />
               </div>
 
               <div className="divider" />
 
               <div className="next-steps">
-                <h3>What's Next?</h3>
+                <h3>Hvad sker der nu?</h3>
                 <ol>
-                  <li>We'll send you an email confirmation with this receipt</li>
-                  <li>Watch the batch status for shipment updates</li>
-                  <li>When ready, pick up your meat using the barcode above</li>
+                  <li>Du får en bekræftelse på e-mail med kvitteringen</li>
+                  <li>Følg batchens status for at se, hvor forsendelsen er</li>
+                  <li>Når kødet er klar, henter du det med stregkoden ovenfor</li>
                 </ol>
               </div>
             </div>
 
             <div className="action-buttons">
               <button className="btn btn-primary" onClick={handleDownloadReceipt}>
-                Download Receipt
+                Download kvittering
               </button>
               <button className="btn btn-secondary" onClick={handlePrint}>
-                Print Receipt
+                Udskriv kvittering
               </button>
               <button className="btn btn-outline" onClick={() => navigate('/orders')}>
-                View All Orders
+                Se alle ordrer
               </button>
             </div>
           </div>

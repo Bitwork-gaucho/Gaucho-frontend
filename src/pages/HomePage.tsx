@@ -5,6 +5,8 @@ import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import { ChevronRightIcon } from '../components/Icons'
+import { BatchStatusBadge, BatchFill } from '../components/BatchStatus'
+import { formatKr } from '../utils/batchStatus'
 import './HomePage.css'
 
 export default function HomePage() {
@@ -21,7 +23,7 @@ export default function HomePage() {
       const data = await mockApi.getBatches()
       setBatches(data)
     } catch (err) {
-      console.error('Failed to load batches:', err)
+      console.error('Kunne ikke hente batches:', err)
     } finally {
       setLoading(false)
     }
@@ -36,11 +38,11 @@ export default function HomePage() {
       <main className="home-content">
         <section className="hero">
           <div className="hero-left">
-            <h1>Argentinsk oksekød, sendt direkte til dit pickup-point.</h1>
+            <h1>Argentinsk oksekød, sendt direkte til dit afhentningssted.</h1>
             <p>Dybfrossent græsfodret oksekød fra pampaen. Samles i fælles batches og sendes til Danmark, ca. 6 uger. Den halve pris.</p>
           </div>
           <div className="hero-right">
-            <img src={`${import.meta.env.BASE_URL}steak-hero.png`} alt="Grass-fed beef from Argentina" style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius)', objectFit: 'cover' }} />
+            <img src={`${import.meta.env.BASE_URL}steak-hero.png`} alt="Græsfodret oksekød fra Argentina" style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius)', objectFit: 'cover' }} />
           </div>
         </section>
 
@@ -48,13 +50,16 @@ export default function HomePage() {
           {activeBatch && (
             <div className="batch-card-featured">
               <div className="batch-info">
-                <span className="batch-label">{activeBatch.name}</span>
+                <div className="batch-label-row">
+                  <span className="batch-label">Batch {activeBatch.name}</span>
+                  <BatchStatusBadge status={activeBatch.status} />
+                </div>
                 <h2>{activeBatch.meatType}</h2>
                 <p className="batch-description">{activeBatch.description}</p>
                 <div className="batch-meta">
-                  <span className="price">{activeBatch.pricePerKg} kr./kg</span>
-                  <span className="progress">{Math.round((activeBatch.soldKilos / activeBatch.targetKilos) * 100)}%</span>
+                  <span className="price">{formatKr(activeBatch.pricePerKg)}/kg</span>
                 </div>
+                <BatchFill batch={activeBatch} />
               </div>
               <Link to={`/batch/${activeBatch.id}`} className="btn btn-primary">
                 Køb nu <ChevronRightIcon />
@@ -66,7 +71,7 @@ export default function HomePage() {
         <section className="info-grid">
           <div className="info-card">
             <h3>Om Gaucho — fra pampaen</h3>
-            <p>Vi importerer dybfrossent oksekød direkte fra Argentina og leverer det til dine nærmeste pickup-points rundt i landet.</p>
+            <p>Vi importerer dybfrossent oksekød direkte fra Argentina og leverer det til afhentningssteder rundt i landet.</p>
           </div>
           <div className="info-card">
             <h3>Miljø & oprindelse</h3>
@@ -74,27 +79,28 @@ export default function HomePage() {
           </div>
           <div className="info-card">
             <h3>Sådan virker det</h3>
-            <p>Se et batch, vælg hvor meget du vil have, betal online, og hent dit køde på den planlagte afhentningsdag.</p>
+            <p>Se et batch, vælg hvor meget du vil have, betal online, og hent dit kød på den planlagte afhentningsdag.</p>
           </div>
         </section>
 
         <section className="batches-section">
           <h2>Alle tilgængelige batches</h2>
           {loading ? (
-            <p>Loader...</p>
+            <p>Indlæser…</p>
           ) : (
             <div className="batch-grid">
               {batches.map(batch => (
                 <Link to={`/batch/${batch.id}`} key={batch.id} className="batch-card">
                   <div className="batch-header">
-                    <span className="batch-id">{batch.name}</span>
-                    <span className="batch-status">{batch.status}</span>
+                    <span className="batch-id">Batch {batch.name}</span>
+                    <BatchStatusBadge status={batch.status} />
                   </div>
                   <h3>{batch.meatType}</h3>
                   <p className="batch-desc">{batch.description}</p>
+                  <BatchFill batch={batch} compact />
                   <div className="batch-footer">
-                    <span className="price">{batch.pricePerKg} kr./kg</span>
-                    <span className="progress">{Math.round((batch.soldKilos / batch.targetKilos) * 100)}%</span>
+                    <span className="price">{formatKr(batch.pricePerKg)}/kg</span>
+                    <span className="batch-cta">{batch.status === 'WAITING_TO_FILL' ? 'Se og bestil →' : 'Se status →'}</span>
                   </div>
                 </Link>
               ))}

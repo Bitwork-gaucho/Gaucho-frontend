@@ -25,8 +25,8 @@ const mockBatches: Batch[] = [
   {
     id: 'batch-002',
     name: '2026-002',
-    meatType: 'Bife de Chorizo, 350g',
-    description: 'Premium cut from grass-fed cattle',
+    meatType: 'Bife de Chorizo, 350 g bøffer',
+    description: 'Udskæring af høj kvalitet fra græsfodret kvæg',
     status: 'ORDERED',
     pricePerKg: 189,
     targetKilos: 400,
@@ -42,8 +42,8 @@ const mockBatches: Batch[] = [
   {
     id: 'batch-003',
     name: '2026-003',
-    meatType: 'Brisket',
-    description: 'Slow-cooked perfection',
+    meatType: 'Oksebryst (brisket)',
+    description: 'Perfekt til langtidsstegning',
     status: 'WAITING_TO_FILL',
     pricePerKg: 79,
     targetKilos: 300,
@@ -80,7 +80,7 @@ export const mockApi = {
 
     // Mock: any 6-digit code works, but "000000" fails
     if (code === '000000') {
-      return { success: false, error: 'Invalid code' }
+      return { success: false, error: 'Forkert kode' }
     }
 
     const session: Session = {
@@ -112,7 +112,7 @@ export const mockApi = {
     await new Promise(resolve => setTimeout(resolve, 1200))
 
     const batch = mockBatches.find(b => b.id === batchId)
-    if (!batch) throw new Error('Batch not found')
+    if (!batch) throw new Error('Batchen blev ikke fundet')
 
     const order: Order = {
       id: `ord-${Date.now()}`,
@@ -329,7 +329,7 @@ export const mockApi = {
       batchId,
       type: type as any,
       status: 'UNREAD',
-      message: message || `Batch ${batchId} update: ${type}`,
+      message: message || `Opdatering for batch ${batchId}: ${type}`,
       createdAt: new Date().toISOString()
     }
 

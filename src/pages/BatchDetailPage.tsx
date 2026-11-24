@@ -6,7 +6,8 @@ import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import QuantitySelector from '../components/QuantitySelector'
 import ShareButton from '../components/ShareButton'
-import ProgressBar from '../components/ProgressBar'
+import { BatchStatusBadge, BatchFill, BatchTimeline } from '../components/BatchStatus'
+import { ORDER_STATUS, formatKg, formatKr, isOpenForOrders, statusInfo } from '../utils/batchStatus'
 import { CheckIcon } from '../components/Icons'
 import './BatchDetailPage.css'
 
@@ -64,7 +65,7 @@ export default function BatchDetailPage() {
       setExistingOrder(order)
       navigate(`/checkout/${batch.id}`)
     } catch (err) {
-      alert('Failed to place order: ' + (err instanceof Error ? err.message : 'Unknown error'))
+      alert('Bestillingen kunne ikke gennemføres: ' + (err instanceof Error ? err.message : 'Ukendt fejl'))
     } finally {
       setProcessing(false)
     }
@@ -76,18 +77,19 @@ export default function BatchDetailPage() {
     try {
       await mockApi.addToWaitingList(batch.id, session.email)
       setInWaitingList(true)
-      alert('You\'ve been added to the waiting list. We\'ll notify you when a slot opens up.')
+      alert('Du er skrevet op på ventelisten. Vi giver besked, hvis der bliver plads.')
     } catch (err) {
-      alert('Failed to join waiting list')
+      alert('Du kunne ikke skrives op på ventelisten. Prøv igen.')
     }
   }
 
-  if (loading) return <div><Header onLogout={logout} /><p style={{ padding: '40px' }}>Loading...</p></div>
-  if (!batch) return <div><Header onLogout={logout} /><p style={{ padding: '40px' }}>Batch not found</p></div>
+  if (loading) return <div><Header onLogout={logout} /><p style={{ padding: '40px' }}>Indlæser…</p></div>
+  if (!batch) return <div><Header onLogout={logout} /><p style={{ padding: '40px' }}>Batchen blev ikke fundet</p></div>
 
   const available = Math.max(0, batch.targetKilos - batch.soldKilos)
   const orderTotal = quantity * batch.pricePerKg
   const isFull = available === 0
+  const open = isOpenForOrders(batch)
 
   return (
     <div className="batch-detail-page">
@@ -96,79 +98,96 @@ export default function BatchDetailPage() {
       <main className="batch-detail-content">
         <div className="batch-detail-header">
           <div className="batch-detail-info">
-            <span className="batch-number">{batch.name}</span>
+            <div className="batch-number-row">
+              <span className="batch-number">Batch {batch.name}</span>
+              <BatchStatusBadge status={batch.status} />
+            </div>
             <h1>{batch.meatType}</h1>
             <p className="batch-description">{batch.description}</p>
 
-            <div className="batch-origin">
-              <div className="origin-item">
-                <strong>Farm:</strong> {batch.origin.farm}
+            {batch.origin && (
+              <div className="batch-origin">
+                <div className="origin-item">
+                  <strong>Gård:</strong> {batch.origin.farm}
+                </div>
+                <div className="origin-item">
+                  <strong>Region:</strong> {batch.origin.region}, {batch.origin.country}
+                </div>
+                <div className="origin-item">
+                  <strong>Koordinater:</strong> {batch.origin.coords}
+                </div>
               </div>
-              <div className="origin-item">
-                <strong>Region:</strong> {batch.origin.region}, {batch.origin.country}
-              </div>
-              <div className="origin-item">
-                <strong>Coords:</strong> {batch.origin.coords}
-              </div>
-            </div>
+            )}
 
             <div className="batch-pricing">
               <div className="price-compare">
                 <div className="price-item">
-                  <span className="label">Gaucho Price</span>
-                  <span className="value">{batch.pricePerKg} kr./kg</span>
+                  <span className="label">Gaucho-pris</span>
+                  <span className="value">{formatKr(batch.pricePerKg)}/kg</span>
                 </div>
                 {batch.compareRetailer && (
                   <div className="price-item compare">
-                    <span className="label">{batch.compareRetailer} Price</span>
-                    <span className="value">{batch.comparePricePerKg} kr./kg</span>
+                    <span className="label">Pris hos {batch.compareRetailer}</span>
+                    <span className="value">{formatKr(batch.comparePricePerKg ?? 0)}/kg</span>
                   </div>
                 )}
               </div>
               {batch.savingsPercent && (
                 <div className="savings">
-                  Save <strong>{batch.savingsPercent}%</strong> compared to retail
+                  Spar <strong>{batch.savingsPercent} %</strong> i forhold til butikspris
                 </div>
               )}
             </div>
 
-            <ProgressBar
-              current={batch.soldKilos}
-              target={batch.targetKilos}
-              label="Batch Fill Progress"
-              showPercentage={true}
-            />
+            <BatchFill batch={batch} />
 
-            <div className="batch-status">Status: <strong>{batch.status}</strong></div>
+            <BatchTimeline batch={batch} />
           </div>
         </div>
 
         <div className="batch-purchase-section">
           {!session ? (
             <div className="login-prompt">
-              <p>Log in to place an order</p>
-              <Link to="/login" className="btn btn-primary">Log In</Link>
+              <p>{open ? 'Log ind for at bestille' : 'Log ind for at se dine bestillinger'}</p>
+              <Link to="/login" className="btn btn-primary">Log ind</Link>
+            </div>
+          ) : !open ? (
+            <div className="batch-closed-section">
+              <h2>Lukket for bestilling</h2>
+              <p>
+                Batchen er {statusInfo(batch.status).label.toLowerCase()}, så der kan ikke længere bestilles fra den.
+                {' '}Se de andre batches for at bestille.
+              </p>
+              {existingOrder && (
+                <div className="existing-order-info">
+                  <p>Din bestilling: <strong>{formatKg(existingOrder.kilos)}</strong> · {ORDER_STATUS[existingOrder.status]}</p>
+                  {existingOrder.status === 'PAID' && (
+                    <Link to={`/tracking/${batch.id}`} className="btn btn-primary">Følg forsendelsen</Link>
+                  )}
+                </div>
+              )}
+              <Link to="/batches" className="btn btn-secondary">Se alle batches</Link>
             </div>
           ) : isFull && !existingOrder ? (
             <div className="batch-full-section">
-              <h2>This Batch is Full!</h2>
-              <p>Join the waiting list to get notified when a slot opens up.</p>
+              <h2>Batchen er fyldt</h2>
+              <p>Skriv dig op på ventelisten, så giver vi besked, hvis der bliver plads.</p>
               {!inWaitingList ? (
                 <button onClick={handleJoinWaitingList} className="btn btn-primary">
-                  Join Waiting List
+                  Skriv mig på ventelisten
                 </button>
               ) : (
-                <p className="waiting-list-status"><CheckIcon /> You're on the waiting list</p>
+                <p className="waiting-list-status"><CheckIcon /> Du står på ventelisten</p>
               )}
             </div>
           ) : (
             <div className="purchase-form">
-              <h2>Place Your Order</h2>
+              <h2>Bestil</h2>
 
               {existingOrder && (
                 <div className="existing-order-info">
-                  <p>You already have an order for this batch: <strong>{existingOrder.kilos} kg</strong></p>
-                  <p>Status: <strong>{existingOrder.status}</strong></p>
+                  <p>Du har allerede bestilt fra denne batch: <strong>{formatKg(existingOrder.kilos)}</strong></p>
+                  <p>Status: <strong>{ORDER_STATUS[existingOrder.status]}</strong></p>
                 </div>
               )}
 
@@ -184,18 +203,18 @@ export default function BatchDetailPage() {
               {quantity > 0 && (
                 <div className="order-summary">
                   <div className="summary-row">
-                    <span>{quantity} kg × {batch.pricePerKg} kr./kg</span>
-                    <span className="amount">{orderTotal} kr.</span>
+                    <span>{formatKg(quantity)} × {formatKr(batch.pricePerKg)}/kg</span>
+                    <span className="amount">{formatKr(orderTotal)}</span>
                   </div>
                   {batch.savingsPercent && (
                     <div className="summary-row savings">
-                      <span>Est. Savings</span>
-                      <span className="amount">~{Math.round((quantity * batch.pricePerKg * batch.savingsPercent) / 100)} kr.</span>
+                      <span>Anslået besparelse</span>
+                      <span className="amount">ca. {formatKr(Math.round((quantity * batch.pricePerKg * batch.savingsPercent) / 100))}</span>
                     </div>
                   )}
                   <div className="summary-row total">
-                    <span>Total</span>
-                    <span className="amount">{orderTotal} kr.</span>
+                    <span>I alt</span>
+                    <span className="amount">{formatKr(orderTotal)}</span>
                   </div>
                 </div>
               )}
@@ -205,11 +224,11 @@ export default function BatchDetailPage() {
                 onClick={handlePlaceOrder}
                 disabled={processing || quantity === 0}
               >
-                {processing ? 'Processing...' : existingOrder ? 'Update Order & Checkout' : 'Proceed to Checkout'}
+                {processing ? 'Behandler…' : existingOrder ? 'Opdater bestilling og gå til betaling' : 'Gå til betaling'}
               </button>
 
               <div className="available-info">
-                {available} kg available • {batch.customerCount} customers
+                {formatKg(available)} tilbage · {batch.customerCount} kunder har bestilt
               </div>
             </div>
           )}

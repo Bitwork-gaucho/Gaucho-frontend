@@ -5,6 +5,8 @@ import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import { FileTextIcon, TrashIcon, DollarSignIcon, BarChart3Icon } from '../components/Icons'
+import { BatchStatusBadge, BatchTimeline } from '../components/BatchStatus'
+import { BATCH_STATUS, BatchStatus, fillInfo, formatKr } from '../utils/batchStatus'
 import './AdminBatchDetail.css'
 
 export default function AdminBatchDetail() {
@@ -48,24 +50,24 @@ export default function AdminBatchDetail() {
       if (updated) {
         setBatch(updated)
         setEditing(false)
-        alert('Batch status updated successfully')
+        alert('Batchens status er opdateret')
       }
     } catch (err) {
-      alert('Failed to update batch: ' + (err instanceof Error ? err.message : 'Unknown error'))
+      alert('Batchen kunne ikke opdateres: ' + (err instanceof Error ? err.message : 'Ukendt fejl'))
     }
   }
 
   const handleDeleteBatch = async () => {
-    if (!batch || !window.confirm('Are you sure you want to delete this batch? This cannot be undone.')) return
+    if (!batch || !window.confirm('Er du sikker på, at du vil slette denne batch? Det kan ikke fortrydes.')) return
 
     try {
       const result = await mockApi.deleteBatch(batch.id)
       if (result.success) {
-        alert('Batch deleted')
+        alert('Batchen er slettet')
         navigate('/admin')
       }
     } catch (err) {
-      alert('Failed to delete batch')
+      alert('Batchen kunne ikke slettes')
     }
   }
 
@@ -74,7 +76,7 @@ export default function AdminBatchDetail() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <p>Loading batch...</p>
+          <p>Indlæser batch…</p>
         </div>
       </div>
     )
@@ -85,8 +87,8 @@ export default function AdminBatchDetail() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <p>Batch not found</p>
-          <button onClick={() => navigate('/admin')} className="btn btn-primary">Back to Admin</button>
+          <p>Batchen blev ikke fundet</p>
+          <button onClick={() => navigate('/admin')} className="btn btn-primary">Tilbage til admin</button>
         </div>
       </div>
     )
@@ -99,93 +101,90 @@ export default function AdminBatchDetail() {
       <main className="admin-content">
         <div className="admin-container">
           <div className="header-row">
-            <h1>{batch.name} - {batch.meatType}</h1>
-            <button onClick={() => navigate('/admin')} className="btn btn-outline">← Back</button>
+            <h1>{batch.name} – {batch.meatType}</h1>
+            <button onClick={() => navigate('/admin')} className="btn btn-outline">← Tilbage</button>
           </div>
 
           <div className="admin-layout">
             <div className="batch-info-section">
-              <h2>Batch Information</h2>
+              <h2>Batchoplysninger</h2>
               <div className="info-card">
                 <div className="info-item">
                   <span className="label">Status</span>
-                  <span className="value">{batch.status}</span>
+                  <span className="value"><BatchStatusBadge status={batch.status} /></span>
                 </div>
                 <div className="info-item">
-                  <span className="label">Progress</span>
-                  <span className="value">{batch.soldKilos} / {batch.targetKilos} kg ({Math.round((batch.soldKilos / batch.targetKilos) * 100)}%)</span>
+                  <span className="label">Solgt</span>
+                  <span className="value">{batch.soldKilos} af {batch.targetKilos} kg ({fillInfo(batch).percent} %)</span>
                 </div>
                 <div className="info-item">
-                  <span className="label">Customers</span>
+                  <span className="label">Kunder</span>
                   <span className="value">{batch.customerCount}</span>
                 </div>
                 <div className="info-item">
-                  <span className="label">Price per kg</span>
-                  <span className="value">{batch.pricePerKg} kr./kg</span>
+                  <span className="label">Pris pr. kg</span>
+                  <span className="value">{formatKr(batch.pricePerKg)}/kg</span>
                 </div>
               </div>
             </div>
 
             <div className="status-control-section">
-              <h2>Status Management</h2>
+              <h2>Status</h2>
               <div className="control-card">
                 {!editing ? (
                   <>
-                    <p className="current-status">Current: <strong>{batch.status}</strong></p>
+                    <BatchTimeline batch={batch} />
                     <button onClick={() => setEditing(true)} className="btn btn-primary">
-                      Update Status
+                      Skift status
                     </button>
                   </>
                 ) : (
                   <div className="status-form">
                     <div className="form-group">
-                      <label>New Status</label>
+                      <label>Ny status</label>
                       <select value={statusChange} onChange={(e) => setStatusChange(e.target.value)}>
-                        <option value="">Select status...</option>
-                        <option value="WAITING_TO_FILL">Waiting to Fill</option>
-                        <option value="ORDERED">Ordered</option>
-                        <option value="IN_TRANSIT">In Transit</option>
-                        <option value="AT_CUSTOMS">At Customs</option>
-                        <option value="READY_FOR_PICKUP">Ready for Pickup</option>
-                        <option value="COMPLETED">Completed</option>
+                        <option value="">Vælg status…</option>
+                        {(['WAITING_TO_FILL', 'ORDERED', 'IN_TRANSIT', 'AT_CUSTOMS', 'READY_FOR_PICKUP', 'COMPLETED'] as BatchStatus[]).map(s => (
+                          <option key={s} value={s}>{BATCH_STATUS[s].label}</option>
+                        ))}
                       </select>
                     </div>
 
                     {(statusChange === 'IN_TRANSIT' || statusChange === 'AT_CUSTOMS') && (
                       <>
                         <div className="form-group">
-                          <label>Supplier Name</label>
+                          <label>Leverandør</label>
                           <input
                             type="text"
                             value={shipmentDetails.supplierName}
                             onChange={(e) => setShipmentDetails({...shipmentDetails, supplierName: e.target.value})}
-                            placeholder="e.g. Estancia La Cumbre"
+                            placeholder="fx Estancia La Cumbre"
                           />
                         </div>
                         <div className="form-group">
-                          <label>Logistics Company</label>
+                          <label>Fragtfirma</label>
                           <input
                             type="text"
                             value={shipmentDetails.logisticsCompany}
                             onChange={(e) => setShipmentDetails({...shipmentDetails, logisticsCompany: e.target.value})}
-                            placeholder="e.g. DHL Freight"
+                            placeholder="fx DHL Freight"
                           />
                         </div>
                         <div className="form-group">
-                          <label>Container Number</label>
+                          <label>Containernummer</label>
                           <input
                             type="text"
                             value={shipmentDetails.containerNumber}
                             onChange={(e) => setShipmentDetails({...shipmentDetails, containerNumber: e.target.value})}
-                            placeholder="e.g. CONT123456"
+                            placeholder="fx CONT123456"
                           />
                         </div>
                       </>
                     )}
 
                     <div className="button-group">
-                      <button onClick={handleStatusChange} className="btn btn-success">Save Changes</button>
-                      <button onClick={() => setEditing(false)} className="btn btn-outline">Cancel</button>
+                      <button onClick={handleStatusChange} className="btn btn-success">Gem ændringer</button>
+                      <button onClick={() => setEditing(false)} className="btn btn-outline">Annullér</button>
                     </div>
                   </div>
                 )}
@@ -193,25 +192,25 @@ export default function AdminBatchDetail() {
             </div>
 
             <div className="admin-actions-section">
-              <h2>Admin Actions</h2>
+              <h2>Handlinger</h2>
               <div className="actions-card">
                 <button
                   onClick={() => navigate(`/admin/payments/${batch.id}`)}
                   className="action-btn"
                 >
-                  <DollarSignIcon /> View Payments ({batch.customerCount})
+                  <DollarSignIcon /> Se betalinger ({batch.customerCount})
                 </button>
                 <button
-                  onClick={() => alert('In production: Download batch report')}
+                  onClick={() => alert('I den færdige løsning: Download rapport for batchen')}
                   className="action-btn"
                 >
-                  <BarChart3Icon /> Download Report
+                  <BarChart3Icon /> Download rapport
                 </button>
                 <button
                   onClick={handleDeleteBatch}
                   className="action-btn danger"
                 >
-                  <TrashIcon /> Delete Batch
+                  <TrashIcon /> Slet batch
                 </button>
               </div>
             </div>

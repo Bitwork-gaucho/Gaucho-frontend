@@ -24,7 +24,7 @@ export default function LoginPage() {
       await requestCode(email)
       setStep('code')
     } catch (err) {
-      setError('Failed to send code. Please try again.')
+      setError('Koden kunne ikke sendes. Prøv igen.')
     } finally {
       setLoading(false)
     }
@@ -41,7 +41,7 @@ export default function LoginPage() {
       await login(email, code)
       navigate('/')
     } catch (err) {
-      setError('Invalid code. Please try again.')
+      setError('Forkert kode. Prøv igen.')
     } finally {
       setLoading(false)
     }
@@ -59,7 +59,7 @@ export default function LoginPage() {
           {step === 'email' ? (
             <form onSubmit={handleRequestCode}>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">E-mail</label>
                 <input
                   id="email"
                   type="email"
@@ -73,18 +73,18 @@ export default function LoginPage() {
               {error && <div className="error-message">{error}</div>}
 
               <button type="submit" disabled={loading} className="btn btn-primary btn-large">
-                {loading ? 'Sender...' : 'Send kod'}
+                {loading ? 'Sender...' : 'Send kode'}
               </button>
             </form>
           ) : (
             <form onSubmit={handleVerify}>
               <div className="form-group">
-                <label>Email</label>
+                <label>E-mail</label>
                 <div className="email-display">{email}</div>
               </div>
 
               <div className="form-group">
-                <label htmlFor="code">6-cifret kod</label>
+                <label htmlFor="code">6-cifret kode</label>
                 <input
                   id="code"
                   type="text"
@@ -99,11 +99,11 @@ export default function LoginPage() {
               {error && <div className="error-message">{error}</div>}
 
               <button type="submit" disabled={loading} className="btn btn-primary btn-large">
-                {loading ? 'Bekræfter...' : 'Bekræft kod'}
+                {loading ? 'Bekræfter...' : 'Bekræft kode'}
               </button>
 
               <button type="button" onClick={() => { setStep('email'); setCode(''); setError('') }} className="btn btn-secondary">
-                Skift email
+                Skift e-mail
               </button>
             </form>
           )}

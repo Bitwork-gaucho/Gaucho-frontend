@@ -139,6 +139,8 @@
 .batch-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 12px;
   font-size: 12px;
 }
@@ -165,6 +167,22 @@
   color: var(--ink-soft);
   margin-bottom: 16px;
   line-height: 1.5;
+}
+
+.batch-card .batch-fill {
+  margin-bottom: 16px;
+}
+
+.batch-label-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.batch-cta {
+  color: var(--accent2);
+  font-weight: 500;
 }
 
 .batch-footer {

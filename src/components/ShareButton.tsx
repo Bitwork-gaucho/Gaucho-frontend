@@ -12,7 +12,7 @@ export default function ShareButton({ batchId, batchName, meatType }: ShareButto
   const [copied, setCopied] = useState(false)
 
   const shareUrl = `${window.location.origin}${import.meta.env.BASE_URL}batch/${batchId}`
-  const shareText = `Join me on Gaucho Meat! Check out batch ${batchName}: ${meatType}. Great prices on premium Argentine beef!`
+  const shareText = `Køb med på Gaucho! Se batch ${batchName}: ${meatType}. Argentinsk oksekød af høj kvalitet til den halve pris.`
 
   const handleCopyLink = async () => {
     try {
@@ -20,12 +20,12 @@ export default function ShareButton({ batchId, batchName, meatType }: ShareButto
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      alert('Failed to copy link')
+      alert('Linket kunne ikke kopieres')
     }
   }
 
   const handleShareEmail = () => {
-    const subject = `Check out this batch on Gaucho Meat: ${batchName}`
+    const subject = `Se denne batch på Gaucho: ${batchName}`
     const body = `${shareText}\n\n${shareUrl}`
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
@@ -34,7 +34,7 @@ export default function ShareButton({ batchId, batchName, meatType }: ShareButto
     const text = `${shareText} ${shareUrl}`
     if (navigator.share) {
       navigator.share({
-        title: 'Gaucho Meat',
+        title: 'Gaucho',
         text: shareText,
         url: shareUrl
       })
@@ -45,14 +45,14 @@ export default function ShareButton({ batchId, batchName, meatType }: ShareButto
 
   return (
     <div className="share-button-group">
-      <button className="share-btn copy-btn" onClick={handleCopyLink} title="Copy link to clipboard">
-        {copied ? <><CheckIcon /> Copied!</> : <>Copy Link</>}
+      <button className="share-btn copy-btn" onClick={handleCopyLink} title="Kopiér link">
+        {copied ? <><CheckIcon /> Kopieret!</> : <>Kopiér link</>}
       </button>
-      <button className="share-btn email-btn" onClick={handleShareEmail} title="Share via email">
-        <MailIcon /> Share Email
+      <button className="share-btn email-btn" onClick={handleShareEmail} title="Del via e-mail">
+        <MailIcon /> Del via e-mail
       </button>
-      <button className="share-btn social-btn" onClick={handleShareSocial} title="Share with friends">
-        <Share2Icon /> Share
+      <button className="share-btn social-btn" onClick={handleShareSocial} title="Del med venner">
+        <Share2Icon /> Del
       </button>
     </div>
   )

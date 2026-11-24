@@ -35,7 +35,7 @@ export default function QuantitySelector({ value, onChange, max = 500, presets =
       </div>
 
       <div className="quantity-input-group">
-        <label htmlFor="quantity">Total: {value} kg</label>
+        <label htmlFor="quantity">I alt: {value} kg</label>
         <input
           id="quantity"
           type="number"
@@ -46,7 +46,7 @@ export default function QuantitySelector({ value, onChange, max = 500, presets =
           className="quantity-input"
         />
         {value > 0 && (
-          <button className="reset-btn" onClick={handleReset}>Clear</button>
+          <button className="reset-btn" onClick={handleReset}>Nulstil</button>
         )}
       </div>
     </div>

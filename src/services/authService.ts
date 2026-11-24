@@ -8,7 +8,7 @@ export const authService = {
     const result = await mockApi.verifyLoginCode(email, code)
 
     if (!result.success || !result.session) {
-      throw new Error(result.error || 'Login failed')
+      throw new Error(result.error || 'Login mislykkedes')
     }
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(result.session))

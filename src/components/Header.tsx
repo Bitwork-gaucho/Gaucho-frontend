@@ -42,7 +42,7 @@ export default function Header({ onLogout }: HeaderProps) {
 
         <div className="header-right">
           {session && <span className="user-email">{session.email.split('@')[0]}</span>}
-          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+          <button className="hamburger" aria-label="Menu" onClick={() => setMenuOpen(!menuOpen)}>
             <span />
             <span />
             <span />
@@ -52,15 +52,15 @@ export default function Header({ onLogout }: HeaderProps) {
             <div ref={menuRef} className="dropdown-menu">
               <Link to="/batches" onClick={() => setMenuOpen(false)}>Batches</Link>
               {session && (
-                <Link to="/orders" onClick={() => setMenuOpen(false)}>Orders</Link>
+                <Link to="/orders" onClick={() => setMenuOpen(false)}>Mine ordrer</Link>
               )}
               {session?.role === 'admin' && (
                 <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
               )}
               {session ? (
-                <button onClick={handleLogout} className="menu-logout">Log out</button>
+                <button onClick={handleLogout} className="menu-logout">Log ud</button>
               ) : (
-                <Link to="/login" onClick={() => setMenuOpen(false)}>Log in</Link>
+                <Link to="/login" onClick={() => setMenuOpen(false)}>Log ind</Link>
               )}
             </div>
           )}

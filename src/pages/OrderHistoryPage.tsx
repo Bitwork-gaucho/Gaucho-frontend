@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { mockApi } from '../services/mockApi'
-import { Order } from '../types'
+import { Batch, Order } from '../types'
+import { BatchStatusBadge } from '../components/BatchStatus'
 import Header from '../components/Header'
 import { CreditCardIcon, TruckIcon, CloseIcon, FileTextIcon } from '../components/Icons'
+import { ORDER_STATUS, formatDate, formatKg, formatKr } from '../utils/batchStatus'
 import './OrderHistoryPage.css'
 
 export default function OrderHistoryPage() {
   const { session, logout } = useAuth()
   const navigate = useNavigate()
   const [orders, setOrders] = useState<Order[]>([])
+  const [batches, setBatches] = useState<Record<string, Batch>>({})
   const [loading, setLoading] = useState(true)
   const [cancelingId, setCancelingId] = useState<string | null>(null)
 
@@ -22,15 +25,19 @@ export default function OrderHistoryPage() {
 
   async function loadOrders() {
     try {
-      const data = await mockApi.getUserOrders(session!.email)
+      const [data, allBatches] = await Promise.all([
+        mockApi.getUserOrders(session!.email),
+        mockApi.getBatches(),
+      ])
       setOrders(data)
+      setBatches(Object.fromEntries(allBatches.map(b => [b.id, b])))
     } finally {
       setLoading(false)
     }
   }
 
   async function handleCancel(orderId: string) {
-    if (!confirm('Cancel this order?')) return
+    if (!confirm('Vil du annullere denne bestilling?')) return
 
     setCancelingId(orderId)
     try {
@@ -39,7 +46,7 @@ export default function OrderHistoryPage() {
         await loadOrders()
       }
     } catch (err) {
-      alert('Failed to cancel order')
+      alert('Bestillingen kunne ikke annulleres')
     } finally {
       setCancelingId(null)
     }
@@ -50,7 +57,7 @@ export default function OrderHistoryPage() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-          <p>Please log in to view your orders</p>
+          <p>Log ind for at se dine ordrer</p>
         </div>
       </div>
     )
@@ -61,14 +68,14 @@ export default function OrderHistoryPage() {
       <Header onLogout={logout} />
 
       <main className="order-history-content">
-        <h1>Your Orders</h1>
+        <h1>Mine ordrer</h1>
 
         {loading ? (
-          <p>Loading orders...</p>
+          <p>Indlæser ordrer…</p>
         ) : orders.length === 0 ? (
           <div className="empty-state">
-            <p>You haven't placed any orders yet.</p>
-            <Link to="/batches" className="btn btn-primary">Browse Batches</Link>
+            <p>Du har ikke bestilt noget endnu.</p>
+            <Link to="/batches" className="btn btn-primary">Se batches</Link>
           </div>
         ) : (
           <div className="orders-list">
@@ -76,32 +83,38 @@ export default function OrderHistoryPage() {
               <div key={order.id} className="order-card">
                 <div className="order-header">
                   <div className="order-meta">
-                    <span className="order-id">Order #{order.id.substring(4)}</span>
+                    <span className="order-id">Ordre #{order.id.substring(4)}</span>
                     <span className="order-date">
-                      {new Date(order.createdAt).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
+                      {formatDate(order.createdAt)}
                     </span>
                   </div>
                   <span className={`order-status status-${order.status.toLowerCase()}`}>
-                    {order.status}
+                    {ORDER_STATUS[order.status]}
                   </span>
                 </div>
 
                 <div className="order-details">
                   <div className="detail-row">
                     <span className="label">Batch</span>
-                    <span className="value">{order.batchId}</span>
+                    <span className="value">
+                      {batches[order.batchId]
+                        ? `${batches[order.batchId].name} – ${batches[order.batchId].meatType}`
+                        : order.batchId}
+                    </span>
+                  </div>
+                  {batches[order.batchId] && order.status !== 'CANCELLED' && (
+                    <div className="detail-row">
+                      <span className="label">Batchens status</span>
+                      <span className="value"><BatchStatusBadge status={batches[order.batchId].status} /></span>
+                    </div>
+                  )}
+                  <div className="detail-row">
+                    <span className="label">Mængde</span>
+                    <span className="value">{formatKg(order.kilos)}</span>
                   </div>
                   <div className="detail-row">
-                    <span className="label">Quantity</span>
-                    <span className="value">{order.kilos} kg</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="label">Amount</span>
-                    <span className="value">{order.amount} kr.</span>
+                    <span className="label">Beløb</span>
+                    <span className="value">{formatKr(order.amount)}</span>
                   </div>
                 </div>
 
@@ -112,14 +125,14 @@ export default function OrderHistoryPage() {
                         className="btn btn-primary"
                         onClick={() => navigate(`/checkout/${order.batchId}`)}
                       >
-                        <CreditCardIcon /> Proceed to Checkout
+                        <CreditCardIcon /> Gå til betaling
                       </button>
                       <button
                         className="btn btn-secondary"
                         onClick={() => handleCancel(order.id)}
                         disabled={cancelingId === order.id}
                       >
-                        {cancelingId === order.id ? 'Cancelling...' : <><CloseIcon /> Cancel Order</>}
+                        {cancelingId === order.id ? 'Annullerer…' : <><CloseIcon /> Annullér bestilling</>}
                       </button>
                     </>
                   )}
@@ -129,20 +142,20 @@ export default function OrderHistoryPage() {
                         className="btn btn-primary"
                         onClick={() => navigate(`/tracking/${order.batchId}`)}
                       >
-                        <TruckIcon /> Track Shipment
+                        <TruckIcon /> Følg forsendelsen
                       </button>
                       {order.receiptId && (
                         <button
                           className="btn btn-secondary"
                           onClick={() => navigate(`/payment-confirmation/${order.receiptId}`)}
                         >
-                          <FileTextIcon /> View Receipt
+                          <FileTextIcon /> Se kvittering
                         </button>
                       )}
                     </>
                   )}
                   {order.status === 'CANCELLED' && (
-                    <span className="cancelled-text">Order cancelled</span>
+                    <span className="cancelled-text">Bestillingen er annulleret</span>
                   )}
                 </div>
               </div>

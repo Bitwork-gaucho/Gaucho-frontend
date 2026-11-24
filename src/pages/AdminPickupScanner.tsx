@@ -22,7 +22,7 @@ export default function AdminPickupScanner() {
         setLastScanned({
           orderId: '',
           success: false,
-          message: 'Invalid barcode format. Please try again.'
+          message: 'Ugyldig stregkode. Prøv igen.'
         })
         setScannedCode('')
         setScanning(false)
@@ -36,13 +36,13 @@ export default function AdminPickupScanner() {
         setLastScanned({
           orderId: validation.orderId,
           success: true,
-          message: `✓ Order ${validation.orderId.substring(0, 8)} delivered successfully!`
+          message: `Ordre ${validation.orderId.substring(0, 8)} er udleveret.`
         })
       } else {
         setLastScanned({
           orderId: validation.orderId,
           success: false,
-          message: 'Failed to confirm delivery. Order may not exist.'
+          message: 'Udleveringen kunne ikke bekræftes. Ordren findes måske ikke.'
         })
       }
 
@@ -51,7 +51,7 @@ export default function AdminPickupScanner() {
       setLastScanned({
         orderId: '',
         success: false,
-        message: 'Scan error: ' + (err instanceof Error ? err.message : 'Unknown error')
+        message: 'Fejl ved scanning: ' + (err instanceof Error ? err.message : 'Ukendt fejl')
       })
     } finally {
       setScanning(false)
@@ -70,19 +70,19 @@ export default function AdminPickupScanner() {
 
       <main className="scanner-content">
         <div className="scanner-container">
-          <h1>🔍 Pickup Scanner</h1>
-          <p className="subtitle">Scan customer barcodes to confirm delivery</p>
+          <h1>🔍 Afhentningsscanner</h1>
+          <p className="subtitle">Scan kundens stregkode for at bekræfte udlevering</p>
 
           <div className="scanner-section">
             <div className="scanner-card">
-              <h2>Scan Barcode</h2>
+              <h2>Scan stregkode</h2>
               <div className="input-group">
                 <input
                   type="text"
                   value={scannedCode}
                   onChange={(e) => setScannedCode(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Scan barcode or enter code..."
+                  placeholder="Scan stregkode eller indtast kode…"
                   className="scanner-input"
                   autoFocus
                   disabled={scanning}
@@ -92,11 +92,11 @@ export default function AdminPickupScanner() {
                   disabled={!scannedCode.trim() || scanning}
                   className="btn btn-primary"
                 >
-                  {scanning ? 'Processing...' : 'Confirm'}
+                  {scanning ? 'Behandler…' : 'Bekræft'}
                 </button>
               </div>
               <p className="scanner-help">
-                Use a barcode scanner or enter the code manually. Press Enter to submit.
+                Brug en stregkodescanner, eller indtast koden manuelt. Tryk Enter for at bekræfte.
               </p>
             </div>
 
@@ -106,34 +106,34 @@ export default function AdminPickupScanner() {
                   {lastScanned.success ? '✓' : '✗'}
                 </div>
                 <div className="result-content">
-                  <h3>{lastScanned.success ? 'Success' : 'Error'}</h3>
+                  <h3>{lastScanned.success ? 'Udleveret' : 'Fejl'}</h3>
                   <p>{lastScanned.message}</p>
                 </div>
               </div>
             )}
 
             <div className="scanner-stats">
-              <h2>Today's Activity</h2>
+              <h2>I dag</h2>
               <div className="stats-grid">
                 <div className="stat-card">
                   <div className="stat-value">0</div>
-                  <div className="stat-label">Scanned Today</div>
+                  <div className="stat-label">Scannet i dag</div>
                 </div>
                 <div className="stat-card">
                   <div className="stat-value">0</div>
-                  <div className="stat-label">Pending Pickups</div>
+                  <div className="stat-label">Venter på afhentning</div>
                 </div>
               </div>
             </div>
 
             <div className="scanner-instructions">
-              <h2>Instructions</h2>
+              <h2>Sådan gør du</h2>
               <ol>
-                <li>Customer arrives for pickup</li>
-                <li>Customer shows their receipt with barcode</li>
-                <li>Scan the barcode using this scanner</li>
-                <li>Confirm the order has been delivered</li>
-                <li>Hand over the meat to the customer</li>
+                <li>Kunden kommer for at hente</li>
+                <li>Kunden viser sin kvittering med stregkode</li>
+                <li>Scan stregkoden med scanneren her</li>
+                <li>Bekræft, at ordren er udleveret</li>
+                <li>Giv kunden kødet</li>
               </ol>
             </div>
           </div>

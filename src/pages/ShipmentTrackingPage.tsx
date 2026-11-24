@@ -4,16 +4,9 @@ import { Batch, Shipment } from '../types'
 import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
-import ProgressBar from '../components/ProgressBar'
+import { BatchTimeline } from '../components/BatchStatus'
+import { SHIPMENT_STATUS, formatDate, formatKg, formatKr } from '../utils/batchStatus'
 import './ShipmentTrackingPage.css'
-
-const STATUS_TIMELINE = [
-  { status: 'WAITING_TO_FILL', label: 'Waiting to Fill', icon: '⏳' },
-  { status: 'ORDERED', label: 'Ordered', icon: '✓' },
-  { status: 'IN_TRANSIT', label: 'In Transit', icon: '📦' },
-  { status: 'AT_CUSTOMS', label: 'At Customs', icon: '📋' },
-  { status: 'READY_FOR_PICKUP', label: 'Ready for Pickup', icon: '✓' }
-]
 
 export default function ShipmentTrackingPage() {
   const { batchId } = useParams<{ batchId: string }>()
@@ -48,7 +41,7 @@ export default function ShipmentTrackingPage() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <p>Loading tracking information...</p>
+          <p>Indlæser forsendelsesoplysninger…</p>
         </div>
       </div>
     )
@@ -59,14 +52,11 @@ export default function ShipmentTrackingPage() {
       <div>
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <p>Batch not found</p>
+          <p>Batchen blev ikke fundet</p>
         </div>
       </div>
     )
   }
-
-  const currentStatusIndex = STATUS_TIMELINE.findIndex(s => s.status === batch.status)
-  const progress = ((currentStatusIndex + 1) / STATUS_TIMELINE.length) * 100
 
   return (
     <div className="tracking-page">
@@ -74,64 +64,33 @@ export default function ShipmentTrackingPage() {
 
       <main className="tracking-content">
         <div className="tracking-container">
-          <h1>Shipment Tracking</h1>
-          <p className="batch-title">{batch.name} - {batch.meatType}</p>
+          <h1>Følg forsendelsen</h1>
+          <p className="batch-title">Batch {batch.name} – {batch.meatType}</p>
 
           <div className="tracking-layout">
             <div className="timeline-section">
-              <h2>Order Status</h2>
-              <ProgressBar
-                current={currentStatusIndex + 1}
-                target={STATUS_TIMELINE.length}
-                label="Progress to Delivery"
-                showPercentage={true}
-              />
-
-              <div className="timeline">
-                {STATUS_TIMELINE.map((step, index) => {
-                  const isActive = index <= currentStatusIndex
-                  const isCurrent = index === currentStatusIndex
-
-                  return (
-                    <div key={step.status} className={`timeline-step ${isActive ? 'active' : ''} ${isCurrent ? 'current' : ''}`}>
-                      <div className="step-icon">{step.icon}</div>
-                      <div className="step-content">
-                        <h3>{step.label}</h3>
-                        {isCurrent && batch.status === 'IN_TRANSIT' && (
-                          <p className="step-detail">Estimated arrival in 5-7 days</p>
-                        )}
-                        {isCurrent && batch.status === 'AT_CUSTOMS' && (
-                          <p className="step-detail">Expected clearance in 1-3 days</p>
-                        )}
-                        {isCurrent && batch.status === 'READY_FOR_PICKUP' && (
-                          <p className="step-detail">Available now! {batch.pickupTimeWindow && `${batch.pickupTimeWindow.start} - ${batch.pickupTimeWindow.end}`}</p>
-                        )}
-                      </div>
-                      {index < STATUS_TIMELINE.length - 1 && <div className={`step-line ${isActive ? 'active' : ''}`} />}
-                    </div>
-                  )
-                })}
-              </div>
+              <h2>Status</h2>
+              <BatchTimeline batch={batch} />
             </div>
 
             <div className="details-section">
-              <h2>Shipment Details</h2>
+              <h2>Forsendelse</h2>
 
               {shipment ? (
                 <div className="details-card">
                   <div className="detail-item">
                     <span className="label">Status</span>
-                    <span className="value">{shipment.status}</span>
+                    <span className="value">{SHIPMENT_STATUS[shipment.status] ?? shipment.status}</span>
                   </div>
                   {shipment.supplierName && (
                     <div className="detail-item">
-                      <span className="label">Supplier</span>
+                      <span className="label">Leverandør</span>
                       <span className="value">{shipment.supplierName}</span>
                     </div>
                   )}
                   {shipment.logisticsCompany && (
                     <div className="detail-item">
-                      <span className="label">Logistics</span>
+                      <span className="label">Fragtfirma</span>
                       <span className="value">{shipment.logisticsCompany}</span>
                     </div>
                   )}
@@ -143,46 +102,46 @@ export default function ShipmentTrackingPage() {
                   )}
                   {shipment.eta && (
                     <div className="detail-item">
-                      <span className="label">ETA</span>
-                      <span className="value">{new Date(shipment.eta).toLocaleDateString()}</span>
+                      <span className="label">Forventet ankomst</span>
+                      <span className="value">{formatDate(shipment.eta)}</span>
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="details-card">
-                  <p className="empty-state">Shipment details will appear once the batch is ordered.</p>
+                  <p className="empty-state">Oplysninger om forsendelsen vises, når kødet er sendt afsted.</p>
                 </div>
               )}
 
-              <h2>Batch Information</h2>
+              <h2>Batch</h2>
               <div className="details-card">
                 <div className="detail-item">
-                  <span className="label">Batch Name</span>
+                  <span className="label">Batchnavn</span>
                   <span className="value">{batch.name}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">Meat Type</span>
+                  <span className="label">Kødtype</span>
                   <span className="value">{batch.meatType}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">Sold / Target</span>
-                  <span className="value">{batch.soldKilos} / {batch.targetKilos} kg</span>
+                  <span className="label">Solgt</span>
+                  <span className="value">{formatKg(batch.soldKilos)} af {formatKg(batch.targetKilos)}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">Price per kg</span>
-                  <span className="value">{batch.pricePerKg} kr./kg</span>
+                  <span className="label">Pris pr. kg</span>
+                  <span className="value">{formatKr(batch.pricePerKg)}/kg</span>
                 </div>
                 {batch.pickupLocation && (
                   <div className="detail-item">
-                    <span className="label">Pickup Location</span>
+                    <span className="label">Afhentningssted</span>
                     <span className="value">{batch.pickupLocation}</span>
                   </div>
                 )}
               </div>
 
               <div className="help-section">
-                <h3>Questions?</h3>
-                <p>Contact us at support@gaucho.dk or check our <a href="#help">Help Center</a></p>
+                <h3>Spørgsmål?</h3>
+                <p>Skriv til os på support@gaucho.dk eller se vores <a href="#help">hjælpecenter</a></p>
               </div>
             </div>
           </div>
