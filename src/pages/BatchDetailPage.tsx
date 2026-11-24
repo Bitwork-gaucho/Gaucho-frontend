@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Batch, Order } from '../types'
 import { mockApi } from '../services/mockApi'
@@ -147,7 +147,7 @@ export default function BatchDetailPage() {
           {!session ? (
             <div className="login-prompt">
               <p>Log in to place an order</p>
-              <a href="/login" className="btn btn-primary">Log In</a>
+              <Link to="/login" className="btn btn-primary">Log In</Link>
             </div>
           ) : isFull && !existingOrder ? (
             <div className="batch-full-section">

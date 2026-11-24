@@ -11,7 +11,7 @@ interface ShareButtonProps {
 export default function ShareButton({ batchId, batchName, meatType }: ShareButtonProps) {
   const [copied, setCopied] = useState(false)
 
-  const shareUrl = `${window.location.origin}/batch/${batchId}`
+  const shareUrl = `${window.location.origin}${import.meta.env.BASE_URL}batch/${batchId}`
   const shareText = `Join me on Gaucho Meat! Check out batch ${batchName}: ${meatType}. Great prices on premium Argentine beef!`
 
   const handleCopyLink = async () => {

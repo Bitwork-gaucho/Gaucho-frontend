@@ -37,7 +37,7 @@ export default function Header({ onLogout }: HeaderProps) {
     <header className="header">
       <div className="header-content">
         <Link to="/" className="logo">
-          <img src="/logo.png" alt="Gaucho" style={{ height: '80px', width: 'auto', filter: 'invert(1) hue-rotate(180deg) brightness(0.8) saturate(0)' }} />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Gaucho" style={{ height: '80px', width: 'auto', filter: 'invert(1) hue-rotate(180deg) brightness(0.8) saturate(0)' }} />
         </Link>
 
         <div className="header-right">

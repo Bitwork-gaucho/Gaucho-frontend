@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Batch, Order } from '../types'
 import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
@@ -79,7 +79,7 @@ export default function CheckoutPage() {
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
           <p>Please log in to checkout</p>
-          <a href="/login" className="btn btn-primary">Log In</a>
+          <Link to="/login" className="btn btn-primary">Log In</Link>
         </div>
       </div>
     )

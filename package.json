@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers playwright test",
-    "push": "git add -A && git commit -m \"$(date '+%Y-%m-%d %H:%M:%S') - App update\" && git push origin main"
+    "push": "git add -A && git commit -m \"$(date '+%Y-%m-%d %H:%M:%S') - App update\" && git push origin main",
+    "build:host": "BASE_PATH=/host/gaucho/ vite build",
+    "deploy:host": "npm run build:host && firebase deploy --only hosting"
   },
   "dependencies": {
     "react": "^18.3.1",

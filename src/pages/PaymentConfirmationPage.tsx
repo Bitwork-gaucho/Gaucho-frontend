@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Receipt } from '../types'
 import { mockApi } from '../services/mockApi'
@@ -54,7 +54,7 @@ export default function PaymentConfirmationPage() {
         <Header onLogout={logout} />
         <div style={{ padding: '40px', textAlign: 'center' }}>
           <p>Receipt not found</p>
-          <a href="/orders" className="btn btn-primary">Back to Orders</a>
+          <Link to="/orders" className="btn btn-primary">Back to Orders</Link>
         </div>
       </div>
     )

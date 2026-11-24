@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { mockApi } from '../services/mockApi'
 import { Order } from '../types'
@@ -68,7 +68,7 @@ export default function OrderHistoryPage() {
         ) : orders.length === 0 ? (
           <div className="empty-state">
             <p>You haven't placed any orders yet.</p>
-            <a href="/batches" className="btn btn-primary">Browse Batches</a>
+            <Link to="/batches" className="btn btn-primary">Browse Batches</Link>
           </div>
         ) : (
           <div className="orders-list">
