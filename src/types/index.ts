@@ -1,3 +1,19 @@
+export interface PickupLocation {
+  id: string
+  name: string
+  address: string
+  postalCode: string
+  city: string
+  /** Fx "Lørdag kl. 10–14" */
+  hours?: string
+}
+
+export interface BatchImage {
+  /** Sti under public/ (fx "images/boef-hel.jpg") eller fuld URL */
+  url: string
+  alt: string
+}
+
 export interface Batch {
   id: string
   name: string
@@ -19,7 +35,8 @@ export interface Batch {
   savingsPercent?: number
   shipmentId?: string
   pickupDate?: string
-  pickupLocation?: string
+  pickupLocations?: PickupLocation[]
+  images?: BatchImage[]
   pickupTimeWindow?: {
     start: string
     end: string
@@ -36,6 +53,7 @@ export interface Order {
   amount: number
   status: 'PENDING' | 'PAID' | 'CANCELLED'
   receiptId?: string
+  pickupLocationId?: string
   createdAt: string
   deliveryConfirmedAt?: string
   pickupTime?: string
@@ -44,6 +62,8 @@ export interface Order {
 export interface Receipt {
   receiptId: string
   orderId: string
+  batchId?: string
+  pickupLocation?: PickupLocation
   kilos: number
   amount: number
   barcodeData: string

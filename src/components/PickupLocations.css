@@ -1,0 +1,126 @@
+.pickup-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pickup-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+
+.pickup-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pickup-item.chosen {
+  border-color: var(--success);
+  background: var(--success-tint);
+}
+
+.pickup-chosen-tag {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--success);
+  white-space: nowrap;
+}
+
+.pickup-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.pickup-name {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.pickup-address {
+  color: var(--ink-soft);
+}
+
+.pickup-hours {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.pickup-empty {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Vælger */
+.pickup-picker {
+  border: none;
+  padding: 0;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pickup-picker legend {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.pickup-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.pickup-option:hover {
+  border-color: var(--accent2);
+}
+
+.pickup-option.selected {
+  border-color: var(--accent2);
+  background: var(--accent-tint);
+}
+
+.pickup-option input {
+  margin-top: 3px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.pickup-line {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+}
+
+.pickup-line span {
+  font-size: 13px;
+  color: var(--ink-soft);
+}

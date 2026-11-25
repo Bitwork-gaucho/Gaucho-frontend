@@ -51,7 +51,7 @@ export function BatchFill({ batch, compact = false }: { batch: Batch; compact?: 
 export function BatchTimeline({ batch }: { batch: Batch }) {
   const current = stepIndex(batch.status)
   const info = statusInfo(batch.status)
-  const pickup = batch.status === 'READY_FOR_PICKUP' && (batch.pickupLocation || batch.pickupTimeWindow)
+  const pickup = batch.status === 'READY_FOR_PICKUP' && batch.pickupTimeWindow
 
   return (
     <div className="batch-timeline">
@@ -76,8 +76,7 @@ export function BatchTimeline({ batch }: { batch: Batch }) {
         <p>{info.description}</p>
         {pickup && (
           <p className="now-pickup">
-            {batch.pickupLocation && <>Afhentning: <strong>{batch.pickupLocation}</strong></>}
-            {batch.pickupTimeWindow && <> · kl. {batch.pickupTimeWindow.start}–{batch.pickupTimeWindow.end}</>}
+            Afhentning kl. <strong>{batch.pickupTimeWindow!.start}–{batch.pickupTimeWindow!.end}</strong> på dit valgte afhentningssted
           </p>
         )}
       </div>

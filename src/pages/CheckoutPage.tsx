@@ -5,6 +5,7 @@ import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import { formatKg, formatKr } from '../utils/batchStatus'
+import { PickupLocationLine } from '../components/PickupLocations'
 import './CheckoutPage.css'
 
 export default function CheckoutPage() {
@@ -110,6 +111,14 @@ export default function CheckoutPage() {
                   <span className="label">Pris pr. kg</span>
                   <span className="value">{formatKr(batch.pricePerKg)}/kg</span>
                 </div>
+                {(batch.pickupLocations?.length ?? 0) > 0 && (
+                  <div className="order-item">
+                    <span className="label">Afhentning</span>
+                    <span className="value">
+                      <PickupLocationLine location={batch.pickupLocations!.find(l => l.id === order.pickupLocationId)} />
+                    </span>
+                  </div>
+                )}
                 <div className="divider" />
                 <div className="order-item total">
                   <span className="label">I alt</span>

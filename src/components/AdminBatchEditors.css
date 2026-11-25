@@ -1,0 +1,161 @@
+.editor-section h2 {
+  margin-bottom: 12px;
+}
+
+.editor-empty,
+.editor-note {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.editor-note {
+  font-size: 12px;
+  margin: 12px 0 0;
+}
+
+.editor-list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editor-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.editor-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.editor-item-text span {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.editor-remove {
+  background: none;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.editor-remove:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.editor-form {
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.editor-form h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+.editor-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+}
+
+.editor-url {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.editor-url .form-group {
+  width: 100%;
+}
+
+.editor-images {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.editor-images li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 6px;
+}
+
+.editor-images img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.editor-cover-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(26, 20, 16, 0.8);
+  color: var(--ink);
+}
+
+.editor-image-alt {
+  font-size: 12px;
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-image-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.editor-image-actions button:not(.editor-remove) {
+  background: var(--surface2);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.editor-image-actions button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.editor-image-actions .editor-remove {
+  margin-left: auto;
+}

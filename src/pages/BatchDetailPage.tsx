@@ -9,6 +9,8 @@ import ShareButton from '../components/ShareButton'
 import { BatchStatusBadge, BatchFill, BatchTimeline } from '../components/BatchStatus'
 import { ORDER_STATUS, formatKg, formatKr, isOpenForOrders, statusInfo } from '../utils/batchStatus'
 import { CheckIcon } from '../components/Icons'
+import BatchGallery from '../components/BatchGallery'
+import { PickupLocationList, PickupLocationPicker } from '../components/PickupLocations'
 import './BatchDetailPage.css'
 
 export default function BatchDetailPage() {
@@ -20,6 +22,7 @@ export default function BatchDetailPage() {
   const [existingOrder, setExistingOrder] = useState<Order | null>(null)
   const [processing, setProcessing] = useState(false)
   const [inWaitingList, setInWaitingList] = useState(false)
+  const [pickupId, setPickupId] = useState('')
   const { session, logout } = useAuth()
 
   useEffect(() => {
@@ -38,6 +41,8 @@ export default function BatchDetailPage() {
     try {
       const data = await mockApi.getBatchById(id!)
       setBatch(data)
+      // Kun ét sted: vælg det automatisk
+      if (data?.pickupLocations?.length === 1) setPickupId(data.pickupLocations[0].id)
     } finally {
       setLoading(false)
     }
@@ -48,6 +53,7 @@ export default function BatchDetailPage() {
     if (order) {
       setExistingOrder(order)
       setQuantity(order.kilos)
+      if (order.pickupLocationId) setPickupId(order.pickupLocationId)
     }
   }
 
@@ -56,12 +62,15 @@ export default function BatchDetailPage() {
     setInWaitingList(inList)
   }
 
+  const needsPickup = (batch?.pickupLocations?.length ?? 0) > 0
+
   async function handlePlaceOrder() {
     if (!batch || !session || quantity === 0) return
+    if (needsPickup && !pickupId) return
 
     setProcessing(true)
     try {
-      const order = await mockApi.createOrder(batch.id, session.email, quantity)
+      const order = await mockApi.createOrder(batch.id, session.email, quantity, pickupId || undefined)
       setExistingOrder(order)
       navigate(`/checkout/${batch.id}`)
     } catch (err) {
@@ -90,6 +99,7 @@ export default function BatchDetailPage() {
   const orderTotal = quantity * batch.pricePerKg
   const isFull = available === 0
   const open = isOpenForOrders(batch)
+  const locations = batch.pickupLocations ?? []
 
   return (
     <div className="batch-detail-page">
@@ -98,6 +108,8 @@ export default function BatchDetailPage() {
       <main className="batch-detail-content">
         <div className="batch-detail-header">
           <div className="batch-detail-info">
+            <BatchGallery images={batch.images} />
+
             <div className="batch-number-row">
               <span className="batch-number">Batch {batch.name}</span>
               <BatchStatusBadge status={batch.status} />
@@ -118,6 +130,11 @@ export default function BatchDetailPage() {
                 </div>
               </div>
             )}
+
+            <section className="batch-pickup">
+              <h2>Afhentningssteder</h2>
+              <PickupLocationList locations={locations} highlightId={existingOrder?.pickupLocationId} />
+            </section>
 
             <div className="batch-pricing">
               <div className="price-compare">
@@ -198,6 +215,10 @@ export default function BatchDetailPage() {
                 presets={[1, 2, 3, 5, 10]}
               />
 
+              {locations.length > 0 && (
+                <PickupLocationPicker locations={locations} value={pickupId} onChange={setPickupId} />
+              )}
+
               <ShareButton batchId={batch.id} batchName={batch.name} meatType={batch.meatType} />
 
               {quantity > 0 && (
@@ -222,10 +243,14 @@ export default function BatchDetailPage() {
               <button
                 className="btn btn-primary btn-large"
                 onClick={handlePlaceOrder}
-                disabled={processing || quantity === 0}
+                disabled={processing || quantity === 0 || (needsPickup && !pickupId)}
               >
                 {processing ? 'Behandler…' : existingOrder ? 'Opdater bestilling og gå til betaling' : 'Gå til betaling'}
               </button>
+
+              {quantity > 0 && needsPickup && !pickupId && (
+                <p className="pickup-hint">Vælg et afhentningssted for at fortsætte</p>
+              )}
 
               <div className="available-info">
                 {formatKg(available)} tilbage · {batch.customerCount} kunder har bestilt

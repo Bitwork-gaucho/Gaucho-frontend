@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import BarcodeGenerator from '../components/BarcodeGenerator'
 import { CheckIcon } from '../components/Icons'
 import { formatDate, formatKg, formatKr } from '../utils/batchStatus'
+import { PickupLocationLine } from '../components/PickupLocations'
 import './PaymentConfirmationPage.css'
 
 export default function PaymentConfirmationPage() {
@@ -101,6 +102,12 @@ export default function PaymentConfirmationPage() {
                   <span className="label">Betalt</span>
                   <span className="value">{formatKr(receipt.amount)}</span>
                 </div>
+                {receipt.pickupLocation && (
+                  <div className="receipt-item">
+                    <span className="label">Afhentning</span>
+                    <span className="value"><PickupLocationLine location={receipt.pickupLocation} /></span>
+                  </div>
+                )}
                 <div className="receipt-item">
                   <span className="label">Dato</span>
                   <span className="value">{formatDate(new Date())}</span>

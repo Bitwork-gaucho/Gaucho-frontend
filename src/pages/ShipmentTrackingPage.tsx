@@ -5,6 +5,7 @@ import { mockApi } from '../services/mockApi'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import { BatchTimeline } from '../components/BatchStatus'
+import { PickupLocationList } from '../components/PickupLocations'
 import { SHIPMENT_STATUS, formatDate, formatKg, formatKr } from '../utils/batchStatus'
 import './ShipmentTrackingPage.css'
 
@@ -14,6 +15,7 @@ export default function ShipmentTrackingPage() {
   const [batch, setBatch] = useState<Batch | null>(null)
   const [shipment, setShipment] = useState<Shipment | null>(null)
   const [loading, setLoading] = useState(true)
+  const [myPickupId, setMyPickupId] = useState<string | undefined>()
 
   useEffect(() => {
     if (!batchId) return
@@ -26,6 +28,10 @@ export default function ShipmentTrackingPage() {
     try {
       const batchData = await mockApi.getBatchById(batchId!)
       setBatch(batchData)
+      if (session) {
+        const myOrder = await mockApi.getOrderByBatchAndUser(batchId!, session.email)
+        setMyPickupId(myOrder?.pickupLocationId)
+      }
 
       if (batchData?.shipmentId) {
         const shipmentData = await mockApi.getShipmentStatus(batchData.shipmentId)
@@ -131,13 +137,10 @@ export default function ShipmentTrackingPage() {
                   <span className="label">Pris pr. kg</span>
                   <span className="value">{formatKr(batch.pricePerKg)}/kg</span>
                 </div>
-                {batch.pickupLocation && (
-                  <div className="detail-item">
-                    <span className="label">Afhentningssted</span>
-                    <span className="value">{batch.pickupLocation}</span>
-                  </div>
-                )}
               </div>
+
+              <h2>Afhentningssteder</h2>
+              <PickupLocationList locations={batch.pickupLocations} highlightId={myPickupId} />
 
               <div className="help-section">
                 <h3>Spørgsmål?</h3>

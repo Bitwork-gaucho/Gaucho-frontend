@@ -1,6 +1,14 @@
-import { Batch, Order, Receipt, Session, Shipment, Notification, WaitingListEntry } from '../types'
+import { Batch, BatchImage, Order, PickupLocation, Receipt, Session, Shipment, Notification, WaitingListEntry } from '../types'
 
-// Mock data
+// Mock data (demo: adresser og åbningstider er eksempler)
+const PICKUP: Record<string, PickupLocation> = {
+  kbh: { id: 'kbh', name: 'København – Kødbyen', address: 'Flæsketorvet 20', postalCode: '1711', city: 'København V', hours: 'Lørdag kl. 10–14' },
+  aar: { id: 'aar', name: 'Aarhus – Frichsparken', address: 'Frichsvej 12', postalCode: '8000', city: 'Aarhus C', hours: 'Lørdag kl. 11–15' },
+  ode: { id: 'ode', name: 'Odense – Havnen', address: 'Havnegade 50', postalCode: '5000', city: 'Odense C', hours: 'Søndag kl. 10–13' },
+}
+
+const IMG = (file: string, alt: string): BatchImage => ({ url: `images/${file}`, alt })
+
 const mockBatches: Batch[] = [
   {
     id: 'batch-001',
@@ -20,7 +28,14 @@ const mockBatches: Batch[] = [
     },
     comparePricePerKg: 299,
     compareRetailer: 'Føtex',
-    savingsPercent: 50
+    savingsPercent: 50,
+    pickupLocations: [PICKUP.kbh, PICKUP.aar, PICKUP.ode],
+    images: [
+      IMG('boef-hel.jpg', 'Ribeye-bøf på panden'),
+      IMG('boef-naer.jpg', 'Nærbillede af ribeye med krydderurter'),
+      IMG('kvaeg-flok.jpg', 'Græsfodret kvæg på pampaen'),
+      IMG('gaucho-hest.jpg', 'Gaucho til hest ved flokken'),
+    ],
   },
   {
     id: 'batch-002',
@@ -37,7 +52,12 @@ const mockBatches: Batch[] = [
       region: 'Buenos Aires',
       country: 'Argentina',
       coords: '35.1°S · 63.5°W'
-    }
+    },
+    pickupLocations: [PICKUP.kbh, PICKUP.aar],
+    images: [
+      IMG('boef-naer.jpg', 'Bife de chorizo på panden'),
+      IMG('gaucho-hest.jpg', 'Gaucho til hest på Estancia Del Rio'),
+    ],
   },
   {
     id: 'batch-003',
@@ -54,7 +74,11 @@ const mockBatches: Batch[] = [
       region: 'La Pampa',
       country: 'Argentina',
       coords: '36.5°S · 65.1°W'
-    }
+    },
+    pickupLocations: [PICKUP.kbh],
+    images: [
+      IMG('kvaeg-flok.jpg', 'Kvæg på græs i La Pampa'),
+    ],
   }
 ]
 
@@ -108,11 +132,20 @@ export const mockApi = {
   },
 
   // Orders
-  async createOrder(batchId: string, email: string, kilos: number): Promise<Order> {
+  async createOrder(batchId: string, email: string, kilos: number, pickupLocationId?: string): Promise<Order> {
     await new Promise(resolve => setTimeout(resolve, 1200))
 
     const batch = mockBatches.find(b => b.id === batchId)
     if (!batch) throw new Error('Batchen blev ikke fundet')
+
+    // En ubetalt bestilling på samme batch opdateres i stedet for at få en dublet
+    const existing = (mockOrders.get(email) || []).find(o => o.batchId === batchId && o.status === 'PENDING')
+    if (existing) {
+      existing.kilos = kilos
+      existing.amount = kilos * batch.pricePerKg
+      existing.pickupLocationId = pickupLocationId
+      return existing
+    }
 
     const order: Order = {
       id: `ord-${Date.now()}`,
@@ -121,6 +154,7 @@ export const mockApi = {
       kilos,
       amount: kilos * batch.pricePerKg,
       status: 'PENDING',
+      pickupLocationId,
       createdAt: new Date().toISOString()
     }
 
@@ -171,9 +205,12 @@ export const mockApi = {
         order.receiptId = receiptId
 
         // Create receipt
+        const batch = mockBatches.find(b => b.id === order.batchId)
         const receipt: Receipt = {
           receiptId,
           orderId,
+          batchId: order.batchId,
+          pickupLocation: batch?.pickupLocations?.find(l => l.id === order.pickupLocationId),
           kilos: order.kilos,
           amount: order.amount,
           barcodeData: `${orderId}|${Date.now()}`

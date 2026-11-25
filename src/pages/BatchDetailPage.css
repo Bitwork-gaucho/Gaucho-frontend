@@ -428,3 +428,23 @@
   gap: 12px;
   align-items: flex-start;
 }
+
+.batch-pickup {
+  margin: 24px 0;
+}
+
+.batch-pickup h2 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+}
+
+.pickup-hint {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--warning);
+  text-align: center;
+}

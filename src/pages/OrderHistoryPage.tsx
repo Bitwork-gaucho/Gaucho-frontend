@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { mockApi } from '../services/mockApi'
 import { Batch, Order } from '../types'
 import { BatchStatusBadge } from '../components/BatchStatus'
+import { PickupLocationLine } from '../components/PickupLocations'
 import Header from '../components/Header'
 import { CreditCardIcon, TruckIcon, CloseIcon, FileTextIcon } from '../components/Icons'
 import { ORDER_STATUS, formatDate, formatKg, formatKr } from '../utils/batchStatus'
@@ -106,6 +107,14 @@ export default function OrderHistoryPage() {
                     <div className="detail-row">
                       <span className="label">Batchens status</span>
                       <span className="value"><BatchStatusBadge status={batches[order.batchId].status} /></span>
+                    </div>
+                  )}
+                  {order.pickupLocationId && batches[order.batchId] && (
+                    <div className="detail-row">
+                      <span className="label">Afhentning</span>
+                      <span className="value">
+                        <PickupLocationLine location={batches[order.batchId].pickupLocations?.find(l => l.id === order.pickupLocationId)} />
+                      </span>
                     </div>
                   )}
                   <div className="detail-row">

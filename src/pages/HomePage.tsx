@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import { ChevronRightIcon } from '../components/Icons'
 import { BatchStatusBadge, BatchFill } from '../components/BatchStatus'
 import { formatKr } from '../utils/batchStatus'
+import { BatchCover } from '../components/BatchGallery'
 import './HomePage.css'
 
 export default function HomePage() {
@@ -49,6 +50,7 @@ export default function HomePage() {
         <section className="active-batch">
           {activeBatch && (
             <div className="batch-card-featured">
+              <BatchCover images={activeBatch.images} className="featured-cover" />
               <div className="batch-info">
                 <div className="batch-label-row">
                   <span className="batch-label">Batch {activeBatch.name}</span>
@@ -91,6 +93,7 @@ export default function HomePage() {
             <div className="batch-grid">
               {batches.map(batch => (
                 <Link to={`/batch/${batch.id}`} key={batch.id} className="batch-card">
+                  <BatchCover images={batch.images} />
                   <div className="batch-header">
                     <span className="batch-id">Batch {batch.name}</span>
                     <BatchStatusBadge status={batch.status} />

@@ -103,3 +103,12 @@ export const SHIPMENT_STATUS: Record<'PREPARING' | 'IN_TRANSIT' | 'AT_CUSTOMS' |
 export function formatDate(iso: string | Date, opts: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' }) {
   return new Date(iso).toLocaleDateString('da-DK', opts)
 }
+
+/** Billedsti fra data → URL. Relative stier ligger under public/ og følger appens base-sti. */
+export function imageSrc(url: string) {
+  return /^(https?:|data:|blob:)/.test(url) ? url : `${import.meta.env.BASE_URL}${url.replace(/^\//, '')}`
+}
+
+export function formatAddress(l: { address: string; postalCode: string; city: string }) {
+  return `${l.address}, ${l.postalCode} ${l.city}`
+}

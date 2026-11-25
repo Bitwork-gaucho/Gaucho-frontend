@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
 import { BatchStatusBadge, BatchFill } from '../components/BatchStatus'
 import { formatKr } from '../utils/batchStatus'
+import { BatchCover } from '../components/BatchGallery'
 
 export default function BatchesPage() {
   const [batches, setBatches] = useState<Batch[]>([])
@@ -34,6 +35,7 @@ export default function BatchesPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {batches.map(batch => (
               <Link key={batch.id} to={`/batch/${batch.id}`} style={{ textDecoration: 'none', color: 'inherit', padding: '20px', border: '1px solid var(--rule)', borderRadius: '8px' }}>
+                <BatchCover images={batch.images} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                   <span style={{ fontSize: '13px', color: 'var(--ink-soft)' }}>Batch {batch.name}</span>
                   <BatchStatusBadge status={batch.status} />

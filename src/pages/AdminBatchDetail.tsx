@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import { FileTextIcon, TrashIcon, DollarSignIcon, BarChart3Icon } from '../components/Icons'
 import { BatchStatusBadge, BatchTimeline } from '../components/BatchStatus'
 import { BATCH_STATUS, BatchStatus, fillInfo, formatKr } from '../utils/batchStatus'
+import { PickupLocationsEditor, ImagesEditor } from '../components/AdminBatchEditors'
 import './AdminBatchDetail.css'
 
 export default function AdminBatchDetail() {
@@ -190,6 +191,10 @@ export default function AdminBatchDetail() {
                 )}
               </div>
             </div>
+
+            <PickupLocationsEditor batch={batch} onSaved={setBatch} />
+
+            <ImagesEditor batch={batch} onSaved={setBatch} />
 
             <div className="admin-actions-section">
               <h2>Handlinger</h2>
